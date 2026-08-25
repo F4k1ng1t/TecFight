@@ -20,7 +20,11 @@ public class JumpState : IFighterState
     public void FullHop()
     {
         fsm.rig.linearVelocity = new Vector3(fsm.rig.linearVelocity.x, 0, fsm.rig.linearVelocity.z);
-        fsm.rig.AddForce(Vector3.up * 5f, ForceMode.Impulse);
+        fsm.rig.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+    }
+    public void ShortHop()
+    {
+
     }
     public void FixedUpdate()
     {
