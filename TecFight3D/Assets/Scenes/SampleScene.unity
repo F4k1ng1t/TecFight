@@ -157,6 +157,7 @@ MonoBehaviour:
   smashThreshold: 0.8
   neutralThreshold: 0.2
   flickWindow: 0.1
+  historyFrames: 6
 --- !u!114 &104684469
 MonoBehaviour:
   m_ObjectHideFlags: 0

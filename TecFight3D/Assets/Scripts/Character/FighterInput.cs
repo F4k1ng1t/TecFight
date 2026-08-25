@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -18,7 +19,10 @@ public class FighterInput : MonoBehaviour
     [SerializeField] private float neutralThreshold = 0.2f;
     [SerializeField] private float flickWindow = 0.05f;
 
-    private float neutralTimer;
+    private Queue<float> inputHistory = new Queue<float>();
+
+    [SerializeField] private int historyFrames = 6;
+
     private bool smashConsumed;
 
     private void Awake()
@@ -58,37 +62,60 @@ public class FighterInput : MonoBehaviour
 
     private void DetectSmashInput()
     {
+
         Smash = false;
 
-        bool isNeutral =
-            Mathf.Abs(MoveInput.x) < neutralThreshold;
-
-        if (isNeutral)
+        float currentX = MoveInput.x;
+        //Debug.Log(currentX);
+        if (!smashConsumed)
         {
-            neutralTimer = 0f;
-            smashConsumed = false;
+            bool strongInput =
+                Mathf.Abs(currentX) >= smashThreshold;
+
+            if (strongInput)
+            {
+                int currentDirection = currentX > 0 ? 1 : -1;
+
+                bool hadNeutral = false;
+                bool hadOppositeDirection = false;
+
+                // Check previous frames
+                foreach (float previousX in inputHistory)
+                {
+                    // Recently came from neutral
+                    if (Mathf.Abs(previousX) < neutralThreshold)
+                    {
+                        hadNeutral = true;
+                    }
+                    // Recently came from the opposite direction
+                    else if (Mathf.Sign(previousX) != currentDirection)
+                    {
+                        hadOppositeDirection = true;
+                    }
+                }
+
+                // Strong input after neutral OR a directional change
+                if (hadNeutral || hadOppositeDirection)
+                {
+                    Smash = true;
+                    smashConsumed = true;
+                    SmashDirection = currentDirection;
+
+                    Debug.Log($"Smash Input: {SmashDirection}");
+                }
+            }
         }
-        else
+
+        // Add current input AFTER checking previous frames
+        inputHistory.Enqueue(currentX);
+        Debug.Log(inputHistory.Peek());
+
+        // Keep only the most recent frames
+        while (inputHistory.Count > historyFrames)
         {
-            neutralTimer += Time.deltaTime;
+            inputHistory.Dequeue();
         }
-
-        bool recentlyNeutral =
-            neutralTimer <= flickWindow;
-
-        bool strongInput =
-            Mathf.Abs(MoveInput.x) >= smashThreshold;
-
-        if (!smashConsumed &&
-            recentlyNeutral &&
-            strongInput)
-        {
-            Smash = true;
-            smashConsumed = true;
-            SmashDirection = MoveInput.x > 0 ? 1 : -1;
-
-            Debug.Log("Smash Input!");
-        }
+        
     }
 
     private void OnJump(InputAction.CallbackContext ctx)

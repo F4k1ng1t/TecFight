@@ -5,7 +5,7 @@ public class FighterStateMachine : MonoBehaviour
     public Rigidbody rig;
     public FighterInput input;
 
-    public float direction = 1f;
+    public int direction = 1;
 
     public IFighterState currentState;
 
@@ -33,17 +33,17 @@ public class FighterStateMachine : MonoBehaviour
         }
         currentState = newState;
         currentState.Enter(this);
-        Debug.Log(newState.GetType().Name);
+        //Debug.Log(newState.GetType().Name);
     }
     public void SetDirection(bool right)
     {
         if(right)
         {
-            direction = 1f;
+            direction = 1;
         }
         else
         {
-            direction = -1f;
+            direction = -1;
         }
     }
     public void FlipDirection()
