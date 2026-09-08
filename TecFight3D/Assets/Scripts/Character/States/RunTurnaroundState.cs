@@ -25,7 +25,7 @@ public class RunTurnaroundState : IFighterState
     {
         frames++;
         fsm.rig.linearVelocity = new Vector3(fsm.direction * 3f, fsm.rig.linearVelocity.y, 0);
-        if (frames == 20)
+        if (frames == 10)
         {
             fsm.SetState(new RunState());
         }

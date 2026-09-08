@@ -14,19 +14,27 @@ public class IdleState : IFighterState
     }
     public void Update()
     {
-        if (fsm.input.MoveInput.x != 0)
+        if(fsm.input.Flick)
         {
-            fsm.SetDirection(fsm.input.MoveInput.x > 0);
-            if (fsm.input.Smash)
+            float flickX = fsm.input.FlickDirection.x;
+            if (Mathf.Abs(flickX) > 0.8f)
             {
+                fsm.SetDirection(flickX > 0);
+                fsm.input.ConsumeFlick();
                 fsm.SetState(new InitialDashState());
-            }
-            else
-            {
-                fsm.SetState(new WalkState());
+
+                return;
             }
         }
-        if(fsm.input.JumpPressed)
+        //if(Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
+        //{
+        //    fsm.input.ConsumeFlick();
+        //    fsm.SetDirection(fsm.input.MoveInput.x > 0);
+        //    fsm.SetState(new WalkState());
+
+        //    return;
+        //}
+        if (fsm.input.JumpPressed)
         {
             fsm.SetState(new JumpState());
         }

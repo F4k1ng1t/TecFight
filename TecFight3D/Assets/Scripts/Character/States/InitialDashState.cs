@@ -1,51 +1,68 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class InitialDashState : IFighterState
 {
     FighterStateMachine fsm;
-    int frames = 0;
-    int initDirection = 0;
+
+    private int frames;
+    private int initDirection;
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
         frames = 0;
+
+        // Direction of the dash when we entered.
         initDirection = fsm.direction;
     }
+
     public void Exit()
     {
-
     }
+
     public void Update()
     {
 
-        
 
+        if (fsm.input.Flick)
+        {
+            float flickX = fsm.input.FlickDirection.x;
+
+            // Horizontal flick opposite our current direction.
+            if (Mathf.Abs(flickX) > 0.5f &&
+                Mathf.Sign(flickX) == -initDirection)
+            {
+                fsm.input.ConsumeFlick();
+
+                fsm.FlipDirection();
+                fsm.SetState(new InitialDashState());
+
+                return;
+            }
+        }
     }
+
     public void FixedUpdate()
     {
-        fsm.rig.linearVelocity = new Vector3(fsm.direction * 10f, fsm.rig.linearVelocity.y, 0);
+        fsm.rig.linearVelocity = new Vector3(fsm.direction * 10f, fsm.rig.linearVelocity.y, 0f);
+
         frames++;
-        if (fsm.input.Smash && fsm.input.SmashDirection != initDirection)
-        //if (fsm.input.Smash && fsm.direction != fsm.input.SmashDirection)
+        if (frames == 12)
         {
-            fsm.FlipDirection();
-            fsm.input.ConsumeSmash();
-            fsm.SetState(new InitialDashState());
-        }
-        //Debug.Log(fsm.input.SmashDirection);
-        if (frames == 30)
-        {
-            if (fsm.input.MoveInput.x != 0)
+            if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
             {
                 fsm.SetState(new RunState());
             }
             else
             {
-                fsm.rig.linearVelocity = new Vector3(0, fsm.rig.linearVelocity.y, 0);
+                fsm.rig.linearVelocity = new Vector3(
+                    0f,
+                    fsm.rig.linearVelocity.y,
+                    0f
+                );
+
                 fsm.SetState(new IdleState());
             }
         }
-        
     }
 }
