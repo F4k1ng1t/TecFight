@@ -47,7 +47,7 @@ public class InitialDashState : IFighterState
         fsm.rig.linearVelocity = new Vector3(fsm.direction * 10f, fsm.rig.linearVelocity.y, 0f);
 
         frames++;
-        if (frames == 12)
+        if (frames == 20)
         {
             if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
             {

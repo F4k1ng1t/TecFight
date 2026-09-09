@@ -26,7 +26,7 @@ public class IdleState : IFighterState
                 return;
             }
         }
-        //if(Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
+        //if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
         //{
         //    fsm.input.ConsumeFlick();
         //    fsm.SetDirection(fsm.input.MoveInput.x > 0);

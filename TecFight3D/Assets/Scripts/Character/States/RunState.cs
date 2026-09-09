@@ -29,9 +29,7 @@ public class RunState : IFighterState
             if (Mathf.Abs(fsm.input.MoveInput.x) > 0.8 && Mathf.Sign(fsm.input.MoveInput.x) != Mathf.Sign(initDirection))
             {
 
-                Debug.Log("yo");
                 fsm.SetState(new RunTurnaroundState());
-
                 return;
             }
         }
