@@ -970,7 +970,7 @@ GameObject:
   - component: {fileID: 241147210}
   - component: {fileID: 241147209}
   m_Layer: 5
-  m_Name: Control Sheme
+  m_Name: Control Scheme
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1028,7 +1028,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Control Sheme '
+  m_Text: 'Control Scheme '
 --- !u!222 &241147210
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -2322,7 +2322,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 'Control Sheme '
+  m_Text: 'Control Scheme '
 --- !u!222 &602918933
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -3090,7 +3090,7 @@ GameObject:
   - component: {fileID: 843409786}
   - component: {fileID: 843409787}
   m_Layer: 5
-  m_Name: Control Sheme Menu
+  m_Name: Control Scheme Menu
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4125,7 +4125,7 @@ GameObject:
   - component: {fileID: 1283183971}
   - component: {fileID: 1283183970}
   m_Layer: 5
-  m_Name: Control Sheme Button
+  m_Name: Control Scheme Button
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
