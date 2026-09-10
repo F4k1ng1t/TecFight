@@ -8,6 +8,7 @@ public class RunState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
+        fsm.animator.PlayAnimation("Dash", true, 0);
     }
     public void Exit()
     {

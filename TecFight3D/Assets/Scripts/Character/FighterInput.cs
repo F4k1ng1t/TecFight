@@ -108,7 +108,7 @@ public class FighterInput : MonoBehaviour
 
         // Add current input AFTER checking previous frames
         inputHistory.Enqueue(currentX);
-        Debug.Log(inputHistory.Peek());
+        //Debug.Log(inputHistory.Peek());
 
         // Keep only the most recent frames
         while (inputHistory.Count > historyFrames)

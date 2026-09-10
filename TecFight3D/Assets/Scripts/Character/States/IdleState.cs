@@ -7,7 +7,7 @@ public class IdleState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        fsm.animator.CrossFade("Idle", 0);
+        fsm.animator.PlayAnimation("Idle", true, fsm.direction);
     }
     public void Exit()
     {

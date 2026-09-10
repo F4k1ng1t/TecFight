@@ -6,6 +6,7 @@ public class AirState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
+        fsm.animator.PlayAnimation("Fall", true);
     }
     public void Exit()
     {
