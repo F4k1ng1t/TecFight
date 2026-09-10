@@ -4,10 +4,12 @@ using UnityEngine;
 public class RunState : IFighterState
 {
     FighterStateMachine fsm;
+    int initDirection;
     int frames = 0;
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
+        initDirection = fsm.direction;
         fsm.animator.PlayAnimation("Dash", true, 0);
     }
     public void Exit()
@@ -17,19 +19,27 @@ public class RunState : IFighterState
     public void Update()
     {
         
-    }
-    public void FixedUpdate()
-    {
-        fsm.rig.linearVelocity = new Vector3(fsm.direction * 9f, fsm.rig.linearVelocity.y, 0);
 
 
-        if (fsm.direction != fsm.input.SmashDirection)
+        if (fsm.input.Flick)
         {
-            fsm.SetState(new RunTurnaroundState());
+            fsm.input.ConsumeFlick();
+            float flickX = fsm.input.FlickDirection.x;
+
+            // Horizontal flick opposite our current direction.
+            if (Mathf.Abs(fsm.input.MoveInput.x) > 0.8 && Mathf.Sign(fsm.input.MoveInput.x) != Mathf.Sign(initDirection))
+            {
+
+                Debug.Log("yo");
+                fsm.SetState(new RunTurnaroundState());
+
+                return;
+            }
         }
         if (fsm.input.JumpPressed)
         {
             fsm.SetState(new JumpState());
+            return;
         }
         if (fsm.input.MoveInput.x < 0.2f && fsm.input.MoveInput.x > -0.2f)
         {
@@ -38,7 +48,12 @@ public class RunState : IFighterState
             {
                 fsm.rig.linearVelocity = new Vector3(0, fsm.rig.linearVelocity.y, 0);
                 fsm.SetState(new IdleState());
+                return;
             }
         }
+    }
+    public void FixedUpdate()
+    {
+        fsm.rig.linearVelocity = new Vector3(fsm.direction * 9f, fsm.rig.linearVelocity.y, 0);
     }
 }
