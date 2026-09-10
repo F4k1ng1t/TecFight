@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class FighterStateMachine : MonoBehaviour
 {
+    //for animation - collin
+    public Animator animator;
+
     public Rigidbody rig;
     public FighterInput input;
 

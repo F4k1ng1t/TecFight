@@ -8,6 +8,7 @@ public class JumpState : IFighterState
     {
         fsm = f;
         frames = 0;
+        fsm.animator.CrossFade("JumpSquat", 0);
     }
     public void Exit()
     {
