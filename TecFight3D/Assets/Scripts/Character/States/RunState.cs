@@ -35,7 +35,7 @@ public class RunState : IFighterState
                 return;
             }
         }
-        if (fsm.input.JumpPressed)
+        if (fsm.input.IsHoldingJump)
         {
             fsm.SetState(new JumpState());
             return;

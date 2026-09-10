@@ -4,6 +4,8 @@ public class JumpState : IFighterState
 {
     FighterStateMachine fsm;
     int frames = 0;
+    const int JUMPSQUAT_LENGTH = 4;
+    bool jump_executed = false;
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
@@ -20,18 +22,28 @@ public class JumpState : IFighterState
     public void FullHop()
     {
         fsm.rig.linearVelocity = new Vector3(fsm.rig.linearVelocity.x, 0, fsm.rig.linearVelocity.z);
-        fsm.rig.AddForce(Vector3.up * 10f, ForceMode.Impulse);
+        fsm.rig.AddForce(Vector3.up * 6f, ForceMode.Impulse);
     }
     public void ShortHop()
     {
-
+        fsm.rig.linearVelocity = new Vector3(fsm.rig.linearVelocity.x, 0, fsm.rig.linearVelocity.z);
+        fsm.rig.AddForce(Vector3.up * 4f, ForceMode.Impulse);
     }
     public void FixedUpdate()
     {
+        if (jump_executed) return;
         frames++;
-        if (frames == 3)
+        if(frames > 4)
         {
-            FullHop();
+            jump_executed = true;
+            if(fsm.input.IsHoldingJump)
+            {
+                FullHop();
+            }
+            else
+            {
+                ShortHop();
+            }
         }
     }
 }

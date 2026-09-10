@@ -34,8 +34,9 @@ public class IdleState : IFighterState
 
         //    return;
         //}
-        if (fsm.input.JumpPressed)
+        if (fsm.input.IsHoldingJump)
         {
+            Debug.Log("helo");
             fsm.SetState(new JumpState());
         }
     }

@@ -7,7 +7,11 @@ public class FighterInput : MonoBehaviour
     private InputSystem_Actions controls;
     public Vector2 MoveInput { get; private set; }
 
-    public bool JumpPressed { get; private set; }
+    public bool IsHoldingJump { get; private set; }
+
+    public bool Shorthop {  get; private set; }
+
+    public bool Fullhop { get; private set; }
 
     // One-shot event. Remains true until consumed.
     public bool Flick { get; private set; }
@@ -30,6 +34,7 @@ public class FighterInput : MonoBehaviour
 
     // Maximum time allowed for the movement.
     [SerializeField] private float flickWindow = 0.10f;
+
 
     // Prevents the same direction from producing repeated flicks
     // while the stick is being held.
@@ -63,7 +68,9 @@ public class FighterInput : MonoBehaviour
     {
         controls.Fighter.Move.performed += OnMove;
         controls.Fighter.Move.canceled += OnMove;
-        controls.Fighter.Jump.performed += OnJump;
+        controls.Fighter.Jump.started += OnJumpStarted;
+        controls.Fighter.Jump.performed += OnJumpPerformed;
+        controls.Fighter.Jump.canceled += OnJumpCanceled;
 
         controls.Enable();
     }
@@ -72,7 +79,9 @@ public class FighterInput : MonoBehaviour
     {
         controls.Fighter.Move.performed -= OnMove;
         controls.Fighter.Move.canceled -= OnMove;
-        controls.Fighter.Jump.performed -= OnJump;
+        controls.Fighter.Jump.started -= OnJumpStarted;
+        controls.Fighter.Jump.performed -= OnJumpPerformed;
+        controls.Fighter.Jump.canceled -= OnJumpCanceled;
 
         controls.Disable();
     }
@@ -87,9 +96,17 @@ public class FighterInput : MonoBehaviour
         MoveInput = ctx.ReadValue<Vector2>();
     }
 
-    private void OnJump(InputAction.CallbackContext ctx)
+    private void OnJumpStarted(InputAction.CallbackContext ctx)
     {
-        JumpPressed = true;
+        IsHoldingJump = true;
+    }
+    private void OnJumpPerformed(InputAction.CallbackContext ctx)
+    {
+        IsHoldingJump = true;
+    }
+    private void OnJumpCanceled(InputAction.CallbackContext ctx)
+    {
+        IsHoldingJump = false;
     }
 
     private void DetectFlick()
@@ -265,7 +282,6 @@ public class FighterInput : MonoBehaviour
 
     private void LateUpdate()
     {
-        JumpPressed = false;
         Flick = false;
         FlickDirection = Vector2.zero;
     }
