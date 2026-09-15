@@ -14,6 +14,8 @@ public class AirState : IFighterState
         c = fsm.charObj;
         i = fsm.input;
         rb = fsm.rig;
+        initVelocity = fsm.rig.linearVelocity.x;
+        fsm.animator.PlayAnimation("Fall", true);
     }
     public void Exit()
     {

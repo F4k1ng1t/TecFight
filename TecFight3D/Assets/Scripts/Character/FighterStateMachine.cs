@@ -2,6 +2,9 @@ using UnityEngine;
 
 public class FighterStateMachine : MonoBehaviour
 {
+    //for animation - collin
+    public CharacterAnimator animator;
+
     public Rigidbody rig;
     public FighterInput input;
     public CharacterObject charObj;
@@ -13,6 +16,7 @@ public class FighterStateMachine : MonoBehaviour
     {
         rig = GetComponent<Rigidbody>();
         input = GetComponent<FighterInput>();
+        animator = gameObject.GetComponentInChildren<CharacterAnimator>();
         SetState(new AirState());
     }
 
@@ -40,10 +44,12 @@ public class FighterStateMachine : MonoBehaviour
         if(right)
         {
             direction = 1;
+            animator.SetVisualDirection(direction);
         }
         else
         {
             direction = -1;
+            animator.SetVisualDirection(direction);
         }
     }
     public void FlipDirection()

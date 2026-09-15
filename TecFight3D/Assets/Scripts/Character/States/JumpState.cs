@@ -10,6 +10,7 @@ public class JumpState : IFighterState
     {
         fsm = f;
         frames = 0;
+        fsm.animator.PlayAnimation("JumpSquat", false);
     }
     public void Exit()
     {
@@ -23,6 +24,7 @@ public class JumpState : IFighterState
     {
         fsm.rig.linearVelocity = new Vector3(fsm.rig.linearVelocity.x, 0, fsm.rig.linearVelocity.z);
         fsm.rig.AddForce(Vector3.up * 6f, ForceMode.Impulse);
+        fsm.animator.PlayAnimation("Hop", false);
     }
     public void ShortHop()
     {
