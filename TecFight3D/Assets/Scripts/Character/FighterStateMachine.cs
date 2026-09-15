@@ -7,7 +7,7 @@ public class FighterStateMachine : MonoBehaviour
 
     public Rigidbody rig;
     public FighterInput input;
-
+    public CharacterObject charObj;
     public int direction = 1;
 
     public IFighterState currentState;
