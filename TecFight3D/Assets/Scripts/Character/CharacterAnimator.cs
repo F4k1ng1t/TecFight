@@ -15,6 +15,10 @@ public class CharacterAnimator : MonoBehaviour
     }
     public void PlayAnimation(string animationName, bool looping, float transitionTime = 0f)
     {
+        if (!animator)
+        {
+            return;
+        }
         sameState = false;
         //Debug.Log("Playing " + animationName);
         if (!looping)
