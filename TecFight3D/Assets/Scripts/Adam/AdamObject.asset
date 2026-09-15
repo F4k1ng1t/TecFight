@@ -15,8 +15,13 @@ MonoBehaviour:
   airAccel: 15
   airSpeed: 5
   walkSpeed: 0
-  runSpeed: 0
+  runSpeed: 15
+  initialDashSpeed: 10
   weight: 0
-  fallSpeed: 0
-  fallAccel: 0
-  fastfallSpeed: 0
+  fallSpeed: 25
+  fallAccel: 20
+  fastfallAccel: 25
+  fastfallSpeed: 20
+  maxfallSpeed: 30
+  shorthopForce: 7
+  fullhopForce: 10

@@ -40,12 +40,17 @@ public class AirState : IFighterState
         else
         {
             currentAirDrift = c.airAccel * i.MoveInput.x;
-            rb.AddForce(currentAirDrift, 0, 0);
+            rb.AddForce(currentAirDrift, 0, 0, ForceMode.Acceleration);
             rb.linearVelocity = new Vector3(Mathf.Clamp(rb.linearVelocity.x, -5f, 5f), rb.linearVelocity.y, 0);
         }
         if (rb.linearVelocity.y <= 0)
         {
-            //fastfalling
+            if(i.MoveInput.y < -0.5f)
+            {
+                Debug.Log("Why are you running");
+                rb.AddForce(0, -c.fastfallAccel, 0, ForceMode.Acceleration);
+                rb.linearVelocity = new Vector3(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -c.fastfallSpeed));
+            }
         }
     }
 }
