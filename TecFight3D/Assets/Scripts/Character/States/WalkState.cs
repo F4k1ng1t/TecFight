@@ -6,6 +6,7 @@ public class WalkState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
+        fsm.animator.PlayAnimation("Walk", true, 0);
     }
     public void Exit()
     {

@@ -10,6 +10,7 @@ public class RunState : IFighterState
     {
         fsm = f;
         initDirection = fsm.direction;
+        fsm.animator.PlayAnimation("Dash", true, 0);
     }
     public void Exit()
     {
