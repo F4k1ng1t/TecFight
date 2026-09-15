@@ -3,12 +3,17 @@ using UnityEngine;
 public class AirState : IFighterState
 {
     FighterStateMachine fsm;
+    CharacterObject c;
+    FighterInput i;
+    Rigidbody rb;
     float initVelocity;
     
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        initVelocity = fsm.rig.linearVelocity.x;
+        c = fsm.charObj;
+        i = fsm.input;
+        rb = fsm.rig;
     }
     public void Exit()
     {
@@ -20,11 +25,25 @@ public class AirState : IFighterState
     }
     public void FixedUpdate()
     {
-        if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f && initVelocity < 5f)
+        float currentAirDrift = 0;
+        if (Mathf.Abs(rb.linearVelocity.x) >= c.airSpeed)
         {
-            float currentAirDrift = 15f * fsm.input.MoveInput.x;
-            fsm.rig.AddForce(currentAirDrift, 0, 0);
-            fsm.rig.linearVelocity = new Vector3(Mathf.Clamp(fsm.rig.linearVelocity.x, -5f, 5f), fsm.rig.linearVelocity.y, 0);
+            if(Mathf.Sign(i.MoveInput.x) != Mathf.Sign(rb.linearVelocity.x) && i.MoveInput.x != 0)
+            {
+                currentAirDrift = c.airAccel * i.MoveInput.x;
+                rb.AddForce(currentAirDrift, 0, 0);
+                //rb.linearVelocity = new Vector3(Mathf.Clamp(rb.linearVelocity.x, -5f, 5f), rb.linearVelocity.y, 0);
+            }
+        }
+        else
+        {
+            currentAirDrift = c.airAccel * i.MoveInput.x;
+            rb.AddForce(currentAirDrift, 0, 0);
+            rb.linearVelocity = new Vector3(Mathf.Clamp(rb.linearVelocity.x, -5f, 5f), rb.linearVelocity.y, 0);
+        }
+        if (rb.linearVelocity.y <= 0)
+        {
+            //fastfalling
         }
     }
 }

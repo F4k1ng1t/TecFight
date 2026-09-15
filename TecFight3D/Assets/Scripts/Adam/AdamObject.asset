@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5946ab6baad4eac4f9d50ab16f2fa96c, type: 3}
   m_Name: AdamObject
   m_EditorClassIdentifier: 
-  airAccel: 0
-  airSpeed: 0
+  airAccel: 15
+  airSpeed: 5
   walkSpeed: 0
   runSpeed: 0
   weight: 0

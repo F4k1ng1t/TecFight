@@ -26,14 +26,13 @@ public class IdleState : IFighterState
                 return;
             }
         }
-        //if(Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
-        //{
-        //    fsm.input.ConsumeFlick();
-        //    fsm.SetDirection(fsm.input.MoveInput.x > 0);
-        //    fsm.SetState(new WalkState());
+        if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
+        {
+            fsm.SetDirection(fsm.input.MoveInput.x > 0);
+            fsm.SetState(new WalkState());
 
-        //    return;
-        //}
+            return;
+        }
         if (fsm.input.IsHoldingJump)
         {
             Debug.Log("helo");
