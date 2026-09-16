@@ -1,0 +1,20 @@
+a hurtbox is formed out of 11 colliders for humanoids. 
+Variable to fit the shape of the character. 
+1 hurtbox generator per character
+They are bound to the rig.
+A script that takes a list of (bound bone, hitbox size, hitbox shape)
+Tagged as hurtbox.
+hurtboxes will be active every frame from the beginning of the game
+hurtboxes are passive, they just exist for detection
+
+A hitbox is formed out of N colliders.
+These colliders spawn and despawn at certain points in the move
+Hitboxes have priority and indexes
+Hitboxes can be bound to a bone or standalone
+Hitboxes have send Angles attached to them
+Hitboxes will be spawned by the animations
+Hitboxes will be tagged as such
+Hitboxes are active, and will execute the code for damage, knockback, and hitstun
+
+Hitbox active benefits, less code executing every frame
+hurtbox active benefits, less interscript communication
