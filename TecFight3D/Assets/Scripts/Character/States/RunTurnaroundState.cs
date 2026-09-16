@@ -15,10 +15,11 @@ public class RunTurnaroundState : IFighterState
     }
     public void Update()
     {
-        if (fsm.input.JumpPressed)
+        if (fsm.input.IsHoldingJump)
         {
             Debug.Log("bruh");
             fsm.SetState(new JumpState());
+            return;
         }
     }
     public void FixedUpdate()

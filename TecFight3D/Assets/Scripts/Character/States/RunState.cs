@@ -10,6 +10,7 @@ public class RunState : IFighterState
     {
         fsm = f;
         initDirection = fsm.direction;
+        fsm.animator.PlayAnimation("Dash", true, 0);
     }
     public void Exit()
     {
@@ -33,7 +34,7 @@ public class RunState : IFighterState
                 return;
             }
         }
-        if (fsm.input.JumpPressed)
+        if (fsm.input.IsHoldingJump)
         {
             fsm.SetState(new JumpState());
             return;

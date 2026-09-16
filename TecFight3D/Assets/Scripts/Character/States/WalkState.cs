@@ -6,6 +6,7 @@ public class WalkState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
+        fsm.animator.PlayAnimation("Walk", true, 0);
     }
     public void Exit()
     {
@@ -19,7 +20,7 @@ public class WalkState : IFighterState
             fsm.rig.linearVelocity = new Vector3(0, fsm.rig.linearVelocity.y, 0);
             fsm.SetState(new IdleState());
         }
-        if (fsm.input.JumpPressed)
+        if (fsm.input.IsHoldingJump)
         {
             fsm.SetState(new JumpState());
         }
