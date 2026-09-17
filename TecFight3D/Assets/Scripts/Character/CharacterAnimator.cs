@@ -51,4 +51,10 @@ public class CharacterAnimator : MonoBehaviour
         }
         characterMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
- }
+
+    public bool IsPlaying()
+    {
+        return animator.GetCurrentAnimatorStateInfo(0).length >
+         animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    }
+}

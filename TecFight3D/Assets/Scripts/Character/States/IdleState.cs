@@ -40,6 +40,12 @@ public class IdleState : IFighterState
             Debug.Log("helo");
             fsm.SetState(new JumpState());
         }
+        if (fsm.input.LightAttack)
+        {
+            Debug.Log("Jab");
+            fsm.SetState(new JabState());
+            fsm.input.LightAttack = false;
+        }
     }
     public void FixedUpdate()
     {

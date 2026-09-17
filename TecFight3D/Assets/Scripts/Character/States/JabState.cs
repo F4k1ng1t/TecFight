@@ -1,16 +1,28 @@
 using UnityEngine;
 
-public class JabState : MonoBehaviour
+public class JabState : IFighterState
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    FighterStateMachine fsm;
+    public void Enter(FighterStateMachine f)
     {
-        
+        fsm = f;
+        fsm.animator.PlayAnimation("Jab1", true, 0);
     }
-
-    // Update is called once per frame
-    void Update()
+    public void Exit()
     {
-        
+
+    }
+    public void Update()
+    {
+        if (fsm.animator.IsPlaying())
+        {
+            return;
+        }
+        //something about input buffers triggering the second jab
+        fsm.SetState(new IdleState());
+    }
+    public void FixedUpdate()
+    {
+
     }
 }
