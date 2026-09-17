@@ -17,7 +17,7 @@ public class IdleState : IFighterState
     }
     public void Update()
     {
-        if(Mathf.Abs(fsm.input.MoveInput.x) > 0.01f)
+        if (Mathf.Abs(fsm.input.MoveInput.x) > 0.01f)
         {
             Debug.Log($"{walkHeld * Time.deltaTime} {walkTimeThreshold * Time.deltaTime}");
             walkHeld++;
@@ -38,12 +38,10 @@ public class IdleState : IFighterState
                 return;
             }
         }
-        //if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
-        //{
-        //    fsm.input.ConsumeFlick();
-        //    fsm.SetDirection(fsm.input.MoveInput.x > 0);
-        //    fsm.SetState(new WalkState());
-
+        if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f && walkHeld >= 75)
+        {
+            fsm.SetDirection(fsm.input.MoveInput.x > 0);
+            fsm.SetState(new WalkState());
             return;
         }
         if (fsm.input.IsHoldingJump)
