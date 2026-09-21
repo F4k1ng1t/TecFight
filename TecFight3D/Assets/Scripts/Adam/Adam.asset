@@ -9,19 +9,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5946ab6baad4eac4f9d50ab16f2fa96c, type: 3}
-  m_Name: AdamObject
+  m_Script: {fileID: 11500000, guid: ca6e9b4c773fd69489f175d7999df8d8, type: 3}
+  m_Name: Adam
   m_EditorClassIdentifier: 
-  airAccel: 15
-  airSpeed: 5
   walkSpeed: 0
-  runSpeed: 15
-  initialDashSpeed: 10
+  runSpeed: 0
+  airSpeed: 0
   weight: 0
-  fallSpeed: 25
-  fallAccel: 20
-  fastfallAccel: 25
-  fastfallSpeed: 20
-  maxfallSpeed: 30
-  shorthopForce: 7
-  fullhopForce: 10
+  traction: 0

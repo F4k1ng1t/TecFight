@@ -1,3 +1,4 @@
+using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class InitialDashState : IFighterState
@@ -44,10 +45,10 @@ public class InitialDashState : IFighterState
 
     public void FixedUpdate()
     {
-        fsm.rig.linearVelocity = new Vector3(fsm.direction * 10f, fsm.rig.linearVelocity.y, 0f);
+        fsm.rig.linearVelocity = new Vector3(fsm.direction * fsm.charObj.initialDashSpeed, fsm.rig.linearVelocity.y, 0f);
 
         frames++;
-        if (frames == 12)
+        if (frames == 20)
         {
             if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
             {
@@ -55,12 +56,7 @@ public class InitialDashState : IFighterState
             }
             else
             {
-                fsm.rig.linearVelocity = new Vector3(
-                    0f,
-                    fsm.rig.linearVelocity.y,
-                    0f
-                );
-
+                fsm.rig.linearVelocity = new Vector3(0f, fsm.rig.linearVelocity.y, 0f);
                 fsm.SetState(new IdleState());
             }
         }
