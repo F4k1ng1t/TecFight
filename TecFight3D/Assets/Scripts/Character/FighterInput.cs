@@ -1,4 +1,3 @@
-using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -12,6 +11,8 @@ public class FighterInput : MonoBehaviour
     public bool Shorthop {  get; private set; }
 
     public bool Fullhop { get; private set; }
+
+    public bool LightAttack;
 
     // One-shot event. Remains true until consumed.
     public bool Flick { get; private set; }
@@ -35,6 +36,7 @@ public class FighterInput : MonoBehaviour
     // Maximum time allowed for the movement.
     [SerializeField] private float flickWindow = 0.10f;
 
+    [SerializeField] private bool isSandbang = false;
 
     // Prevents the same direction from producing repeated flicks
     // while the stick is being held.
@@ -66,22 +68,32 @@ public class FighterInput : MonoBehaviour
 
     private void OnEnable()
     {
+        if (isSandbang)
+        {
+            return;
+        }
         controls.Fighter.Move.performed += OnMove;
         controls.Fighter.Move.canceled += OnMove;
         controls.Fighter.Jump.started += OnJumpStarted;
         controls.Fighter.Jump.performed += OnJumpPerformed;
         controls.Fighter.Jump.canceled += OnJumpCanceled;
+        controls.Fighter.Attack.performed += OnLightAttack;
 
         controls.Enable();
     }
 
     private void OnDisable()
     {
+        if (isSandbang)
+        {
+            return;
+        }
         controls.Fighter.Move.performed -= OnMove;
         controls.Fighter.Move.canceled -= OnMove;
         controls.Fighter.Jump.started -= OnJumpStarted;
         controls.Fighter.Jump.performed -= OnJumpPerformed;
         controls.Fighter.Jump.canceled -= OnJumpCanceled;
+        controls.Fighter.Attack.performed -= OnLightAttack;
 
         controls.Disable();
     }
@@ -107,6 +119,10 @@ public class FighterInput : MonoBehaviour
     private void OnJumpCanceled(InputAction.CallbackContext ctx)
     {
         IsHoldingJump = false;
+    }
+    private void OnLightAttack(InputAction.CallbackContext ctx)
+    {
+        LightAttack = true;
     }
 
     private void DetectFlick()
