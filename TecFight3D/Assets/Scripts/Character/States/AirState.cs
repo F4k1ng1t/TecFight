@@ -9,7 +9,7 @@ public class AirState : IFighterState
     {
         fsm = f;
         initVelocity = fsm.rig.linearVelocity.x;
-        fsm.animator.PlayAnimation("Fall", true);
+        fsm.animator?.PlayAnimation("Fall", true);
     }
     public void Exit()
     {

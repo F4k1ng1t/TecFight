@@ -36,6 +36,7 @@ public class FighterInput : MonoBehaviour
     // Maximum time allowed for the movement.
     [SerializeField] private float flickWindow = 0.10f;
 
+    [SerializeField] private bool isSandbang = false;
 
     // Prevents the same direction from producing repeated flicks
     // while the stick is being held.
@@ -67,6 +68,10 @@ public class FighterInput : MonoBehaviour
 
     private void OnEnable()
     {
+        if (isSandbang)
+        {
+            return;
+        }
         controls.Fighter.Move.performed += OnMove;
         controls.Fighter.Move.canceled += OnMove;
         controls.Fighter.Jump.started += OnJumpStarted;
@@ -79,6 +84,10 @@ public class FighterInput : MonoBehaviour
 
     private void OnDisable()
     {
+        if (isSandbang)
+        {
+            return;
+        }
         controls.Fighter.Move.performed -= OnMove;
         controls.Fighter.Move.canceled -= OnMove;
         controls.Fighter.Jump.started -= OnJumpStarted;

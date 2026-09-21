@@ -8,16 +8,15 @@ public class SpawnHitbox : MonoBehaviour
     [SerializeField] float radius = 0.005f;
     [SerializeField] float height = 0;
     [SerializeField] [Range(0, 360)] float sendAngle = 90;
-    [SerializeField] float hitStrength = 0.1f;
+    [SerializeField] float knockback = 0.1f;
+    [SerializeField] float damage = 1f;
     [SerializeField] int priority = 0;
     [SerializeField] LayerMask targetLayer;
 
     private void OnDrawGizmos()
     {
-#if (UNITY_EDITOR) //only draw debug gizmos in the unity editor
         Gizmos.DrawSphere(parentBone.position, radius);
-        Gizmos.DrawLine(parentBone.position, parentBone.position + new Vector3(hitStrength * Mathf.Asin(sendAngle), hitStrength * Mathf.Acos(sendAngle)));
-#endif
+        Gizmos.DrawLine(parentBone.position, parentBone.position + new Vector3(knockback * Mathf.Asin(sendAngle), knockback * Mathf.Acos(sendAngle)));
     }
 
     public void StartSpawn()
@@ -41,6 +40,16 @@ public class SpawnHitbox : MonoBehaviour
             Collider[] hitHurtboxes = Physics.OverlapCapsule(parentBone.position, parentBone.rotation.eulerAngles.normalized * height, radius, targetLayer, QueryTriggerInteraction.Collide);
             if (hitHurtboxes.Length > 0)
             {
+                foreach(Collider hurtbox in hitHurtboxes)
+                {
+                    if(hurtbox.transform.root == transform.root)
+                    {
+                        continue;
+                    }
+                    Debug.Log("x: " + Mathf.Sin(Mathf.Deg2Rad * sendAngle));
+                    hurtbox.transform.root.gameObject.GetComponent<KnockbackHandler>().OnHit(new Vector3(knockback * Mathf.Sin(Mathf.Deg2Rad * sendAngle), knockback * Mathf.Cos(Mathf.Deg2Rad * sendAngle)), damage);
+                    hurtbox.transform.root.gameObject.GetComponent<FighterStateMachine>()?.SetState(new HitState());
+                }
                 //we hit a hurtbox
                 Debug.Log("hit " + hitHurtboxes[0].gameObject.name);
                 //hitHurtboxes[0].transform.root.GetComponent<FighterStateMachine>(); //put a bitch in hitstun
