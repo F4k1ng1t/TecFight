@@ -19,9 +19,9 @@ MonoBehaviour:
   initialDashSpeed: 10
   weight: 0
   fallSpeed: 25
-  fallAccel: 20
-  fastfallAccel: 25
-  fastfallSpeed: 20
-  maxfallSpeed: 30
+  fallAccel: 30
+  fastfallAccel: 50
+  fastfallSpeed: 30
+  maxfallSpeed: 50
   shorthopForce: 7
-  fullhopForce: 10
+  fullhopForce: 12

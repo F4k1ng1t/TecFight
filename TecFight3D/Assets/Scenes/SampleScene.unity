@@ -279,10 +279,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ec029df90c4024095eb83e6ec2c99c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  LightAttack: 0
   deadzone: 0.15
   flickThreshold: 0.8
   flickDistance: 0.5
   flickWindow: 0.1
+  isSandbang: 0
 --- !u!114 &104684469
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -298,6 +300,7 @@ MonoBehaviour:
   animator: {fileID: 0}
   rig: {fileID: 0}
   input: {fileID: 0}
+  fip: {fileID: 0}
   charObj: {fileID: 11400000, guid: 74e98eaafd1e6a9438a27bfa5b96b855, type: 2}
   direction: 1
 --- !u!54 &104684470
