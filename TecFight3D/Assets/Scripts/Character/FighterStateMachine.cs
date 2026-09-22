@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public class FighterStateMachine : MonoBehaviour
@@ -5,8 +6,10 @@ public class FighterStateMachine : MonoBehaviour
     //for animation - collin
     public CharacterAnimator animator;
 
-    public Rigidbody rig;
-    public FighterInput input;
+    [HideInInspector] public Rigidbody rig;
+    [HideInInspector] public FighterInput input;
+    [HideInInspector] public FighterInputProcesser fip;
+
     public CharacterObject charObj;
     public int direction = 1;
 
@@ -16,7 +19,9 @@ public class FighterStateMachine : MonoBehaviour
     {
         rig = GetComponent<Rigidbody>();
         input = GetComponent<FighterInput>();
+        fip = GetComponent<FighterInputProcesser>();
         animator = gameObject.GetComponentInChildren<CharacterAnimator>();
+
         SetState(new AirState());
     }
 

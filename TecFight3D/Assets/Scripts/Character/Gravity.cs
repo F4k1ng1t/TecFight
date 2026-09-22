@@ -6,6 +6,7 @@ public class Gravity : MonoBehaviour
     FighterStateMachine f;
     CharacterObject c;
     Vector3 gravityValue;
+    
     void Start()
     {
         f = GetComponent<FighterStateMachine>();
