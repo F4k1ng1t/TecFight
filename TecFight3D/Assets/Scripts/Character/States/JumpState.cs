@@ -3,9 +3,9 @@ using UnityEngine;
 public class JumpState : IFighterState
 {
     FighterStateMachine fsm;
-    CharacterObject c;
-    FighterInput i;
-    Rigidbody rb;
+    CharacterObject co;
+    FighterInputProcesser fip;
+    Rigidbody rig;
 
     int frames = 0;
     const int JUMPSQUAT_LENGTH = 4;
@@ -13,9 +13,9 @@ public class JumpState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        c = fsm.charObj;
-        i = fsm.input;
-        rb = fsm.rig;
+        co = f.charObj;
+        rig = f.rig;
+        fip = f.fip;
         frames = 0;
         fsm.animator.PlayAnimation("JumpSquat", false);
         
@@ -30,14 +30,14 @@ public class JumpState : IFighterState
     }
     public void FullHop()
     {
-        fsm.rig.linearVelocity = new Vector3(fsm.rig.linearVelocity.x, 0, fsm.rig.linearVelocity.z);
-        fsm.rig.AddForce(Vector3.up * c.fullhopForce, ForceMode.VelocityChange);
+        rig.linearVelocity = new Vector3(rig.linearVelocity.x, 0, rig.linearVelocity.z);
+        rig.AddForce(Vector3.up * co.fullhopForce, ForceMode.VelocityChange);
         fsm.animator.PlayAnimation("Hop", false);
     }
     public void ShortHop()
     {
-        fsm.rig.linearVelocity = new Vector3(fsm.rig.linearVelocity.x, 0, fsm.rig.linearVelocity.z);
-        fsm.rig.AddForce(Vector3.up * c.shorthopForce, ForceMode.VelocityChange);
+        rig.linearVelocity = new Vector3(rig.linearVelocity.x, 0, rig.linearVelocity.z);
+        rig.AddForce(Vector3.up * co.shorthopForce, ForceMode.VelocityChange);
     }
     public void FixedUpdate()
     {
@@ -46,7 +46,7 @@ public class JumpState : IFighterState
         if(frames > 4)
         {
             jump_executed = true;
-            if(fsm.input.IsHoldingJump)
+            if(fip.Jump())
             {
                 FullHop();
             }

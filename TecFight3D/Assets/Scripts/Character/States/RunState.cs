@@ -18,28 +18,18 @@ public class RunState : IFighterState
     }
     public void Update()
     {
-        
-
-
-        if (fsm.input.Flick)
+        float directionalInput = fsm.input.MoveInput.x * initDirection;
+        if (directionalInput < -0.8f)
         {
-            fsm.input.ConsumeFlick();
-            float flickX = fsm.input.FlickDirection.x;
-
-            // Horizontal flick opposite our current direction.
-            if (Mathf.Abs(fsm.input.MoveInput.x) > 0.8 && Mathf.Sign(fsm.input.MoveInput.x) != Mathf.Sign(initDirection))
-            {
-
-                fsm.SetState(new RunTurnaroundState());
-                return;
-            }
+            fsm.SetState(new RunTurnaroundState());
+            return;
         }
         if (fsm.input.IsHoldingJump)
         {
             fsm.SetState(new JumpState());
             return;
         }
-        if (fsm.input.MoveInput.x < 0.2f && fsm.input.MoveInput.x > -0.2f)
+        if (Mathf.Abs(fsm.input.MoveInput.x) < 0.2f)
         {
             frames++;
             if (frames == 10)

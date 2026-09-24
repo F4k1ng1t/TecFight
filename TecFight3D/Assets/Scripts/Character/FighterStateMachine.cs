@@ -46,16 +46,8 @@ public class FighterStateMachine : MonoBehaviour
     }
     public void SetDirection(bool right)
     {
-        if(right)
-        {
-            direction = 1;
-            animator.SetVisualDirection(direction);
-        }
-        else
-        {
-            direction = -1;
-            animator.SetVisualDirection(direction);
-        }
+        direction = right ? 1 : -1;
+        animator.SetVisualDirection(direction);
     }
     public void FlipDirection()
     {

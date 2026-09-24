@@ -2,15 +2,23 @@ using UnityEngine;
 
 public class FighterInputProcesser : MonoBehaviour
 {
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+    [HideInInspector] public FighterStateMachine fsm;
+    FighterInput fi;
+    public void Start()
     {
-        
+        fsm = GetComponent<FighterStateMachine>();
+        fi = fsm.input;
     }
-
-    // Update is called once per frame
-    void Update()
+    public bool Walk()
     {
-        
+        return Mathf.Abs(fi.MoveInput.x) < 0.2f;
+    }
+    public bool Jump()
+    {
+        return fi.IsHoldingJump;
+    }
+    public bool Idle()
+    {
+        return Mathf.Abs(fi.MoveInput.x) < 0.05f;
     }
 }
