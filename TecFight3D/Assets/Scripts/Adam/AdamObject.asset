@@ -25,3 +25,5 @@ MonoBehaviour:
   maxfallSpeed: 50
   shorthopForce: 7
   fullhopForce: 12
+  doubleJumpForce: 12
+  doubleJumpCount: 1

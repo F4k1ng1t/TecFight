@@ -2569,7 +2569,7 @@ MonoBehaviour:
   LightAttack: 0
   deadzone: 0.15
   flickThreshold: 0.8
-  flickDistance: 0.5
+  flickDistance: 0.4
   flickWindow: 0.1
   isSandbang: 0
 --- !u!114 &104684469
