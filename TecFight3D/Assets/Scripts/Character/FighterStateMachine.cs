@@ -3,13 +3,14 @@ using UnityEngine;
 
 public class FighterStateMachine : MonoBehaviour
 {
-    //for animation - collin
+    //for animation - collins
     public CharacterAnimator animator;
 
     [HideInInspector] public Rigidbody rig;
     [HideInInspector] public FighterInput input;
     [HideInInspector] public FighterInputProcesser fip;
 
+    [Tooltip("the character's attributes.")]
     public CharacterObject charObj;
     public int direction = 1;
 
