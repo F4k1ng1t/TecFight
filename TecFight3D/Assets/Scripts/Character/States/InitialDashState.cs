@@ -24,7 +24,11 @@ public class InitialDashState : IFighterState
     public void Update()
     {
 
-
+        if (fsm.input.IsHoldingJump)
+        {
+            fsm.SetState(new JumpState());
+            return;
+        }
         if (fsm.input.Flick)
         {
             float flickX = fsm.input.FlickDirection.x;

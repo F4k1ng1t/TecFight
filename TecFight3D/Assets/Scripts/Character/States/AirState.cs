@@ -7,9 +7,7 @@ public class AirState : IFighterState
     FighterInput fi;
     Rigidbody rig;
     FighterInputProcesser fip;
-    float initVelocity;
-    float currentAirDrift = 0;
-    
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
@@ -17,39 +15,47 @@ public class AirState : IFighterState
         fi = fsm.input;
         rig = fsm.rig;
         fip = fsm.fip;
-        initVelocity = fsm.rig.linearVelocity.x;
+
         fsm.animator?.PlayAnimation("Fall", true);
     }
+
     public void Exit()
     {
-
     }
+
     public void Update()
     {
-        
     }
+
     public void FixedUpdate()
     {
         if (fip.Jump())
         {
             fsm.SetState(new DoubleJumpState());
+            return;
         }
-        if (fip.CompareCurrentAirDriftMax())
+
+        // Apply air control while below the speed cap,
+        // or when trying to reverse direction above the cap.
+        if (Mathf.Abs(rig.linearVelocity.x) < co.airSpeed ||
+            fip.CompareCurrentAirDriftMax())
         {
-            currentAirDrift = co.airAccel * fi.MoveInput.x;
-            rig.AddForce(currentAirDrift, 0, 0);
+            float airDrift = co.airAccel * fi.MoveInput.x;
+
+            rig.AddForce(
+                airDrift,
+                0,
+                0,
+                ForceMode.Acceleration
+            );
         }
-        else
-        {
-            currentAirDrift = co.airAccel * fi.MoveInput.x;
-            rig.AddForce(currentAirDrift, 0, 0, ForceMode.Acceleration);
-            rig.linearVelocity = new Vector3(Mathf.Clamp(rig.linearVelocity.x, -5f, 5f), rig.linearVelocity.y, 0);
-        }
+
         if (fip.FastFall())
         {
-                //Debug.Log("Why are you running");
             rig.AddForce(0, -co.fastfallAccel, 0, ForceMode.Acceleration);
-            rig.linearVelocity = new Vector3(rig.linearVelocity.x, Mathf.Max(rig.linearVelocity.y, -co.fastfallSpeed));
+
+            rig.linearVelocity = new Vector3(rig.linearVelocity.x, Mathf.Max(rig.linearVelocity.y, -co.fastfallSpeed), rig.linearVelocity.z
+            );
         }
     }
 }
