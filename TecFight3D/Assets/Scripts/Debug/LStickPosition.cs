@@ -19,7 +19,7 @@ public class LStickPosition : MonoBehaviour
         float x = f.MoveInput.x + origin.position.x;
         float y = f.MoveInput.y + origin.position.y;
         stick.transform.position = new Vector3(x, y, origin.position.z);
-        if(f.Flick)
+        if(f.Flick) //why
         {
             stickRenderer.material.color = Color.red;
             Debug.Log("red");
