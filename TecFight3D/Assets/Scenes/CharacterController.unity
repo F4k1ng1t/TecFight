@@ -1877,7 +1877,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ce5cf5404c57e1d4994d1fd03b0ad57f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  f: {fileID: 104684468}
+  f: {fileID: 99685760}
   stick: {fileID: 692052339}
 --- !u!1 &84538200
 GameObject:
@@ -2331,7 +2331,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ec029df90c4024095eb83e6ec2c99c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightAttack: 0
+  Attack: 0
   deadzone: 0.15
   flickThreshold: 0.7
   flickDistance: 0.5
@@ -2355,6 +2355,7 @@ MonoBehaviour:
   fip: {fileID: 0}
   charObj: {fileID: 11400000, guid: 74e98eaafd1e6a9438a27bfa5b96b855, type: 2}
   direction: 1
+  currentDJC: 0
 --- !u!54 &99685762
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -2566,7 +2567,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 52ec029df90c4024095eb83e6ec2c99c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  LightAttack: 0
+  Attack: 0
   deadzone: 0.15
   flickThreshold: 0.8
   flickDistance: 0.4
@@ -2590,6 +2591,7 @@ MonoBehaviour:
   fip: {fileID: 0}
   charObj: {fileID: 11400000, guid: 74e98eaafd1e6a9438a27bfa5b96b855, type: 2}
   direction: 1
+  currentDJC: 0
 --- !u!54 &104684470
 Rigidbody:
   m_ObjectHideFlags: 0
