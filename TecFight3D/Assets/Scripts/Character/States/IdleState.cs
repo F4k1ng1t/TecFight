@@ -52,16 +52,16 @@ public class IdleState : IFighterState
             fsm.SetState(new WalkState());
             return;
         }
-        if (fip.Jump())
+        if (fip.IsHoldingJump())
         {
             Debug.Log("helo");
             fsm.SetState(new JumpState());
         }
-        if (fi.LightAttack)
+        if (fi.Attack)
         {
             Debug.Log("Jab");
-            fsm.SetState(new JabState());
-            fi.LightAttack = false;
+            fsm.SetState(new AttackState());
+            fi.Attack = false;
         }
     }
     public void FixedUpdate()

@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class JabState : IFighterState
+public class AttackState : IFighterState
 {
     FighterStateMachine fsm;
     public void Enter(FighterStateMachine f)
@@ -24,5 +24,9 @@ public class JabState : IFighterState
     public void FixedUpdate()
     {
 
+    }
+    public void DoAttack(AttackObject attack)
+    {
+         
     }
 }

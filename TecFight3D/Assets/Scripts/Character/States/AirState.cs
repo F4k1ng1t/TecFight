@@ -29,33 +29,36 @@ public class AirState : IFighterState
 
     public void FixedUpdate()
     {
-        if (fip.Jump())
+        if (fip.JumpPressed() && fsm.currentDJC > 0)
         {
             fsm.SetState(new DoubleJumpState());
             return;
         }
 
-        // Apply air control while below the speed cap,
-        // or when trying to reverse direction above the cap.
-        if (Mathf.Abs(rig.linearVelocity.x) < co.airSpeed ||
-            fip.CompareCurrentAirDriftMax())
-        {
-            float airDrift = co.airAccel * fi.MoveInput.x;
+        float currentVelocity = rig.linearVelocity.x;
 
-            rig.AddForce(
-                airDrift,
-                0,
-                0,
-                ForceMode.Acceleration
-            );
+        if (Mathf.Abs(currentVelocity) < co.airSpeed)
+        {
+            rig.AddForce(fi.MoveInput.x * co.airAccel, 0, 0, ForceMode.Acceleration);
+
+            rig.linearVelocity = new Vector3(Mathf.Clamp(rig.linearVelocity.x, -co.airSpeed, co.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
+        }
+        else if (fip.AttemptMoveOpposite())
+        {
+            rig.linearVelocity = new Vector3(Mathf.Clamp(currentVelocity, -co.airSpeed, co.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
+
+            rig.AddForce(fi.MoveInput.x * co.airAccel, 0, 0, ForceMode.Acceleration);
+        }
+        else
+        {
+            rig.linearVelocity = new Vector3(currentVelocity, rig.linearVelocity.y, rig.linearVelocity.z);
         }
 
         if (fip.FastFall())
         {
             rig.AddForce(0, -co.fastfallAccel, 0, ForceMode.Acceleration);
 
-            rig.linearVelocity = new Vector3(rig.linearVelocity.x, Mathf.Max(rig.linearVelocity.y, -co.fastfallSpeed), rig.linearVelocity.z
-            );
+            rig.linearVelocity = new Vector3(rig.linearVelocity.x, Mathf.Max(rig.linearVelocity.y, -co.fastfallSpeed), rig.linearVelocity.z);
         }
     }
 }

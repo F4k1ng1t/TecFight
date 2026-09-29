@@ -44,7 +44,7 @@ public class JumpState : IFighterState
         if(frames > 4)
         {
             jump_executed = true;
-            if(fip.Jump())
+            if(fip.IsHoldingJump())
             {
                 FullHop();
             }
@@ -52,6 +52,7 @@ public class JumpState : IFighterState
             {
                 ShortHop();
             }
+            fsm.SetState(new AirState());
         }
     }
 }

@@ -13,6 +13,7 @@ public class FighterStateMachine : MonoBehaviour
     [Tooltip("the character's attributes.")]
     public CharacterObject charObj;
     public int direction = 1;
+    public int currentDJC;
 
     public IFighterState currentState;
 
@@ -22,7 +23,7 @@ public class FighterStateMachine : MonoBehaviour
         input = GetComponent<FighterInput>();
         fip = GetComponent<FighterInputProcesser>();
         animator = gameObject.GetComponentInChildren<CharacterAnimator>();
-
+        currentDJC = charObj.doubleJumpCount;
         SetState(new AirState());
     }
 
@@ -43,7 +44,7 @@ public class FighterStateMachine : MonoBehaviour
         }
         currentState = newState;
         currentState.Enter(this);
-        //Debug.Log(newState.GetType().Name);
+        Debug.Log(newState.GetType().Name);
     }
     public void SetDirection(bool right)
     {
@@ -53,5 +54,6 @@ public class FighterStateMachine : MonoBehaviour
     public void FlipDirection()
     {
         direction *= -1;
+        animator.SetVisualDirection(direction);
     }
 }

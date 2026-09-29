@@ -17,5 +17,5 @@ public class CharacterObject : ScriptableObject
     public float shorthopForce;
     public float fullhopForce;
     public float doubleJumpForce;
-    public float doubleJumpCount;
+    public int doubleJumpCount;
 }

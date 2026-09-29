@@ -42,6 +42,6 @@ public class RunState : IFighterState
     }
     public void FixedUpdate()
     {
-        fsm.rig.linearVelocity = new Vector3(fsm.direction * 9f, fsm.rig.linearVelocity.y, 0);
+        fsm.rig.linearVelocity = new Vector3(fsm.direction * fsm.charObj.runSpeed, fsm.rig.linearVelocity.y, 0);
     }
 }

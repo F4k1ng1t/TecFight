@@ -22,13 +22,13 @@ public class WalkState : IFighterState
     }
     public void Update()
     {
-        rig.linearVelocity = new Vector3(fi.MoveInput.x * 5f, rig.linearVelocity.y, 0);
+        rig.linearVelocity = new Vector3(fi.MoveInput.x * co.walkSpeed, rig.linearVelocity.y, 0);
         if (fip.Idle())
         {
             rig.linearVelocity = new Vector3(0, rig.linearVelocity.y, 0);
             fsm.SetState(new IdleState());
         }
-        if (fip.Jump())
+        if (fip.IsHoldingJump())
         {
             fsm.SetState(new JumpState());
         }

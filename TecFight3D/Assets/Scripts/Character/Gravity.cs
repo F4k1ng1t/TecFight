@@ -17,7 +17,7 @@ public class Gravity : MonoBehaviour
     private void FixedUpdate()
     {
         f.rig.AddForce(gravityValue, ForceMode.Acceleration);
-        Debug.Log(f.rig.linearVelocity.y);
-        f.rig.linearVelocity = new Vector3(f.rig.linearVelocity.x, Mathf.Max(f.rig.linearVelocity.y, -c.maxfallSpeed));
+        //Debug.Log(f.rig.linearVelocity.y);
+        //f.rig.linearVelocity = new Vector3(f.rig.linearVelocity.x, Mathf.Max(f.rig.linearVelocity.y, -c.maxfallSpeed));
     }
 }

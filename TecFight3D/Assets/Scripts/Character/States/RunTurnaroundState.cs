@@ -8,6 +8,7 @@ public class RunTurnaroundState : IFighterState
     {
         fsm = f;
         frames = 0;
+        fsm.animator.PlayAnimation("DashTurnaround", true);
     }
     public void Exit()
     {
