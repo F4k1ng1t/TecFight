@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 86a7141ca115abb4186af700e8969a92, type: 3}
   m_Name: Dash
   m_EditorClassIdentifier: 
-  effect: {fileID: 0}
+  effect: {fileID: 5517338239671592719, guid: 62537bb16ea679140bbf0bba2ed91d46, type: 3}
   boundBone: {fileID: 0}
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 1.3, z: 0}
