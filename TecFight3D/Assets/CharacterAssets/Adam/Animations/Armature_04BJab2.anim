@@ -226826,3 +226826,10 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.21666667
+    functionName: SpawnEffectAtPoint
+    data: 
+    objectReferenceParameter: {fileID: 11400000, guid: f68aaf5bb545f7645a5d9fefcafb95a9, type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

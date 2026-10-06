@@ -6,7 +6,7 @@ public class JabState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        fsm.animator.PlayAnimation("Jab2", false, 0);
+        fsm.animator.PlayAnimation("NSpecial", false, 0);
     }
     public void Exit()
     {

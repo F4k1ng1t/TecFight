@@ -19,6 +19,10 @@ public class SpawnEffect : MonoBehaviour
             return;
         }
         Temp.transform.position = transform.position + effect.offset;
+        if(transform.rotation.y != 0)
+        {
+            Temp.transform.position -= Vector3.right * effect.offset.x * 2;
+        }
         Temp.transform.rotation = transform.rotation;
         effectAnimator.Play(effect.effect.name);
         Destroy(Temp, Temp.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
