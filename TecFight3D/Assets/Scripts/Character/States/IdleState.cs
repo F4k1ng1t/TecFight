@@ -9,7 +9,7 @@ public class IdleState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        fsm.animator.PlayAnimation("Idle", true, fsm.direction);
+        fsm.animator?.PlayAnimation("Idle", true, fsm.direction);
     }
     public void Exit()
     {
@@ -48,6 +48,12 @@ public class IdleState : IFighterState
         {
             Debug.Log("helo");
             fsm.SetState(new JumpState());
+        }
+        if (fsm.input.LightAttack)
+        {
+            Debug.Log("Jab");
+            fsm.SetState(new JabState());
+            fsm.input.LightAttack = false;
         }
     }
     public void FixedUpdate()
