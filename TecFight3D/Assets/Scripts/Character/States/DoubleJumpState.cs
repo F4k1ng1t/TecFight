@@ -12,8 +12,9 @@ public class DoubleJumpState : IFighterState
         co = fsm.charObj;
         rig = fsm.rig;
         fip = fsm.fip;
-        rig.linearVelocity = new Vector3(rig.linearVelocity.x, 0, rig.linearVelocity.z);
-        rig.AddForce(new Vector3(0, co.doubleJumpForce, 0), ForceMode.VelocityChange);
+        fsm.gravity.active = false;
+        rig.linearVelocity = new Vector3(Mathf.Clamp(rig.linearVelocity.x, -co.airSpeed, co.airSpeed), co.doubleJumpForce, rig.linearVelocity.z);
+        fsm.gravity.active = true;
         fsm.currentDJC--;
         fsm.SetState(new AirState());
     }

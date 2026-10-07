@@ -6,9 +6,10 @@ public class FighterStateMachine : MonoBehaviour
     //for animation - collins
     public CharacterAnimator animator;
 
-    [HideInInspector] public Rigidbody rig;
-    [HideInInspector] public FighterInput input;
-    [HideInInspector] public FighterInputProcesser fip;
+    public Rigidbody rig;
+    public FighterInput input;
+    public FighterInputProcesser fip;
+    public Gravity gravity;
 
     [Tooltip("the character's attributes.")]
     public CharacterObject charObj;
@@ -22,6 +23,7 @@ public class FighterStateMachine : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         input = GetComponent<FighterInput>();
         fip = GetComponent<FighterInputProcesser>();
+        gravity = GetComponent<Gravity>();
         animator = gameObject.GetComponentInChildren<CharacterAnimator>();
         currentDJC = charObj.doubleJumpCount;
         SetState(new AirState());
@@ -46,9 +48,9 @@ public class FighterStateMachine : MonoBehaviour
         currentState.Enter(this);
         Debug.Log(newState.GetType().Name);
     }
-    public void SetDirection(bool right)
+    public void SetDirection(float newDirection)
     {
-        direction = right ? 1 : -1;
+        direction = newDirection > 0 ? 1 : -1;
         animator.SetVisualDirection(direction);
     }
     public void FlipDirection()

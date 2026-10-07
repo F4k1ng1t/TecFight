@@ -27,7 +27,7 @@ public class IdleState : IFighterState
     {
         if (Mathf.Abs(fi.MoveInput.x) > 0.01f)
         {
-            Debug.Log($"{walkHeld * Time.deltaTime} {walkTimeThreshold * Time.deltaTime}");
+            //Debug.Log($"{walkHeld * Time.deltaTime} {walkTimeThreshold * Time.deltaTime}");
             walkHeld++;
         }
         else
@@ -39,16 +39,16 @@ public class IdleState : IFighterState
             float flickX = fi.FlickDirection.x;
             if (Mathf.Abs(flickX) > 0.8f)
             {
-                fsm.SetDirection(flickX > 0);
+                fsm.SetDirection(flickX);
                 fi.ConsumeFlick();
                 fsm.SetState(new InitialDashState());
 
                 return;
             }
         }
-        if (fip.Walk() && walkHeld >= 50)
+        if (fip.Walk() && walkHeld >= 30)
         {
-            fsm.SetDirection(fi.MoveInput.x > 0);
+            fsm.SetDirection(fi.MoveInput.x);
             fsm.SetState(new WalkState());
             return;
         }

@@ -6,7 +6,7 @@ public class FighterGrounded : MonoBehaviour
     bool wasGrounded = false;
     FighterStateMachine fsm;
 
-    float checkDistance = 1f;
+    public float checkDistance = 1f;
     void Start()
     {
         fsm = GetComponent<FighterStateMachine>();

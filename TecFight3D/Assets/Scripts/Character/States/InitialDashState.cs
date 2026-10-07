@@ -57,7 +57,15 @@ public class InitialDashState : IFighterState
         {
             if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
             {
-                fsm.SetState(new RunState());
+                if (Mathf.Sign(fsm.rig.linearVelocity.x) != Mathf.Sign(fsm.input.MoveInput.x))
+                {
+                    fsm.SetState(new RunTurnaroundState());
+                }
+                else
+                {
+                    fsm.SetState(new RunState());
+                }
+                    
             }
             else
             {
