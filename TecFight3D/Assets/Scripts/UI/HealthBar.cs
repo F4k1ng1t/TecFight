@@ -2,32 +2,24 @@ using System;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class KnockbackHandler : MonoBehaviour
+public class HealthBar : MonoBehaviour
 {
     [Header("Variables")]
     public int totalHealth = 100;
     public int currentHealth;
-   
+    public int damageAmount = 10;
 
     [Header("Componets")]
     public Slider healthSlider;
 
 
-    [SerializeField]
-    private float damage = 10f;
-
-    Rigidbody rb;
-    FighterStateMachine fsm;
-    float damage = 1f;
-    private void Start()
+    void Start()
     {
-        fsm = GetComponent<FighterStateMachine>();
-        rb = gameObject.GetComponent<Rigidbody>();
-
         currentHealth = totalHealth;
 
         healthSlider.maxValue = totalHealth;
         healthSlider.value = currentHealth;
+
     }
 
 
@@ -37,28 +29,16 @@ public class KnockbackHandler : MonoBehaviour
 
         if (Input.GetKeyDown(KeyCode.K))
         {
-            TakeDamage((int)damage);
+            TakeDamage(damageAmount);
         }
     }
+    
 
-    public void OnHit(Vector3 knockback, float deltDamage)
-    {
-        if (!rb)
-        {
-            Debug.LogError("Rigidbody not found on KnockbackHandler");
-            return;
-        }
-        rb.AddForce(knockback * damage, ForceMode.Impulse);
-        damage += deltDamage;
-        Debug.Log(damage);
-    }
-
-
-    void TakeDamage(int damage)
+    void TakeDamage(int damageAmount)
     {
         if (currentHealth > 0)
         {
-            currentHealth -= damage;
+            currentHealth -= damageAmount;
 
             if (currentHealth < 0)
             {
