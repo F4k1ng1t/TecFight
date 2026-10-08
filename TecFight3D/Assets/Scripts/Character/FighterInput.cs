@@ -65,33 +65,11 @@ public class FighterInput : MonoBehaviour
 
     private void OnEnable()
     {
-        if (isSandbang)
-        {
-            return;
-        }
-        controls.Fighter.Move.performed += OnMove;
-        controls.Fighter.Move.canceled += OnMove;
-        controls.Fighter.Jump.started += OnJumpStarted;
-        controls.Fighter.Jump.performed += OnJumpPerformed;
-        controls.Fighter.Jump.canceled += OnJumpCanceled;
-        controls.Fighter.Attack.performed += OnAttack;
-
         controls.Enable();
     }
 
     private void OnDisable()
     {
-        if (isSandbang)
-        {
-            return;
-        }
-        controls.Fighter.Move.performed -= OnMove;
-        controls.Fighter.Move.canceled -= OnMove;
-        controls.Fighter.Jump.started -= OnJumpStarted;
-        controls.Fighter.Jump.performed -= OnJumpPerformed;
-        controls.Fighter.Jump.canceled -= OnJumpCanceled;
-        controls.Fighter.Attack.performed -= OnAttack;
-
         controls.Disable();
     }
 
@@ -100,24 +78,17 @@ public class FighterInput : MonoBehaviour
         DetectFlick();
     }
 
-    private void OnMove(InputAction.CallbackContext ctx)
+    public void OnMove(InputAction.CallbackContext ctx)
     {
         MoveInput = ctx.ReadValue<Vector2>();
     }
 
-    private void OnJumpStarted(InputAction.CallbackContext ctx)
+    public void OnJump(InputAction.CallbackContext ctx)
     {
-        IsHoldingJump = true;
+        IsHoldingJump = ctx.ReadValueAsButton();
+
     }
-    private void OnJumpPerformed(InputAction.CallbackContext ctx)
-    {
-        IsHoldingJump = true;
-    }
-    private void OnJumpCanceled(InputAction.CallbackContext ctx)
-    {
-        IsHoldingJump = false;
-    }
-    private void OnAttack(InputAction.CallbackContext ctx)
+    public void OnAttack(InputAction.CallbackContext ctx)
     {
         Attack = true;
     }
