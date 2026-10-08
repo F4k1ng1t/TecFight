@@ -18,7 +18,6 @@ public class KnockbackHandler : MonoBehaviour
 
     Rigidbody rb;
     FighterStateMachine fsm;
-    float damage = 1f;
     private void Start()
     {
         fsm = GetComponent<FighterStateMachine>();
