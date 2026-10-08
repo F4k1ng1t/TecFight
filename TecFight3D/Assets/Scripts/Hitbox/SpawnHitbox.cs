@@ -15,7 +15,7 @@ public class SpawnHitbox : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        Gizmos.DrawSphere(parentBone.position, radius);
+        Gizmos.DrawWireSphere(parentBone.position, radius);
         Gizmos.DrawLine(parentBone.position, parentBone.position + new Vector3(knockback * Mathf.Asin(sendAngle), knockback * Mathf.Acos(sendAngle)));
     }
 
@@ -47,8 +47,15 @@ public class SpawnHitbox : MonoBehaviour
                         continue;
                     }
                     Debug.Log("x: " + Mathf.Sin(Mathf.Deg2Rad * sendAngle));
-                    hurtbox.transform.root.gameObject.GetComponent<KnockbackHandler>().OnHit(new Vector3(knockback * Mathf.Sin(Mathf.Deg2Rad * sendAngle), knockback * Mathf.Cos(Mathf.Deg2Rad * sendAngle)), damage);
-                    hurtbox.transform.root.gameObject.GetComponent<FighterStateMachine>()?.SetState(new HitState());
+                    FighterStateMachine player = gameObject.GetComponentInParent<FighterStateMachine>();
+                    hurtbox.transform.root.gameObject.GetComponent<KnockbackHandler>().OnHit(new Vector3(knockback * Mathf.Sin(Mathf.Deg2Rad * sendAngle) * player.direction, knockback * Mathf.Cos(Mathf.Deg2Rad * sendAngle)), damage);
+                    FighterStateMachine enemy = hurtbox.transform.root.gameObject.GetComponent<FighterStateMachine>();
+                    if (enemy != null)
+                    {
+                        enemy.SetDirection(-player.direction);
+                        enemy.SetState(new HitState());
+                    }
+                    
                 }
                 //we hit a hurtbox
                 Debug.Log("hit " + hitHurtboxes[0].gameObject.name);

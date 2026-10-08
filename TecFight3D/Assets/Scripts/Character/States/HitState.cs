@@ -7,21 +7,23 @@ public class HitState : IFighterState
     {
         //this handles the animations and hitstun
         // another script does the knockback
+
         fsm = f;
+        fsm.animator.PlayAnimation("HitStunSide", true);
     }
 
     public void Exit()
     {
-        throw new System.NotImplementedException();
+
     }
 
     public void FixedUpdate()
     {
-        throw new System.NotImplementedException();
+
     }
 
     void IFighterState.Update()
     {
-        throw new System.NotImplementedException();
+
     }
 }

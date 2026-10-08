@@ -17,9 +17,11 @@ public class KnockbackHandler : MonoBehaviour
     private float damage = 10f;
 
     Rigidbody rb;
-
+    FighterStateMachine fsm;
+    float damage = 1f;
     private void Start()
     {
+        fsm = GetComponent<FighterStateMachine>();
         rb = gameObject.GetComponent<Rigidbody>();
 
         currentHealth = totalHealth;
@@ -48,6 +50,7 @@ public class KnockbackHandler : MonoBehaviour
         }
         rb.AddForce(knockback * damage, ForceMode.Impulse);
         damage += deltDamage;
+        Debug.Log(damage);
     }
 
 

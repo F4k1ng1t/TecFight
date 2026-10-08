@@ -3,54 +3,62 @@ using UnityEngine;
 public class AirState : IFighterState
 {
     FighterStateMachine fsm;
-    CharacterObject c;
-    FighterInput i;
-    Rigidbody rb;
-    float initVelocity;
-    
+    CharacterObject co;
+    FighterInput fi;
+    Rigidbody rig;
+    FighterInputProcesser fip;
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        c = fsm.charObj;
-        i = fsm.input;
-        rb = fsm.rig;
-        initVelocity = fsm.rig.linearVelocity.x;
+        co = fsm.charObj;
+        fi = fsm.input;
+        rig = fsm.rig;
+        fip = fsm.fip;
+
         fsm.animator?.PlayAnimation("Fall", true);
     }
+
     public void Exit()
     {
-
     }
+
     public void Update()
     {
-        
     }
+
     public void FixedUpdate()
     {
-        float currentAirDrift = 0;
-        if (Mathf.Abs(rb.linearVelocity.x) >= c.airSpeed)
+        if (fip.JumpPressed() && fsm.currentDJC > 0)
         {
-            if(Mathf.Sign(i.MoveInput.x) != Mathf.Sign(rb.linearVelocity.x) && i.MoveInput.x != 0)
-            {
-                currentAirDrift = c.airAccel * i.MoveInput.x;
-                rb.AddForce(currentAirDrift, 0, 0);
-                //rb.linearVelocity = new Vector3(Mathf.Clamp(rb.linearVelocity.x, -5f, 5f), rb.linearVelocity.y, 0);
-            }
+            fsm.SetState(new DoubleJumpState());
+            return;
+        }
+
+        float currentVelocity = rig.linearVelocity.x;
+
+        if (Mathf.Abs(currentVelocity) < co.airSpeed)
+        {
+            rig.AddForce(fi.MoveInput.x * co.airAccel, 0, 0, ForceMode.Acceleration);
+
+            rig.linearVelocity = new Vector3(Mathf.Clamp(rig.linearVelocity.x, -co.airSpeed, co.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
+        }
+        else if (fip.AttemptMoveOpposite())
+        {
+            rig.linearVelocity = new Vector3(Mathf.Clamp(currentVelocity, -co.airSpeed, co.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
+
+            rig.AddForce(fi.MoveInput.x * co.airAccel, 0, 0, ForceMode.Acceleration);
         }
         else
         {
-            currentAirDrift = c.airAccel * i.MoveInput.x;
-            rb.AddForce(currentAirDrift, 0, 0, ForceMode.Acceleration);
-            rb.linearVelocity = new Vector3(Mathf.Clamp(rb.linearVelocity.x, -5f, 5f), rb.linearVelocity.y, 0);
+            rig.linearVelocity = new Vector3(currentVelocity, rig.linearVelocity.y, rig.linearVelocity.z);
         }
-        if (rb.linearVelocity.y <= 0)
+
+        if (fip.FastFall())
         {
-            if(i.MoveInput.y < -0.5f)
-            {
-                Debug.Log("Why are you running");
-                rb.AddForce(0, -c.fastfallAccel, 0, ForceMode.Acceleration);
-                rb.linearVelocity = new Vector3(rb.linearVelocity.x, Mathf.Max(rb.linearVelocity.y, -c.fastfallSpeed));
-            }
+            rig.AddForce(0, -co.fastfallAccel, 0, ForceMode.Acceleration);
+
+            rig.linearVelocity = new Vector3(rig.linearVelocity.x, Mathf.Max(rig.linearVelocity.y, -co.fastfallSpeed), rig.linearVelocity.z);
         }
     }
 }

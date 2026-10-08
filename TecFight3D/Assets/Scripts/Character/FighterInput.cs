@@ -8,11 +8,8 @@ public class FighterInput : MonoBehaviour
 
     public bool IsHoldingJump { get; private set; }
 
-    public bool Shorthop {  get; private set; }
 
-    public bool Fullhop { get; private set; }
-
-    public bool LightAttack;
+    public bool Attack;
 
     // One-shot event. Remains true until consumed.
     public bool Flick { get; private set; }
@@ -77,7 +74,7 @@ public class FighterInput : MonoBehaviour
         controls.Fighter.Jump.started += OnJumpStarted;
         controls.Fighter.Jump.performed += OnJumpPerformed;
         controls.Fighter.Jump.canceled += OnJumpCanceled;
-        controls.Fighter.Attack.performed += OnLightAttack;
+        controls.Fighter.Attack.performed += OnAttack;
 
         controls.Enable();
     }
@@ -93,7 +90,7 @@ public class FighterInput : MonoBehaviour
         controls.Fighter.Jump.started -= OnJumpStarted;
         controls.Fighter.Jump.performed -= OnJumpPerformed;
         controls.Fighter.Jump.canceled -= OnJumpCanceled;
-        controls.Fighter.Attack.performed -= OnLightAttack;
+        controls.Fighter.Attack.performed -= OnAttack;
 
         controls.Disable();
     }
@@ -120,9 +117,9 @@ public class FighterInput : MonoBehaviour
     {
         IsHoldingJump = false;
     }
-    private void OnLightAttack(InputAction.CallbackContext ctx)
+    private void OnAttack(InputAction.CallbackContext ctx)
     {
-        LightAttack = true;
+        Attack = true;
     }
 
     private void DetectFlick()

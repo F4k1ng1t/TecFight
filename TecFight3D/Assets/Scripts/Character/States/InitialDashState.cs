@@ -15,6 +15,7 @@ public class InitialDashState : IFighterState
 
         // Direction of the dash when we entered.
         initDirection = fsm.direction;
+        fsm.animator.PlayAnimation("Dash", true, 0);
     }
 
     public void Exit()
@@ -24,7 +25,11 @@ public class InitialDashState : IFighterState
     public void Update()
     {
 
-
+        if (fsm.input.IsHoldingJump)
+        {
+            fsm.SetState(new JumpState());
+            return;
+        }
         if (fsm.input.Flick)
         {
             float flickX = fsm.input.FlickDirection.x;
@@ -52,7 +57,15 @@ public class InitialDashState : IFighterState
         {
             if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f)
             {
-                fsm.SetState(new RunState());
+                if (Mathf.Sign(fsm.rig.linearVelocity.x) != Mathf.Sign(fsm.input.MoveInput.x))
+                {
+                    fsm.SetState(new RunTurnaroundState());
+                }
+                else
+                {
+                    fsm.SetState(new RunState());
+                }
+                    
             }
             else
             {

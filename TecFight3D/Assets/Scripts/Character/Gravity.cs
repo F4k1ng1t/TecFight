@@ -6,6 +6,7 @@ public class Gravity : MonoBehaviour
     FighterStateMachine f;
     CharacterObject c;
     Vector3 gravityValue;
+    public bool active = true;
     
     void Start()
     {
@@ -16,8 +17,13 @@ public class Gravity : MonoBehaviour
 
     private void FixedUpdate()
     {
-        f.rig.AddForce(gravityValue, ForceMode.Acceleration);
-        Debug.Log(f.rig.linearVelocity.y);
-        f.rig.linearVelocity = new Vector3(f.rig.linearVelocity.x, Mathf.Max(f.rig.linearVelocity.y, -c.maxfallSpeed));
+        if (active)
+        {
+            f.rig.AddForce(gravityValue, ForceMode.Acceleration);
+        }
+        //else
+        //{
+        //    f.rig.linearVelocity = Vector3.forward * f.rig.linearVelocity.x;
+        //}
     }
 }

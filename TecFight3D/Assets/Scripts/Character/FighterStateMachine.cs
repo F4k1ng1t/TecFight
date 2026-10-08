@@ -3,15 +3,18 @@ using UnityEngine;
 
 public class FighterStateMachine : MonoBehaviour
 {
-    //for animation - collin
+    //for animation - collins
     public CharacterAnimator animator;
 
-    [HideInInspector] public Rigidbody rig;
-    [HideInInspector] public FighterInput input;
-    [HideInInspector] public FighterInputProcesser fip;
+    public Rigidbody rig;
+    public FighterInput input;
+    public FighterInputProcesser fip;
+    public Gravity gravity;
 
+    [Tooltip("the character's attributes.")]
     public CharacterObject charObj;
     public int direction = 1;
+    public int currentDJC;
 
     public IFighterState currentState;
 
@@ -20,8 +23,9 @@ public class FighterStateMachine : MonoBehaviour
         rig = GetComponent<Rigidbody>();
         input = GetComponent<FighterInput>();
         fip = GetComponent<FighterInputProcesser>();
+        gravity = GetComponent<Gravity>();
         animator = gameObject.GetComponentInChildren<CharacterAnimator>();
-
+        currentDJC = charObj.doubleJumpCount;
         SetState(new AirState());
     }
 
@@ -42,23 +46,16 @@ public class FighterStateMachine : MonoBehaviour
         }
         currentState = newState;
         currentState.Enter(this);
-        //Debug.Log(newState.GetType().Name);
+        Debug.Log(newState.GetType().Name);
     }
-    public void SetDirection(bool right)
+    public void SetDirection(float newDirection)
     {
-        if(right)
-        {
-            direction = 1;
-            animator.SetVisualDirection(direction);
-        }
-        else
-        {
-            direction = -1;
-            animator.SetVisualDirection(direction);
-        }
+        direction = newDirection > 0 ? 1 : -1;
+        animator.SetVisualDirection(direction);
     }
     public void FlipDirection()
     {
         direction *= -1;
+        animator.SetVisualDirection(direction);
     }
 }

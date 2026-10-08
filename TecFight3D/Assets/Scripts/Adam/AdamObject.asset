@@ -12,16 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5946ab6baad4eac4f9d50ab16f2fa96c, type: 3}
   m_Name: AdamObject
   m_EditorClassIdentifier: 
-  airAccel: 15
-  airSpeed: 5
-  walkSpeed: 0
-  runSpeed: 15
-  initialDashSpeed: 10
+  airAccel: 20
+  airSpeed: 8
+  walkSpeed: 1.5
+  runSpeed: 11
+  initialDashSpeed: 12
   weight: 0
-  fallSpeed: 25
-  fallAccel: 30
-  fastfallAccel: 50
-  fastfallSpeed: 30
-  maxfallSpeed: 50
-  shorthopForce: 7
-  fullhopForce: 12
+  fallSpeed: 10
+  fallAccel: 40
+  fastfallAccel: 0
+  fastfallSpeed: 10
+  maxfallSpeed: 40
+  shorthopForce: 15
+  fullhopForce: 20
+  doubleJumpForce: 17
+  doubleJumpCount: 1
