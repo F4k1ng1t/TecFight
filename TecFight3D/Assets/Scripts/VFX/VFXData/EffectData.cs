@@ -6,5 +6,6 @@ public class EffectData : ScriptableObject
      public AnimationClip effect;
      public string boundBone;
      public Vector3 offset;
+    public Vector3 rotation;
     public float scale = 0.25f;
 }

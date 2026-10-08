@@ -24,6 +24,7 @@ public class SpawnEffect : MonoBehaviour
             Temp.transform.position -= Vector3.right * effect.offset.x * 2;
         }
         Temp.transform.rotation = transform.rotation;
+        Temp.transform.rotation = Quaternion.Euler(effect.rotation + Temp.transform.rotation.eulerAngles);
         effectAnimator.Play(effect.effect.name);
         Destroy(Temp, Temp.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
     }
