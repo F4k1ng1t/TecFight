@@ -29,9 +29,9 @@ public class AttachmentSelection : MonoBehaviour
         {
             GameObject go  = Instantiate(attachmentModel.Attachment,
                 Spot.position, Quaternion.identity);
-            go.SetActive(false);
-            go.transform.SetParent(Spot); 
-            Attachment.Add(go);
+           go.SetActive(false);
+           go.transform.SetParent(Spot); 
+           Attachment.Add(go);
         }
 
         ShowAttachmentList();
