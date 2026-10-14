@@ -19,6 +19,7 @@ public class RunTurnaroundState : IFighterState
         if (fsm.input.IsHoldingJump)
         {
             Debug.Log("bruh");
+            fsm.rig.linearVelocity = Vector3.right * fsm.direction * fsm.charObj.runSpeed;
             fsm.SetState(new JumpState());
             return;
         }

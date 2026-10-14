@@ -90,7 +90,7 @@ public class FighterInput : MonoBehaviour
     }
     public void OnAttack(InputAction.CallbackContext ctx)
     {
-        Attack = true;
+        Attack = ctx.ReadValueAsButton();
     }
 
     private void DetectFlick()

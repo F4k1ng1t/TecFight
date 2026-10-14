@@ -3,10 +3,13 @@ using UnityEngine;
 public class AttackState : IFighterState
 {
     FighterStateMachine fsm;
-    public void Enter(FighterStateMachine f)
+    AttackObject ao;
+    public void Enter(FighterStateMachine f, AttackObject a)
     {
         fsm = f;
-        fsm.animator.PlayAnimation("Jab1", true, 0);
+        ao = a;
+        fsm.animator.PlayAnimation(a.animationName, false, 0);
+        Debug.Log("Attack");
     }
     public void Exit()
     {
@@ -23,10 +26,9 @@ public class AttackState : IFighterState
     }
     public void FixedUpdate()
     {
-
-    }
-    public void DoAttack(AttackObject attack)
-    {
-         
+        if (ao.aerial)
+        {
+            fsm.ApplyAirMovement();
+        }
     }
 }

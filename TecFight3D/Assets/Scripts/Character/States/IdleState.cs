@@ -59,9 +59,7 @@ public class IdleState : IFighterState
         }
         if (fi.Attack)
         {
-            Debug.Log("Jab");
-            fsm.SetState(new AttackState());
-            fi.Attack = false;
+            fsm.SetStateAttack(fsm.getAttack.GetAttack());
         }
     }
     public void FixedUpdate()

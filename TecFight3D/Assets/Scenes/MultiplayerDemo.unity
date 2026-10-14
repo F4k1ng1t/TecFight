@@ -563,6 +563,7 @@ GameObject:
   - component: {fileID: 104684477}
   - component: {fileID: 104684476}
   - component: {fileID: 104684478}
+  - component: {fileID: 104684480}
   m_Layer: 0
   m_Name: Adam
   m_TagString: Untagged
@@ -605,6 +606,7 @@ MonoBehaviour:
   input: {fileID: 104684468}
   fip: {fileID: 104684476}
   gravity: {fileID: 0}
+  getAttack: {fileID: 0}
   charObj: {fileID: 11400000, guid: 74e98eaafd1e6a9438a27bfa5b96b855, type: 2}
   direction: 1
   currentDJC: 0
@@ -821,6 +823,38 @@ MonoBehaviour:
   m_DefaultActionMap: Fighter
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &104684480
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 104684467}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ab35bfa54cc83e428d110ebc8433617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackObjects:
+    _serializedList:
+    - Key: BackAir
+      Value: {fileID: 11400000, guid: 58a8c558cfe84a4408d4f8f89ba612fe, type: 2}
+    - Key: DownAir
+      Value: {fileID: 11400000, guid: b9e4f63da54f0bf40949306b01e3f6f9, type: 2}
+    - Key: ForwardAir
+      Value: {fileID: 11400000, guid: 19d9624828c137b4482260e858b9ede8, type: 2}
+    - Key: NeutralAir
+      Value: {fileID: 11400000, guid: 96c57323d518f72448bdcc1037de8a1c, type: 2}
+    - Key: UpAir
+      Value: {fileID: 11400000, guid: 02253f73ebdfbf44c84e5a4e91f275d7, type: 2}
+    - Key: DownTilt
+      Value: {fileID: 11400000, guid: 445ce90ec4c32a4419c3c17dd8b24915, type: 2}
+    - Key: ForwardTilt
+      Value: {fileID: 11400000, guid: c9d0b6bda5717ab4eb5d26fbb8e10a94, type: 2}
+    - Key: DashAttack
+      Value: {fileID: 11400000, guid: 80ef2f4ba5ee90046bc2fd339c40a486, type: 2}
+    - Key: Jab1
+      Value: {fileID: 11400000, guid: 83fb60fbb7cd15349811c9bc54663222, type: 2}
 --- !u!4 &120670301 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: a6e3455d4e0943c41a3cfa72e416caf9, type: 3}
@@ -2041,6 +2075,7 @@ MonoBehaviour:
   input: {fileID: 743133002}
   fip: {fileID: 743132999}
   gravity: {fileID: 0}
+  getAttack: {fileID: 0}
   charObj: {fileID: 11400000, guid: 74e98eaafd1e6a9438a27bfa5b96b855, type: 2}
   direction: 1
   currentDJC: 0
@@ -5748,6 +5783,52 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4781f31abef2c1e4e8233e73906d6bac, type: 3}
   m_PrefabInstance: {fileID: 551357434}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1379140779
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1379140781}
+  - component: {fileID: 1379140780}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1379140780
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379140779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f8b6a52b24f715e489178053151de7aa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  testDictionary:
+    _serializedList: []
+--- !u!4 &1379140781
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1379140779}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 7.63, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &1382030655 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4781f31abef2c1e4e8233e73906d6bac, type: 3}
@@ -9471,3 +9552,4 @@ SceneRoots:
   - {fileID: 128323272}
   - {fileID: 1339557301}
   - {fileID: 1304601066}
+  - {fileID: 1379140781}

@@ -10,7 +10,7 @@ public class FighterStateMachine : MonoBehaviour
     public FighterInput input;
     public FighterInputProcesser fip;
     public Gravity gravity;
-
+    public GetAttackObject getAttack;
     [Tooltip("the character's attributes.")]
     public CharacterObject charObj;
     public int direction = 1;
@@ -25,6 +25,7 @@ public class FighterStateMachine : MonoBehaviour
         fip = GetComponent<FighterInputProcesser>();
         gravity = GetComponent<Gravity>();
         animator = gameObject.GetComponentInChildren<CharacterAnimator>();
+        getAttack = GetComponent<GetAttackObject>();
         currentDJC = charObj.doubleJumpCount;
         SetState(new AirState());
     }
@@ -48,6 +49,16 @@ public class FighterStateMachine : MonoBehaviour
         currentState.Enter(this);
         Debug.Log(newState.GetType().Name);
     }
+    public void SetStateAttack(AttackObject attack)
+    {
+        if (currentState != null)
+        {
+            currentState.Exit();
+        }
+        currentState = new AttackState();
+        currentState.Enter(this, attack);
+        Debug.Log(currentState.GetType().Name);
+    }
     public void SetDirection(float newDirection)
     {
         direction = newDirection > 0 ? 1 : -1;
@@ -57,5 +68,31 @@ public class FighterStateMachine : MonoBehaviour
     {
         direction *= -1;
         animator.SetVisualDirection(direction);
+    }
+
+    public void ApplyAirMovement()
+    {
+        float currentVelocity = rig.linearVelocity.x;
+
+        if (Mathf.Abs(currentVelocity) < charObj.airSpeed)
+        {
+            rig.AddForce(input.MoveInput.x * charObj.airAccel, 0, 0, ForceMode.Acceleration);
+            rig.linearVelocity = new Vector3(Mathf.Clamp(rig.linearVelocity.x, -charObj.airSpeed, charObj.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
+        }
+        else if (fip.AttemptMoveOpposite())
+        {
+            rig.linearVelocity = new Vector3(Mathf.Clamp(currentVelocity, -charObj.airSpeed, charObj.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
+            rig.AddForce(input.MoveInput.x * charObj.airAccel, 0, 0, ForceMode.Acceleration);
+        }
+        else
+        {
+            rig.linearVelocity = new Vector3(currentVelocity, rig.linearVelocity.y, rig.linearVelocity.z);
+        }
+
+        if (fip.FastFall())
+        {
+            rig.AddForce(0, -charObj.fastfallAccel, 0, ForceMode.Acceleration);
+            rig.linearVelocity = new Vector3(rig.linearVelocity.x, Mathf.Max(rig.linearVelocity.y, -charObj.fastfallSpeed), rig.linearVelocity.z);
+        }
     }
 }

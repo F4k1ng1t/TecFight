@@ -25,6 +25,10 @@ public class AirState : IFighterState
 
     public void Update()
     {
+        if (fi.Attack)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetAttack());
+        }
     }
 
     public void FixedUpdate()
@@ -34,31 +38,11 @@ public class AirState : IFighterState
             fsm.SetState(new DoubleJumpState());
             return;
         }
-
-        float currentVelocity = rig.linearVelocity.x;
-
-        if (Mathf.Abs(currentVelocity) < co.airSpeed)
+        if (fi.Attack)
         {
-            rig.AddForce(fi.MoveInput.x * co.airAccel, 0, 0, ForceMode.Acceleration);
-
-            rig.linearVelocity = new Vector3(Mathf.Clamp(rig.linearVelocity.x, -co.airSpeed, co.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
+            fsm.getAttack.GetAttack();
         }
-        else if (fip.AttemptMoveOpposite())
-        {
-            rig.linearVelocity = new Vector3(Mathf.Clamp(currentVelocity, -co.airSpeed, co.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
-
-            rig.AddForce(fi.MoveInput.x * co.airAccel, 0, 0, ForceMode.Acceleration);
-        }
-        else
-        {
-            rig.linearVelocity = new Vector3(currentVelocity, rig.linearVelocity.y, rig.linearVelocity.z);
-        }
-
-        if (fip.FastFall())
-        {
-            rig.AddForce(0, -co.fastfallAccel, 0, ForceMode.Acceleration);
-
-            rig.linearVelocity = new Vector3(rig.linearVelocity.x, Mathf.Max(rig.linearVelocity.y, -co.fastfallSpeed), rig.linearVelocity.z);
-        }
+        fsm.ApplyAirMovement();
+        
     }
 }
