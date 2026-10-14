@@ -25,19 +25,33 @@ Material:
     m_TexEnvs: []
     m_Ints: []
     m_Floats:
+    - _AuroraBlend: 17
+    - _AuroraInsensity: 1.75
+    - _AuroraNoiseScale: 530
+    - _AuroraPower: 4
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
-    - _Blinking_Speed: 0.01
+    - _Blinking_Speed: 0.001
+    - _DayNightSlider: 1
+    - _GradientOffset: -0.22
     - _HorizonBlend: 10
+    - _MoonSize: 0.1
     - _NadirBend: 1
+    - _Slider: 1
     - _StarHeight: 50
     - _StarIntensity: 1
     - _StarPower: 100
+    - _SunSize: 0.2
     - _ZenithBlend: 1
     m_Colors:
+    - _AuroraScrollSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _AuroraTiling: {r: 1, g: 1, b: 0, a: 0}
     - _GoundColor: {r: 0.1080066, g: 0.101960786, b: 0.3137255, a: 0}
-    - _HorizonColor: {r: 0.284423, g: 0.28906098, b: 0.45911938, a: 0}
-    - _SkyColor: {r: 0.12964272, g: 0.23844312, b: 0.59748423, a: 0}
+    - _HorizonColor: {r: 0.33918744, g: 0.4329048, b: 0.61635214, a: 0}
+    - _MoonColor: {r: 0.9182389, g: 0.7379125, b: 0.1472646, a: 0}
+    - _NightSkyColor: {r: 0.03860603, g: 0.076364465, b: 0.20125777, a: 0}
+    - _SkyColor: {r: 0.54610175, g: 0.84702116, b: 0.9811321, a: 0}
+    - _SunColor: {r: 1, g: 0.7653061, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &2364684800953969697
