@@ -6,7 +6,7 @@ public class AttackState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        fsm.animator.PlayAnimation("UStrong", false, 0);
+        fsm.animator.PlayAnimation("Jab1", false, 0);
     }
     public void Exit()
     {
