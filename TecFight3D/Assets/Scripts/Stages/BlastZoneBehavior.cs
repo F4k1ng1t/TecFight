@@ -4,8 +4,8 @@ public class BlastZoneBehavior : MonoBehaviour
 {
 
     [SerializeField] Transform respawnPoint;
+    [SerializeField] StageBlastZones stage;
     Transform[] Players;
-    StageBlastZones stage;
     int i;
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created
@@ -21,12 +21,15 @@ public class BlastZoneBehavior : MonoBehaviour
         //the easiest solution
         foreach(Transform player in Players)
         {
+            Debug.Log("Checked: " + player.name + " X: " + player.position.x + " Y: " + player.position.y);
             if (player.position.x > stage.SideBlastZone || player.position.x < (stage.SideBlastZone * -1) || player.position.y > stage.TopBlastZone || player.position.y < stage.BottomBlastZone)
             {
                 //move player to respawn
                 player.position = respawnPoint.position;
                 //take life
+                GameManager.gameManager.TakeLife(i);
             }
+            i++;
         }
     }
 

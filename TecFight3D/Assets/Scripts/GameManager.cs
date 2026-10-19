@@ -1,5 +1,6 @@
 using System.Linq;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameManager : MonoBehaviour
 {
@@ -7,6 +8,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] int lives = 3;
     [SerializeField] Transform[] spawnPoints;
     [SerializeField] GameObject CharacterPrefab;
+    [SerializeField] BlastZoneBehavior blastZones;
     Transform[] Players;
     int[] perPlayerLives;
     private void Awake()
@@ -28,13 +30,24 @@ public class GameManager : MonoBehaviour
         temp = Instantiate(CharacterPrefab, spawnPoints[1].position, spawnPoints[1].rotation);
         Players[1] = temp.transform;
     }
-    
+
+    private void Start()
+    {
+        if (blastZones == null)
+        {
+            blastZones = FindAnyObjectByType<BlastZoneBehavior>();
+        }
+        blastZones.SetPlayers(Players);
+    }
+
     public void TakeLife(int playerIndex)
     {
-       perPlayerLives[playerIndex] = perPlayerLives[playerIndex] - 1;
+        perPlayerLives[playerIndex] = perPlayerLives[playerIndex] - 1;
+        //ui update
         if (perPlayerLives[playerIndex] < 1)
         {
             //end game
+            SceneManager.LoadScene("WinScreen");
         }
     }
 }
