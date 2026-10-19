@@ -26,13 +26,16 @@ Material:
     m_Ints: []
     m_Floats:
     - _AuroraBlend: 17
-    - _AuroraInsensity: 1.75
-    - _AuroraNoiseScale: 530
-    - _AuroraPower: 4
+    - _AuroraDistortionSpeed: 1.5
+    - _AuroraInsensity: 1.6
+    - _AuroraNoiseScale: 539.51
+    - _AuroraPower: 2.34
+    - _AuroraTwirlStength: 0.5
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _Blinking_Speed: 0.001
     - _DayNightSlider: 1
+    - _DistortionSpeed: 0.25
     - _GradientOffset: -0.22
     - _HorizonBlend: 10
     - _MoonSize: 0.1
@@ -44,14 +47,18 @@ Material:
     - _SunSize: 0.2
     - _ZenithBlend: 1
     m_Colors:
-    - _AuroraScrollSpeed: {r: 0, g: 0, b: 0, a: 0}
-    - _AuroraTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _AuroraDistortionMinMax: {r: 10, g: 12, b: 0, a: 0}
+    - _AuroraScrollSpeed: {r: 0, g: 0.05, b: 0, a: 0}
+    - _AuroraTiling: {r: 1, g: 4.94, b: 0, a: 0}
+    - _AuroraTwirlOffset: {r: 0, g: 0, b: 0, a: 0}
+    - _DistortionMinMax: {r: 10, g: 12, b: 0, a: 0}
     - _GoundColor: {r: 0.1080066, g: 0.101960786, b: 0.3137255, a: 0}
     - _HorizonColor: {r: 0.33918744, g: 0.4329048, b: 0.61635214, a: 0}
     - _MoonColor: {r: 0.9182389, g: 0.7379125, b: 0.1472646, a: 0}
     - _NightSkyColor: {r: 0.03860603, g: 0.076364465, b: 0.20125777, a: 0}
     - _SkyColor: {r: 0.54610175, g: 0.84702116, b: 0.9811321, a: 0}
     - _SunColor: {r: 1, g: 0.7653061, b: 0, a: 0}
+    - _TwirlOffset: {r: 1, g: 4, b: 0, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1
 --- !u!114 &2364684800953969697
