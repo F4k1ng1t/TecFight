@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Attachment3
   m_EditorClassIdentifier: 
   Name: Breach Module
-  Info: Vastly increased damage, No speacials
-  Attachment: {fileID: 1872174121881576108, guid: c17ba8d08c4c0344e83d3e85106bb99d, type: 3}
+  Info: Empower goes to strongs instead of specials
+  Attachment: {fileID: 4599650621270815834, guid: 68b4e09ad08b5c84293c832be4c08a76, type: 3}

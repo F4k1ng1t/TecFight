@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Attachment2
   m_EditorClassIdentifier: 
   Name: Cooling Module
-  Info: Faster Fearcharger, Less Special Damgae
-  Attachment: {fileID: 1872174121881576108, guid: 00400e7c3d6da5344bd9eb3991e40da6, type: 3}
+  Info: Faster Fear charge, Less Special Damage
+  Attachment: {fileID: 2403512178043507236, guid: b775adf3f8294c24280f61915f0d0357, type: 3}

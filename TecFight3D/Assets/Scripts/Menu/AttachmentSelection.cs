@@ -28,7 +28,7 @@ public class AttachmentSelection : MonoBehaviour
         foreach (var attachmentModel in attachmentModels)
         {
             GameObject go  = Instantiate(attachmentModel.Attachment,
-                Spot.position, Quaternion.identity);
+                Spot.position, Quaternion.Euler(new Vector3(0,0,90)));
            go.SetActive(false);
            go.transform.SetParent(Spot); 
            Attachment.Add(go);
