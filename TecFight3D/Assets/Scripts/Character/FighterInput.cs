@@ -80,6 +80,7 @@ public class FighterInput : MonoBehaviour
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
+        Debug.Log("Move: " + ctx.ReadValue<Vector2>());
         MoveInput = ctx.ReadValue<Vector2>();
     }
 

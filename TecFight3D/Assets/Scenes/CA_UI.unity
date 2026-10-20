@@ -707,7 +707,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7533581302634415752, guid: f89adfc5907491e42a7a967cd0d82bb6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Demo
+      value: GameUI
       objectReference: {fileID: 0}
     - target: {fileID: 7533581302634415752, guid: f89adfc5907491e42a7a967cd0d82bb6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
@@ -1108,6 +1108,7 @@ MonoBehaviour:
   Spot: {fileID: 340516301}
   title: {fileID: 1536383045}
   infomation: {fileID: 1011117485}
+  playerNum: 1
 --- !u!4 &743832221
 Transform:
   m_ObjectHideFlags: 0
@@ -1800,6 +1801,7 @@ MonoBehaviour:
   Spot: {fileID: 370352552}
   title: {fileID: 1541621573}
   infomation: {fileID: 1154827081}
+  playerNum: 1
 --- !u!224 &1968886584 stripped
 RectTransform:
   m_CorrespondingSourceObject: {fileID: 4104020636665832020, guid: a505a3a1f0186c24c8687799f621229f, type: 3}
