@@ -14,4 +14,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Name: Focus Module
   Info: Smaller hit boxes, More Damage
-  Attachment: {fileID: 1872174121881576108, guid: 2e314831f87ea934285f9896a41730fa, type: 3}
+  Attachment: {fileID: 2820516407076922373, guid: c11af105d9d3fcc44befa51abb01b033, type: 3}
