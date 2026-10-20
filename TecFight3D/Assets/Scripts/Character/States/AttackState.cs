@@ -21,8 +21,15 @@ public class AttackState : IFighterState
         {
             return;
         }
-        //something about input buffers triggering the second jab
-        fsm.SetState(new IdleState());
+        if (ao.aerial)
+        {
+            fsm.SetState(new AirState());
+        }
+        else
+        {
+            fsm.SetState(new IdleState());
+        }
+        //fsm.SetState(new IdleState());
     }
     public void FixedUpdate()
     {

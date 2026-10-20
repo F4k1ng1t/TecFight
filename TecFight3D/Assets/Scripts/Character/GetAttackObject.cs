@@ -66,4 +66,8 @@ public class GetAttackObject : MonoBehaviour
     //{
 
     //}
+    //public StrongObject GetStrong()
+    //{
+
+    //}
 }
