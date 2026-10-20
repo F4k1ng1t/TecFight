@@ -18,6 +18,8 @@ GameObject:
   - component: {fileID: 4735461320162401858}
   - component: {fileID: 4029443859107576906}
   - component: {fileID: 3805614092134550220}
+  - component: {fileID: 1098748910518389207}
+  - component: {fileID: 1700976876770504499}
   m_Layer: 0
   m_Name: Adam
   m_TagString: Untagged
@@ -206,6 +208,7 @@ MonoBehaviour:
   input: {fileID: 388342134979862233}
   fip: {fileID: 4029443859107576906}
   gravity: {fileID: 0}
+  getAttack: {fileID: 0}
   charObj: {fileID: 11400000, guid: 74e98eaafd1e6a9438a27bfa5b96b855, type: 2}
   direction: 1
   currentDJC: 0
@@ -280,6 +283,74 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isGrounded: 0
   checkDistance: 1
+--- !u!114 &1098748910518389207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4956610443638527348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ab35bfa54cc83e428d110ebc8433617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackObjects:
+    _serializedList:
+    - Key: BackAir
+      Value: {fileID: 11400000, guid: 58a8c558cfe84a4408d4f8f89ba612fe, type: 2}
+    - Key: DownAir
+      Value: {fileID: 11400000, guid: b9e4f63da54f0bf40949306b01e3f6f9, type: 2}
+    - Key: ForwardAir
+      Value: {fileID: 11400000, guid: 19d9624828c137b4482260e858b9ede8, type: 2}
+    - Key: NeutralAir
+      Value: {fileID: 11400000, guid: 96c57323d518f72448bdcc1037de8a1c, type: 2}
+    - Key: UpAir
+      Value: {fileID: 11400000, guid: 02253f73ebdfbf44c84e5a4e91f275d7, type: 2}
+    - Key: UpTilt
+      Value: {fileID: 11400000, guid: 2dc59c7ae3447814da4643d87bad5749, type: 2}
+    - Key: DownTilt
+      Value: {fileID: 11400000, guid: 445ce90ec4c32a4419c3c17dd8b24915, type: 2}
+    - Key: ForwardTilt
+      Value: {fileID: 11400000, guid: c9d0b6bda5717ab4eb5d26fbb8e10a94, type: 2}
+    - Key: DashAttack
+      Value: {fileID: 11400000, guid: 80ef2f4ba5ee90046bc2fd339c40a486, type: 2}
+    - Key: Jab1
+      Value: {fileID: 11400000, guid: 83fb60fbb7cd15349811c9bc54663222, type: 2}
+--- !u!114 &1700976876770504499
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4956610443638527348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5ab35bfa54cc83e428d110ebc8433617, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackObjects:
+    _serializedList:
+    - Key: BackAir
+      Value: {fileID: 11400000, guid: 58a8c558cfe84a4408d4f8f89ba612fe, type: 2}
+    - Key: DownAir
+      Value: {fileID: 11400000, guid: b9e4f63da54f0bf40949306b01e3f6f9, type: 2}
+    - Key: ForwardAir
+      Value: {fileID: 11400000, guid: 19d9624828c137b4482260e858b9ede8, type: 2}
+    - Key: NeutralAir
+      Value: {fileID: 11400000, guid: 96c57323d518f72448bdcc1037de8a1c, type: 2}
+    - Key: UpAir
+      Value: {fileID: 11400000, guid: 02253f73ebdfbf44c84e5a4e91f275d7, type: 2}
+    - Key: UpTilt
+      Value: {fileID: 11400000, guid: 2dc59c7ae3447814da4643d87bad5749, type: 2}
+    - Key: DownTilt
+      Value: {fileID: 11400000, guid: 445ce90ec4c32a4419c3c17dd8b24915, type: 2}
+    - Key: ForwardTilt
+      Value: {fileID: 11400000, guid: c9d0b6bda5717ab4eb5d26fbb8e10a94, type: 2}
+    - Key: DashAttack
+      Value: {fileID: 11400000, guid: 80ef2f4ba5ee90046bc2fd339c40a486, type: 2}
+    - Key: Jab1
+      Value: {fileID: 11400000, guid: 83fb60fbb7cd15349811c9bc54663222, type: 2}
 --- !u!1001 &2595577264757517611
 PrefabInstance:
   m_ObjectHideFlags: 0
