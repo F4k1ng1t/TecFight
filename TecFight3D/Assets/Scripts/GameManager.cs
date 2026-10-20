@@ -39,10 +39,12 @@ public class GameManager : MonoBehaviour
         //Future updates will need to spawn the amount of players in the game, and spawn the players with the correct character and attachment
         temp = Instantiate(CharacterPrefab, spawnPoints[0].position, spawnPoints[0].rotation);
         temp.GetComponent<KnockbackHandler>().SetHealthBar(healthBars[0]);
+        temp.GetComponent<AttachmentHandler>().SetAttachment(AttachmentTransfer.p1Attachment);
         Players[0] = temp.transform;
 
         temp = Instantiate(CharacterPrefab, spawnPoints[1].position, spawnPoints[1].rotation);
         temp.GetComponent<KnockbackHandler>().SetHealthBar(healthBars[1]);
+        temp.GetComponent<AttachmentHandler>().SetAttachment(AttachmentTransfer.p2Attachment);
         Players[1] = temp.transform;
     }
 
@@ -59,6 +61,7 @@ public class GameManager : MonoBehaviour
     {
         perPlayerLives[playerIndex] = perPlayerLives[playerIndex] - 1;
         //ui update
+        Players[playerIndex].gameObject.GetComponent<KnockbackHandler>().ResetDamage();
         Destroy(lifeUIHLG[playerIndex].GetChild(0).gameObject);
         if (perPlayerLives[playerIndex] < 1)
         {
