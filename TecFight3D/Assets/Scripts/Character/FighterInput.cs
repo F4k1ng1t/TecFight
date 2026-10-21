@@ -169,6 +169,7 @@ public class FighterInput : MonoBehaviour
             movementTime <= flickWindow &&
             movementAmount >= flickDistance)
         {
+            Debug.Log("flick");
             TriggerFlick(newDirection);
         }
 

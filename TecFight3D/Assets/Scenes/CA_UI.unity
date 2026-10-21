@@ -1108,7 +1108,7 @@ MonoBehaviour:
   Spot: {fileID: 340516301}
   title: {fileID: 1536383045}
   infomation: {fileID: 1011117485}
-  playerNum: 1
+  playerNum: 2
 --- !u!4 &743832221
 Transform:
   m_ObjectHideFlags: 0
