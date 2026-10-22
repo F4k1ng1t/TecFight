@@ -19,6 +19,7 @@ public class FighterStateMachine : MonoBehaviour
     public IFighterState currentState;
     //sheild stuff
     [HideInInspector] public bool isSheilding = false;
+    [HideInInspector] public bool isDodging = false;
     [HideInInspector] public float sheildHealth;
     [HideInInspector] public float timeSinceSheild;
     public GameObject sheild;

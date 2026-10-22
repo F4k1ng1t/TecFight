@@ -30,6 +30,11 @@ public class KnockbackHandler : MonoBehaviour
             Debug.LogError("Rigidbody not found on KnockbackHandler");
             return;
         }
+        if (fsm.isDodging)
+        {
+            //damage is dodged
+            return;
+        }
         if (fsm.isSheilding)
         {
             //take sheild damage

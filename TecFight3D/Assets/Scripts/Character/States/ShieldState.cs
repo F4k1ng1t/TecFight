@@ -5,18 +5,12 @@ public class ShieldState : IFighterState
     const float sheildDecayRate = 5f;
 
     FighterStateMachine fsm;
-    CharacterObject co;
     FighterInput fi;
-    FighterInputProcesser fip;
-    Rigidbody rig;
 
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        co = f.charObj;
         fi = f.input;
-        fip = f.fip;
-        rig = f.rig;
         fsm.sheild.SetActive(true);
         UpdateSheildHealth();
         //need to play sheild enter
@@ -47,9 +41,22 @@ public class ShieldState : IFighterState
             //stun
             fsm.SetState(new StunState());
         }
+        if(fi.MoveInput.y < -0.5f)//should be the deadzone
+        {
+            fsm.SetState(new SpotDodgeState());
+        }
+        if(fi.MoveInput.x < -0.5f)//left dodge
+        {
+            fsm.direction = -1;
+            fsm.SetState(new DodgeRollState());
+        }
+        if (fi.MoveInput.x > 0.5f)//Right dodge
+        {
+            fsm.direction = 1;
+            fsm.SetState(new DodgeRollState());
+        }
         if (!fi.Shield)
         {
-            Exit();
             fsm.SetState(new IdleState());
         }
     }
