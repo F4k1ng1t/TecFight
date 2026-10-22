@@ -3756,21 +3756,9 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1290651852757373086, guid: b5624e2e4165c2649a16c334e26a0ecb, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2085761460890895847, guid: b5624e2e4165c2649a16c334e26a0ecb, type: 3}
       propertyPath: m_Name
       value: AdamWithECB
-      objectReference: {fileID: 0}
-    - target: {fileID: 3939521261834363832, guid: b5624e2e4165c2649a16c334e26a0ecb, type: 3}
-      propertyPath: m_IsKinematic
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4243695228674085822, guid: b5624e2e4165c2649a16c334e26a0ecb, type: 3}
-      propertyPath: m_Enabled
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7609110611149065194, guid: b5624e2e4165c2649a16c334e26a0ecb, type: 3}
       propertyPath: m_LocalPosition.x
@@ -3812,10 +3800,7 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    m_RemovedComponents:
-    - {fileID: 1781387551958538038, guid: b5624e2e4165c2649a16c334e26a0ecb, type: 3}
-    - {fileID: 629086396254827448, guid: b5624e2e4165c2649a16c334e26a0ecb, type: 3}
-    - {fileID: 3692993180988916351, guid: b5624e2e4165c2649a16c334e26a0ecb, type: 3}
+    m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
     m_AddedComponents: []

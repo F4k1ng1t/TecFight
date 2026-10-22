@@ -22,7 +22,7 @@ public class InitialDashState : IFighterState
         dashDirection = f.direction;
 
         // Direction of the dash when we entered.
-        initDirection = fsm.direction;
+        dashDirection = fsm.direction;
         fsm.animator.PlayAnimation("Dash");
     }
 

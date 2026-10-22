@@ -18,13 +18,12 @@ public class RunTurnaroundState : IFighterState
 
         frames = 0;
 
-        fsm.FlipDirection();
         fsm.animator?.PlayAnimation("DashTurnaround");
     }
 
     public void Exit()
     {
-        
+        fsm.FlipDirection();
     }
 
     public void Update()

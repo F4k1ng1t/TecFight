@@ -508,6 +508,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: C_Forklift R
       objectReference: {fileID: 0}
+    - target: {fileID: 8773438153083722014, guid: 1a8158d101f622349b4be2f219942c1d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -1171,7 +1175,7 @@ MonoBehaviour:
   healthBars:
   - {fileID: 779757416}
   - {fileID: 111322935}
-  CharacterPrefab: {fileID: 4956610443638527348, guid: ca4b9b28156a6374c9d29ece70c5d4cb, type: 3}
+  CharacterPrefab: {fileID: 2085761460890895847, guid: b5624e2e4165c2649a16c334e26a0ecb, type: 3}
   blastZones: {fileID: 0}
 --- !u!114 &364181959
 MonoBehaviour:
@@ -2337,6 +2341,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: C_Forklift L
       objectReference: {fileID: 0}
+    - target: {fileID: 8773438153083722014, guid: 1a8158d101f622349b4be2f219942c1d, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
@@ -3407,6 +3415,10 @@ PrefabInstance:
     - target: {fileID: 919132149155446097, guid: a6e3455d4e0943c41a3cfa72e416caf9, type: 3}
       propertyPath: m_Name
       value: C_PlankPile
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: a6e3455d4e0943c41a3cfa72e416caf9, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1095656069837084755, guid: a6e3455d4e0943c41a3cfa72e416caf9, type: 3}
       propertyPath: 'm_Materials.Array.data[0]'

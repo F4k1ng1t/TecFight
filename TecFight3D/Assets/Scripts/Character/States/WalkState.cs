@@ -15,7 +15,6 @@ public class WalkState : IFighterState
         co = f.charObj;
         fi = f.input;
         fip = f.fip;
-        rig = f.rig;
         ecb = f.GetComponent<FighterECB>();
         fsm.animator.PlayAnimation("Walk");
     }
@@ -54,6 +53,14 @@ public class WalkState : IFighterState
         if (ecb == null) return;
 
         float moveX = fi.MoveInput.x * co.walkSpeed;
+        if(fi.MoveInput.x > 0)
+        {
+            fsm.SetDirection(1);
+        }
+        else if(fi.MoveInput.x < 0)
+        {
+            fsm.SetDirection(-1);
+        }
 
         // Store horizontal momentum for jumps and air drift.
         fsm.gravity.horizontalVelocity = moveX;

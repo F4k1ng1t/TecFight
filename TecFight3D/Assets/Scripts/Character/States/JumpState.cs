@@ -22,7 +22,14 @@ public class JumpState : IFighterState
         frames = 0;
         fsm.animator.PlayAnimation("JumpSquat");
         ecb = f.GetComponent<FighterECB>();
-        
+
+        savedHorizontalVelocity = fsm.gravity.horizontalVelocity;
+
+        frames = 0;
+        jumpExecuted = false;
+
+        fsm.animator?.PlayAnimation("JumpSquat");
+
     }
     public void Exit()
     {
@@ -30,18 +37,7 @@ public class JumpState : IFighterState
     }
     public void Update()
     {
-
-        savedHorizontalVelocity = fsm.gravity.horizontalVelocity;
-
-        frames = 0;
-        jumpExecuted = false;
-
-        fsm.animator?.PlayAnimation("JumpSquat", false);
     }
-
-    public void Exit() { }
-
-    public void Update() { }
 
     public void FullHop()
     {

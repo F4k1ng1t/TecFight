@@ -47,12 +47,12 @@ public class ShieldState : IFighterState
         }
         if(fi.MoveInput.x < -0.5f)//left dodge
         {
-            fsm.direction = -1;
+            fsm.SetDirection(-1);
             fsm.SetState(new DodgeRollState());
         }
         if (fi.MoveInput.x > 0.5f)//Right dodge
         {
-            fsm.direction = 1;
+            fsm.SetDirection(1);
             fsm.SetState(new DodgeRollState());
         }
         if (!fi.Shield)
