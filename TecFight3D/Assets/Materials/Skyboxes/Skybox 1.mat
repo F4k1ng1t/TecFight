@@ -34,10 +34,10 @@ Material:
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _Blinking_Speed: 0.001
-    - _DayNightSlider: 1
+    - _DayNightSlider: 0
     - _DistortionSpeed: 0.25
     - _GradientOffset: -0.22
-    - _HorizonBlend: 10
+    - _HorizonBlend: 2.5
     - _MoonSize: 0.1
     - _NadirBend: 1
     - _Slider: 1
