@@ -75,11 +75,13 @@ public class FighterInput : MonoBehaviour
 
     private void Update()
     {
+        Flick = false;
         DetectFlick();
     }
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
+        //Debug.Log("Move: " + ctx.ReadValue<Vector2>());
         MoveInput = ctx.ReadValue<Vector2>();
     }
 
@@ -90,7 +92,7 @@ public class FighterInput : MonoBehaviour
     }
     public void OnAttack(InputAction.CallbackContext ctx)
     {
-        Attack = true;
+        Attack = ctx.ReadValueAsButton();
     }
 
     private void DetectFlick()
@@ -237,7 +239,7 @@ public class FighterInput : MonoBehaviour
     private void TriggerFlick(StickDirection direction)
     {
         Flick = true;
-        Debug.Log(direction.ToString());
+        //Debug.Log(direction.ToString());
         switch (direction)
         {
             case StickDirection.Left:
@@ -259,12 +261,6 @@ public class FighterInput : MonoBehaviour
     }
 
     public void ConsumeFlick()
-    {
-        Flick = false;
-        FlickDirection = Vector2.zero;
-    }
-
-    private void LateUpdate()
     {
         Flick = false;
         FlickDirection = Vector2.zero;

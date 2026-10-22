@@ -8,9 +8,9 @@ public class AttachmentSelection : MonoBehaviour
     public AttachmentSelectionInfo[] attachmentModels;
     public Transform Spot;
     public TextMeshProUGUI title;
-    public TextMeshProUGUI infomation; 
+    public TextMeshProUGUI infomation;
 
-
+    [SerializeField] int playerNum = 1;
     private List<GameObject> Attachment;
     private int currentAttachment;
 
@@ -28,7 +28,7 @@ public class AttachmentSelection : MonoBehaviour
         foreach (var attachmentModel in attachmentModels)
         {
             GameObject go  = Instantiate(attachmentModel.Attachment,
-                Spot.position, Quaternion.identity);
+                Spot.position, Quaternion.Euler(new Vector3(0,0,90)));
            go.SetActive(false);
            go.transform.SetParent(Spot); 
            Attachment.Add(go);
@@ -48,10 +48,11 @@ public class AttachmentSelection : MonoBehaviour
     {
         Attachment[currentAttachment].SetActive(false);
 
-        if (currentAttachment < Attachment.Count -1)
+        if (currentAttachment < Attachment.Count - 1)
             currentAttachment = currentAttachment + 1;
-        else 
+        else
             currentAttachment = 0;
+        UpdateTransferFile();
 
         ShowAttachmentList();
     }
@@ -64,7 +65,22 @@ public class AttachmentSelection : MonoBehaviour
             currentAttachment = Attachment.Count -1;
         else
             currentAttachment = currentAttachment -1;
+        UpdateTransferFile();
 
         ShowAttachmentList();
     }
+
+    private void UpdateTransferFile()
+    {
+        switch (playerNum)
+        {
+            case 1:
+                AttachmentTransfer.p1Attachment = currentAttachment;
+                break;
+            case 2:
+                AttachmentTransfer.p2Attachment = currentAttachment;
+                break;
+        }
+    }
+    
 }

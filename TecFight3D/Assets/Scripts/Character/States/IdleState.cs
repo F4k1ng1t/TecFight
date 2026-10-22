@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class IdleState : IFighterState
@@ -36,6 +35,7 @@ public class IdleState : IFighterState
         }
         if (fi.Flick)
         {
+            Debug.Log("Idle to flick");
             float flickX = fi.FlickDirection.x;
             if (Mathf.Abs(flickX) > 0.8f)
             {
@@ -54,14 +54,12 @@ public class IdleState : IFighterState
         }
         if (fip.IsHoldingJump())
         {
-            Debug.Log("helo");
+            //Debug.Log("helo");
             fsm.SetState(new JumpState());
         }
         if (fi.Attack)
         {
-            Debug.Log("Jab");
-            fsm.SetState(new AttackState());
-            fi.Attack = false;
+            fsm.SetStateAttack(fsm.getAttack.GetAttack());
         }
     }
     public void FixedUpdate()

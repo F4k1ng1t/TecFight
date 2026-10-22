@@ -8,6 +8,7 @@ public class AttackObject : ScriptableObject
     public int startup;
     public int activeFrames;
     public int endlag;
+    public bool aerial;
     public IAttackBehaviour attackBehaviour;
 
 

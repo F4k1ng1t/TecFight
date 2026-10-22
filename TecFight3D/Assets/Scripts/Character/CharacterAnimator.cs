@@ -52,9 +52,14 @@ public class CharacterAnimator : MonoBehaviour
         characterMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
+    //public bool IsPlaying()
+    //{
+    //    return animator.GetCurrentAnimatorStateInfo(0).length >
+    //     animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+    //}
     public bool IsPlaying()
     {
-        return animator.GetCurrentAnimatorStateInfo(0).length >
-         animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+        return state.normalizedTime < 1f;
     }
 }

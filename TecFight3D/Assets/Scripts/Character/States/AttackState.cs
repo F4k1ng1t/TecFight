@@ -3,10 +3,13 @@ using UnityEngine;
 public class AttackState : IFighterState
 {
     FighterStateMachine fsm;
-    public void Enter(FighterStateMachine f)
+    AttackObject ao;
+    public void Enter(FighterStateMachine f, AttackObject a)
     {
         fsm = f;
-        fsm.animator.PlayAnimation("EmpoweredSSpecialChase", false, 0);
+        ao = a;
+        fsm.animator.PlayAnimation(a.animationName, false, 0);
+        Debug.Log("Attack");
     }
     public void Exit()
     {
@@ -18,15 +21,21 @@ public class AttackState : IFighterState
         {
             return;
         }
-        //something about input buffers triggering the second jab
-        fsm.SetState(new IdleState());
+        if (ao.aerial)
+        {
+            fsm.SetState(new AirState());
+        }
+        else
+        {
+            fsm.SetState(new IdleState());
+        }
+        //fsm.SetState(new IdleState());
     }
     public void FixedUpdate()
     {
-
-    }
-    public void DoAttack(AttackObject attack)
-    {
-         
+        if (ao.aerial)
+        {
+            fsm.ApplyAirMovement();
+        }
     }
 }
