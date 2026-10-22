@@ -27,3 +27,4 @@ MonoBehaviour:
   fullhopForce: 20
   doubleJumpForce: 17
   doubleJumpCount: 1
+  shieldHealth: 20

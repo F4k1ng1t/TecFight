@@ -30,6 +30,12 @@ public class KnockbackHandler : MonoBehaviour
             Debug.LogError("Rigidbody not found on KnockbackHandler");
             return;
         }
+        if (fsm.isSheilding)
+        {
+            //take sheild damage
+            fsm.sheildHealth -= deltDamage;
+            return;
+        }
         damage += deltDamage;
         rb.AddForce(knockback * damage, ForceMode.Impulse);
         healthSlider.fillAmount = damage / totalHealth;

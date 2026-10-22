@@ -14,6 +14,8 @@ public class FighterInput : MonoBehaviour
     // One-shot event. Remains true until consumed.
     public bool Flick { get; private set; }
 
+    public bool Shield;
+
     // Normalized cardinal direction of the detected flick.
     // Right = (1, 0)
     // Left  = (-1, 0)
@@ -95,7 +97,12 @@ public class FighterInput : MonoBehaviour
         Attack = ctx.ReadValueAsButton();
     }
 
-    private void DetectFlick()
+    public void OnShield(InputAction.CallbackContext ctx)
+    {
+        Shield = ctx.ReadValueAsButton();
+    }
+
+private void DetectFlick()
     {
         Vector2 currentInput = ApplyDeadzone(MoveInput);
 

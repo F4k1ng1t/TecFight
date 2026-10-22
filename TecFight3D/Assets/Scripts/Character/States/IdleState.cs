@@ -35,7 +35,6 @@ public class IdleState : IFighterState
         }
         if (fi.Flick)
         {
-            Debug.Log("Idle to flick");
             float flickX = fi.FlickDirection.x;
             if (Mathf.Abs(flickX) > 0.8f)
             {
@@ -60,6 +59,10 @@ public class IdleState : IFighterState
         if (fi.Attack)
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
+        }
+        if (fi.Shield)
+        {
+            fsm.SetState(new ShieldState());
         }
     }
     public void FixedUpdate()

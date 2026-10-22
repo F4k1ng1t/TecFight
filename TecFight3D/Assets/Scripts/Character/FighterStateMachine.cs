@@ -17,9 +17,18 @@ public class FighterStateMachine : MonoBehaviour
     public int currentDJC;
 
     public IFighterState currentState;
+    //sheild stuff
+    [HideInInspector] public bool isSheilding = false;
+    [HideInInspector] public float sheildHealth;
+    [HideInInspector] public float timeSinceSheild;
+    public GameObject sheild;
 
     void Start()
     {
+        sheildHealth = charObj.shieldHealth;
+        timeSinceSheild = Time.time; //all of this stuff can probably be moved into its own script if its annoying
+        sheild.SetActive(false);
+
         rig = GetComponent<Rigidbody>();
         input = GetComponent<FighterInput>();
         fip = GetComponent<FighterInputProcesser>();

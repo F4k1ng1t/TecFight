@@ -13,6 +13,7 @@ MonoBehaviour:
   m_Name: Nspecial
   m_EditorClassIdentifier: 
   effect: {fileID: 7400000, guid: 20b34fc0f8010484a93a5cf0afb05045, type: 2}
-  boundBone: 
+  bound: 1
   offset: {x: 0, y: 1, z: 0}
+  rotation: {x: 0, y: 0, z: 0}
   scale: 0.2
