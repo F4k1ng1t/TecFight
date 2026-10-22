@@ -49,6 +49,10 @@ public class InitialDashState : IFighterState
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
         }
+        if (fsm.input.Shield)
+        {
+            fsm.SetState(new ShieldState());
+        }
     }
 
     public void FixedUpdate()

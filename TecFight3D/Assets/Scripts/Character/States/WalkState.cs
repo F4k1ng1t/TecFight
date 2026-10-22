@@ -36,6 +36,10 @@ public class WalkState : IFighterState
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
         }
+        if (fi.Shield)
+        {
+            fsm.SetState(new ShieldState());
+        }
 
     }
     public void FixedUpdate()
