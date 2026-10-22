@@ -17,6 +17,7 @@ public class FighterGrounded : MonoBehaviour
     {
         wasGrounded = isGrounded;
         isGrounded = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, checkDistance);
+        //Debug.Log(hit.collider?.gameObject?.name);
         if (!isGrounded && wasGrounded)
         {
             fsm.SetState(new AirState());

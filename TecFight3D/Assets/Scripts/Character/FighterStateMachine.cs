@@ -55,6 +55,10 @@ public class FighterStateMachine : MonoBehaviour
         {
             currentState.Exit();
         }
+        if(newState is AirState)
+        {
+            //Debug.Log("to air from: " + currentState);
+        }
         currentState = newState;
         currentState.Enter(this);
         //Debug.Log(newState.GetType().Name);

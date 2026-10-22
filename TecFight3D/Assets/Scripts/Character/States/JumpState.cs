@@ -17,7 +17,7 @@ public class JumpState : IFighterState
         rig = f.rig;
         fip = f.fip;
         frames = 0;
-        fsm.animator.PlayAnimation("JumpSquat", false);
+        fsm.animator.PlayAnimation("JumpSquat");
         
     }
     public void Exit()
@@ -31,7 +31,7 @@ public class JumpState : IFighterState
     public void FullHop()
     {
         rig.AddForce(Vector3.up * co.fullhopForce, ForceMode.VelocityChange);
-        fsm.animator.PlayAnimation("Hop", false);
+        fsm.animator.PlayAnimation("Hop");
     }
     public void ShortHop()
     {

@@ -14,7 +14,7 @@ public class DodgeRollState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        fsm.animator?.PlayAnimation("DodgeRoll", false, fsm.direction);
+        fsm.animator?.PlayAnimation("DodgeRoll");
         fsm.isDodging = true;
     }
     public void Exit()

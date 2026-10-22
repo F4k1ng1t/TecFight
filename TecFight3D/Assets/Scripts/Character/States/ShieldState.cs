@@ -14,13 +14,13 @@ public class ShieldState : IFighterState
         fsm.sheild.SetActive(true);
         UpdateSheildHealth();
         //need to play sheild enter
-        fsm.animator?.PlayAnimation("SheildHold", true, fsm.direction);
+        fsm.animator?.PlayAnimation("SheildHold");
         fsm.isSheilding = true;
     }
     public void Exit()
     {
         fsm.isSheilding = false;
-        fsm.animator?.PlayAnimation("SheildExit", false, fsm.direction);
+        fsm.animator?.PlayAnimation("SheildExit");
         //delay for the exit frames
         fsm.sheild.SetActive(false);
         fsm.timeSinceSheild = Time.time;

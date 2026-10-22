@@ -14,7 +14,7 @@ public class WalkState : IFighterState
         fi = f.input;
         fip = f.fip;
         rig = f.rig;
-        fsm.animator.PlayAnimation("Walk", true, 0);
+        fsm.animator.PlayAnimation("Walk");
     }
     public void Exit()
     {

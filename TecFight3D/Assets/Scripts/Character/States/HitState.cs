@@ -9,7 +9,7 @@ public class HitState : IFighterState
         // another script does the knockback
 
         fsm = f;
-        fsm.animator.PlayAnimation("HitStunSide", true);
+        fsm.animator.PlayAnimation("HitStunSide");
     }
 
     public void Exit()

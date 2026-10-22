@@ -16,7 +16,7 @@ public class IdleState : IFighterState
         fi = f.input;
         fip = f.fip;
         rig = f.rig;
-        fsm.animator?.PlayAnimation("Idle", true, fsm.direction);
+        fsm.animator?.PlayAnimation("Idle");
     }
     public void Exit()
     {
