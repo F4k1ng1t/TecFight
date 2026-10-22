@@ -3,18 +3,30 @@ using UnityEngine.UI;
 
 public class KnockbackHandler : MonoBehaviour
 {
+    const float knockbackDecay = 0.6f;
     [SerializeField] private float totalHealth = 100;
     [SerializeField] private float damage = 0;
     private Image healthSlider;
     private float currentHealth;
 
-    Rigidbody rb;
     FighterStateMachine fsm;
+    FighterECB ecb;
+    Vector3 knockbackDirection;
+    float knockbackStrength;
     private void Start()
     {
         fsm = GetComponent<FighterStateMachine>();
-        rb = gameObject.GetComponent<Rigidbody>();
+        ecb = GetComponent<FighterECB>();
+    }
 
+    private void FixedUpdate()
+    {
+        if(ecb && knockbackStrength > 0.001f)
+        {
+            //include some semblance of fsm.charobj.weight here
+            ecb.Move(knockbackDirection * knockbackStrength);
+            knockbackStrength *= knockbackDecay;
+        }
     }
 
     public void SetHealthBar(Image healthBar)
@@ -25,11 +37,6 @@ public class KnockbackHandler : MonoBehaviour
 
     public void OnHit(Vector3 knockback, float deltDamage)
     {
-        if (!rb)
-        {
-            Debug.LogError("Rigidbody not found on KnockbackHandler");
-            return;
-        }
         if (fsm.isDodging)
         {
             //damage is dodged
@@ -42,7 +49,8 @@ public class KnockbackHandler : MonoBehaviour
             return;
         }
         damage += deltDamage;
-        rb.AddForce(knockback * damage, ForceMode.Impulse);
+        knockbackDirection = knockback.normalized;
+        knockbackStrength = knockback.magnitude * damage;
         healthSlider.fillAmount = damage / totalHealth;
     }
 
