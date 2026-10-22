@@ -45,6 +45,7 @@ public class ShieldState : IFighterState
         {
             fsm.sheildHealth = 0;
             //stun
+            fsm.SetState(new StunState());
         }
         if (!fi.Shield)
         {
@@ -55,9 +56,9 @@ public class ShieldState : IFighterState
 
     private void UpdateSheildHealth()
     {
-        Debug.Log("A: " + (Time.time - fsm.timeSinceSheild) + "\nB: " + ((Time.time - fsm.timeSinceSheild) * sheildHealRate));
+        //Debug.Log("A: " + (Time.time - fsm.timeSinceSheild) + "\nB: " + ((Time.time - fsm.timeSinceSheild) * sheildHealRate));
         fsm.sheildHealth = Mathf.Clamp(fsm.sheildHealth + (Time.time - fsm.timeSinceSheild) * sheildHealRate, 0, fsm.charObj.shieldHealth);
-        Debug.Log("sheild health: " + fsm.sheildHealth);
+        //Debug.Log("sheild health: " + fsm.sheildHealth);
         fsm.sheild.transform.localScale = GetSheildScale();
     }
 
