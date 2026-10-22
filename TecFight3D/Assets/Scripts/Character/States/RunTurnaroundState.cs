@@ -1,37 +1,57 @@
+
 using UnityEngine;
 
 public class RunTurnaroundState : IFighterState
 {
-    FighterStateMachine fsm;
-    int frames = 0;
+    private FighterStateMachine fsm;
+    private FighterECB ecb;
+
+    private int frames;
+
+    private const int TURNAROUND_LENGTH = 10;
+    private const float TURNAROUND_SPEED = 3f;
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
+        ecb = f.GetComponent<FighterECB>();
+
         frames = 0;
-        fsm.animator.PlayAnimation("DashTurnaround", true);
+
+        fsm.FlipDirection();
+        fsm.animator?.PlayAnimation("DashTurnaround", true);
     }
+
     public void Exit()
     {
-        fsm.FlipDirection();
+        
     }
+
     public void Update()
     {
         if (fsm.input.IsHoldingJump)
         {
-            Debug.Log("bruh");
-            fsm.rig.linearVelocity = Vector3.right * fsm.direction * fsm.charObj.runSpeed;
             fsm.SetState(new JumpState());
-            return;
         }
     }
+
     public void FixedUpdate()
     {
+        if (ecb == null) return;
+
+        Vector3 displacement = new Vector3(
+            fsm.direction * TURNAROUND_SPEED * Time.fixedDeltaTime,
+            0f,
+            0f
+        );
+
+        ecb.Move(displacement);
+
         frames++;
-        fsm.rig.linearVelocity = new Vector3(fsm.direction * 3f, fsm.rig.linearVelocity.y, 0);
-        if (frames == 10)
+
+        if (frames >= TURNAROUND_LENGTH)
         {
             fsm.SetState(new RunState());
         }
-        
     }
 }

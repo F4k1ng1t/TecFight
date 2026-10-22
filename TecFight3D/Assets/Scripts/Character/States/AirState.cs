@@ -1,37 +1,24 @@
+
 using UnityEngine;
 
 public class AirState : IFighterState
 {
-    FighterStateMachine fsm;
-    CharacterObject co;
-    FighterInput fi;
-    Rigidbody rig;
-    FighterInputProcesser fip;
+    private FighterStateMachine fsm;
+    private FighterInput fi;
+    private FighterInputProcesser fip;
 
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        co = fsm.charObj;
         fi = fsm.input;
-        rig = fsm.rig;
         fip = fsm.fip;
 
         fsm.animator?.PlayAnimation("Fall", true);
     }
 
-    public void Exit()
-    {
-    }
+    public void Exit() { }
 
     public void Update()
-    {
-        if (fi.Attack)
-        {
-            fsm.SetStateAttack(fsm.getAttack.GetAttack());
-        }
-    }
-
-    public void FixedUpdate()
     {
         if (fip.JumpPressed() && fsm.currentDJC > 0)
         {
@@ -40,9 +27,14 @@ public class AirState : IFighterState
         }
         if (fi.Attack)
         {
-            fsm.getAttack.GetAttack();
+            fsm.SetStateAttack(fsm.getAttack.GetAttack());
         }
-        fsm.ApplyAirMovement();
+    }
+
+    public void FixedUpdate()
+    {
         
+
+        fsm.ApplyAirMovement();
     }
 }
