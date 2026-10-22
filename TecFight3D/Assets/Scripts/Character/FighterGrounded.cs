@@ -1,39 +1,48 @@
+
 using UnityEngine;
 
+[RequireComponent(typeof(FighterECB))]
+[RequireComponent(typeof(FighterStateMachine))]
 public class FighterGrounded : MonoBehaviour
 {
     public bool isGrounded = false;
-    bool wasGrounded = false;
-    FighterStateMachine fsm;
 
-    public float checkDistance = 1f;
-    void Start()
+    private bool wasGrounded = false;
+
+    private FighterStateMachine fsm;
+    private FighterECB ecb;
+
+    private void Awake()
     {
         fsm = GetComponent<FighterStateMachine>();
+        ecb = GetComponent<FighterECB>();
     }
 
-    // Update is called once per frame
-    void Update()
+    private void Start()
+    {
+        ecb.RefreshGrounded();
+
+        isGrounded = ecb.IsGrounded;
+        wasGrounded = isGrounded;
+
+        if (isGrounded)
+            fsm.SetState(new GroundedState());
+        else
+            fsm.SetState(new AirState());
+    }
+
+    private void FixedUpdate()
     {
         wasGrounded = isGrounded;
-        isGrounded = Physics.Raycast(transform.position, Vector3.down, out RaycastHit hit, checkDistance);
-        //Debug.Log(hit.collider?.gameObject?.name);
+        isGrounded = ecb.IsGrounded;
+
         if (!isGrounded && wasGrounded)
         {
             fsm.SetState(new AirState());
         }
-        else if(isGrounded && !wasGrounded)
+        else if (isGrounded && !wasGrounded)
         {
             fsm.SetState(new GroundedState());
         }
-    }
-    private void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-
-        Gizmos.DrawLine(
-            transform.position,
-            transform.position + Vector3.down * checkDistance
-        );
     }
 }
