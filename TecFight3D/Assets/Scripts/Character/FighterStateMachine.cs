@@ -57,7 +57,7 @@ public class FighterStateMachine : MonoBehaviour
         }
         currentState = newState;
         currentState.Enter(this);
-        //Debug.Log(newState.GetType().Name);
+        Debug.Log(newState.GetType().Name);
     }
     public void SetStateAttack(AttackObject attack)
     {
@@ -80,29 +80,35 @@ public class FighterStateMachine : MonoBehaviour
         animator.SetVisualDirection(direction);
     }
 
+
+
     public void ApplyAirMovement()
     {
-        float currentVelocity = rig.linearVelocity.x;
+        float inputX = input.MoveInput.x;
+        float currentVelocity = gravity.horizontalVelocity;
 
         if (Mathf.Abs(currentVelocity) < charObj.airSpeed)
         {
-            rig.AddForce(input.MoveInput.x * charObj.airAccel, 0, 0, ForceMode.Acceleration);
-            rig.linearVelocity = new Vector3(Mathf.Clamp(rig.linearVelocity.x, -charObj.airSpeed, charObj.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
+            gravity.horizontalVelocity += inputX * charObj.airAccel * Time.fixedDeltaTime;
+            gravity.horizontalVelocity = Mathf.Clamp(
+                gravity.horizontalVelocity,
+                -charObj.airSpeed,
+                charObj.airSpeed
+            );
         }
         else if (fip.AttemptMoveOpposite())
         {
-            rig.linearVelocity = new Vector3(Mathf.Clamp(currentVelocity, -charObj.airSpeed, charObj.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
-            rig.AddForce(input.MoveInput.x * charObj.airAccel, 0, 0, ForceMode.Acceleration);
-        }
-        else
-        {
-            rig.linearVelocity = new Vector3(currentVelocity, rig.linearVelocity.y, rig.linearVelocity.z);
+            gravity.horizontalVelocity += inputX * charObj.airAccel * Time.fixedDeltaTime;
         }
 
         if (fip.FastFall())
         {
-            rig.AddForce(0, -charObj.fastfallAccel, 0, ForceMode.Acceleration);
-            rig.linearVelocity = new Vector3(rig.linearVelocity.x, Mathf.Max(rig.linearVelocity.y, -charObj.fastfallSpeed), rig.linearVelocity.z);
+            gravity.verticalVelocity = Mathf.Max(
+                gravity.verticalVelocity,
+                -charObj.fastfallSpeed
+            );
         }
     }
+
+
 }

@@ -1,47 +1,76 @@
-using NUnit;
+
 using UnityEngine;
 
 public class RunState : IFighterState
 {
-    FighterStateMachine fsm;
-    int initDirection;
-    int frames = 0;
+    private FighterStateMachine fsm;
+    private FighterECB ecb;
+    private int runDirection;
+    private int idleFrames;
+
+    private const float TURNAROUND_THRESHOLD = 0.8f;
+    private const float IDLE_THRESHOLD = 0.2f;
+    private const int IDLE_DELAY_FRAMES = 10;
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        initDirection = fsm.direction;
-        fsm.animator.PlayAnimation("Dash", true, 0);
-    }
-    public void Exit()
-    {
+        ecb = f.GetComponent<FighterECB>();
 
+        runDirection = f.direction;
+        idleFrames = 0;
+
+        fsm.animator?.PlayAnimation("Dash", true, 0);
     }
+
+    public void Exit() { }
+
     public void Update()
     {
-        float directionalInput = fsm.input.MoveInput.x * initDirection;
-        if (directionalInput < -0.8f)
+        float moveX = fsm.input.MoveInput.x;
+
+        if (Mathf.Abs(moveX) > TURNAROUND_THRESHOLD &&
+            Mathf.Sign(moveX) != runDirection)
         {
             fsm.SetState(new RunTurnaroundState());
             return;
         }
+
         if (fsm.input.IsHoldingJump)
         {
             fsm.SetState(new JumpState());
             return;
         }
-        if (Mathf.Abs(fsm.input.MoveInput.x) < 0.2f)
+
+        if (Mathf.Abs(moveX) < IDLE_THRESHOLD)
         {
-            frames++;
-            if (frames == 10)
+            idleFrames++;
+
+            if (idleFrames >= IDLE_DELAY_FRAMES)
             {
-                fsm.rig.linearVelocity = new Vector3(0, fsm.rig.linearVelocity.y, 0);
                 fsm.SetState(new IdleState());
                 return;
             }
         }
+        else
+        {
+            idleFrames = 0;
+        }
     }
+
     public void FixedUpdate()
     {
-        fsm.rig.linearVelocity = new Vector3(fsm.direction * fsm.charObj.runSpeed, fsm.rig.linearVelocity.y, 0);
+        if (ecb == null) return;
+
+        float moveX = runDirection * fsm.charObj.runSpeed;
+
+        // Store horizontal momentum for jumping and air drift.
+        fsm.gravity.horizontalVelocity = moveX;
+
+        ecb.Move(new Vector3(
+            moveX * Time.fixedDeltaTime,
+            0f,
+            0f
+        ));
     }
 }
