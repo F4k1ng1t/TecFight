@@ -11,7 +11,7 @@ public class StunState : IFighterState
     {
         fsm = f;
         //needs its own animation
-        f.animator?.PlayAnimation("KnockdownIdle", true, f.direction);
+        f.animator?.PlayAnimation("KnockdownIdle");
         startTime = Time.time;
     }
     public void Exit()

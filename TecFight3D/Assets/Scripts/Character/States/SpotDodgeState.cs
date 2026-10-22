@@ -11,7 +11,7 @@ public class SpotDodgeState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        fsm.animator?.PlayAnimation("SpotDodge", false, fsm.direction);
+        fsm.animator?.PlayAnimation("SpotDodge");
     }
     public void Exit()
     {

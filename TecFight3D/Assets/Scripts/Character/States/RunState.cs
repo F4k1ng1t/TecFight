@@ -15,15 +15,19 @@ public class RunState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
+        runDirection = fsm.direction;
+        fsm.animator.PlayAnimation("Dash");
         ecb = f.GetComponent<FighterECB>();
-
         runDirection = f.direction;
         idleFrames = 0;
 
-        fsm.animator?.PlayAnimation("Dash", true, 0);
+        fsm.animator?.PlayAnimation("Dash");
+    }
+    public void Exit()
+    {
+
     }
 
-    public void Exit() { }
 
     public void Update()
     {

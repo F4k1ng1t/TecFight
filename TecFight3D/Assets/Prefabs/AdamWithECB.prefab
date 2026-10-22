@@ -20,6 +20,7 @@ GameObject:
   - component: {fileID: 1920953508601646157}
   - component: {fileID: 977852233353092550}
   - component: {fileID: 4461924170368556080}
+  - component: {fileID: 3737536983505518563}
   m_Layer: 0
   m_Name: AdamWithECB
   m_TagString: Untagged
@@ -67,7 +68,7 @@ Rigidbody:
   m_ImplicitCom: 1
   m_ImplicitTensor: 1
   m_UseGravity: 1
-  m_IsKinematic: 0
+  m_IsKinematic: 1
   m_Interpolate: 0
   m_Constraints: 112
   m_CollisionDetection: 0
@@ -239,7 +240,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 1
-  checkDistance: 1
 --- !u!114 &5897323667119843189
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -253,6 +253,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
+  verticalVelocity: 0
+  horizontalVelocity: 0
 --- !u!114 &6245076219115732766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -278,7 +280,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 0
-  checkDistance: 1
 --- !u!114 &1920953508601646157
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -344,6 +345,30 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: 80ef2f4ba5ee90046bc2fd339c40a486, type: 2}
     - Key: Jab1
       Value: {fileID: 11400000, guid: 83fb60fbb7cd15349811c9bc54663222, type: 2}
+--- !u!114 &3737536983505518563
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085761460890895847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0341175fc5ea9704782a17221339b7fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  halfWidth: 0.4
+  height: 2
+  feetOffset: {x: 0, y: 0, z: 0}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  skinWidth: 0.02
+  edgeSamples: 3
+  collideWithTriggers: 0
+  groundCheckDistance: 0.08
+  minimumGroundNormalY: 0.55
+  drawGizmos: 1
 --- !u!1 &8794615132843499775
 GameObject:
   m_ObjectHideFlags: 0
@@ -371,7 +396,7 @@ Transform:
   m_GameObject: {fileID: 8794615132843499775}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 1, z: 0}
   m_LocalScale: {x: 2.4496, y: 2.4496, z: 2.4496}
   m_ConstrainProportionsScale: 0
   m_Children: []

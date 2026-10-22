@@ -12,8 +12,7 @@ public class AirState : IFighterState
         fsm = f;
         fi = fsm.input;
         fip = fsm.fip;
-
-        fsm.animator?.PlayAnimation("Fall", true);
+        fsm.animator?.PlayAnimation("Fall");
     }
 
     public void Exit() { }
@@ -24,7 +23,7 @@ public class AirState : IFighterState
         {
             fsm.SetState(new DoubleJumpState());
             return;
-        }
+        }        
         if (fi.Attack)
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
