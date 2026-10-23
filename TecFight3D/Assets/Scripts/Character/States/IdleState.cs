@@ -1,15 +1,22 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class IdleState : IFighterState
 {
     FighterStateMachine fsm;
+    CharacterObject co;
+    FighterInput fi;
+    FighterInputProcesser fip;
+    Rigidbody rig;
     int walkHeld = 0;
     int walkTimeThreshold = 75;
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        fsm.animator?.PlayAnimation("Idle", true, fsm.direction);
+        co = f.charObj;
+        fi = f.input;
+        fip = f.fip;
+        rig = f.rig;
+        fsm.animator?.PlayAnimation("Idle");
     }
     public void Exit()
     {
@@ -17,43 +24,45 @@ public class IdleState : IFighterState
     }
     public void Update()
     {
-        if (Mathf.Abs(fsm.input.MoveInput.x) > 0.01f)
+        if (Mathf.Abs(fi.MoveInput.x) > 0.01f)
         {
-            Debug.Log($"{walkHeld * Time.deltaTime} {walkTimeThreshold * Time.deltaTime}");
+            //Debug.Log($"{walkHeld * Time.deltaTime} {walkTimeThreshold * Time.deltaTime}");
             walkHeld++;
         }
         else
         {
             walkHeld = 0;
         }
-        if (fsm.input.Flick)
+        if (fi.Flick)
         {
-            float flickX = fsm.input.FlickDirection.x;
+            float flickX = fi.FlickDirection.x;
             if (Mathf.Abs(flickX) > 0.8f)
             {
-                fsm.SetDirection(flickX > 0);
-                fsm.input.ConsumeFlick();
+                fsm.SetDirection(flickX);
+                fi.ConsumeFlick();
                 fsm.SetState(new InitialDashState());
 
                 return;
             }
         }
-        if (Mathf.Abs(fsm.input.MoveInput.x) > 0.2f && walkHeld >= 75)
+        if (fip.Walk() && walkHeld >= 30)
         {
-            fsm.SetDirection(fsm.input.MoveInput.x > 0);
+            fsm.SetDirection(fi.MoveInput.x);
             fsm.SetState(new WalkState());
             return;
         }
-        if (fsm.input.IsHoldingJump)
+        if (fip.IsHoldingJump())
         {
-            Debug.Log("helo");
+            //Debug.Log("helo");
             fsm.SetState(new JumpState());
         }
-        if (fsm.input.LightAttack)
+        if (fi.Attack)
         {
-            Debug.Log("Jab");
-            fsm.SetState(new JabState());
-            fsm.input.LightAttack = false;
+            fsm.SetStateAttack(fsm.getAttack.GetAttack());
+        }
+        if (fi.Shield)
+        {
+            fsm.SetState(new ShieldState());
         }
     }
     public void FixedUpdate()

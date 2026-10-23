@@ -16,4 +16,7 @@ public class CharacterObject : ScriptableObject
     public float maxfallSpeed;
     public float shorthopForce;
     public float fullhopForce;
+    public float doubleJumpForce;
+    public int doubleJumpCount;
+    public int shieldHealth;
 }

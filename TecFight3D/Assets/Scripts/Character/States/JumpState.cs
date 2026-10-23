@@ -1,24 +1,35 @@
+
 using UnityEngine;
 
 public class JumpState : IFighterState
 {
-    FighterStateMachine fsm;
-    CharacterObject c;
-    FighterInput i;
-    Rigidbody rb;
+    private FighterStateMachine fsm;
+    private CharacterObject co;
+    private FighterInputProcesser fip;
+    private FighterECB ecb;
 
-    int frames = 0;
-    const int JUMPSQUAT_LENGTH = 4;
-    bool jump_executed = false;
+    private int frames;
+    private const int JUMPSQUAT_LENGTH = 4;
+    private bool jumpExecuted;
+
+    private float savedHorizontalVelocity;
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        c = fsm.charObj;
-        i = fsm.input;
-        rb = fsm.rig;
+        co = f.charObj;
+        fip = f.fip;
         frames = 0;
-        fsm.animator.PlayAnimation("JumpSquat", false);
-        
+        fsm.animator.PlayAnimation("JumpSquat");
+        ecb = f.GetComponent<FighterECB>();
+
+        savedHorizontalVelocity = fsm.gravity.horizontalVelocity;
+
+        frames = 0;
+        jumpExecuted = false;
+
+        fsm.animator?.PlayAnimation("JumpSquat");
+
     }
     public void Exit()
     {
@@ -26,34 +37,47 @@ public class JumpState : IFighterState
     }
     public void Update()
     {
-
     }
+
     public void FullHop()
     {
-        fsm.rig.linearVelocity = new Vector3(fsm.rig.linearVelocity.x, 0, fsm.rig.linearVelocity.z);
-        fsm.rig.AddForce(Vector3.up * c.fullhopForce, ForceMode.VelocityChange);
-        fsm.animator.PlayAnimation("Hop", false);
+        //fsm.gravity.horizontalVelocity = savedHorizontalVelocity;
+        fsm.gravity.horizontalVelocity = Mathf.Clamp(savedHorizontalVelocity, -co.airSpeed, co.airSpeed);
+        fsm.gravity.verticalVelocity = co.fullhopForce;
+        fsm.animator?.PlayAnimation("Hop");
     }
+
     public void ShortHop()
     {
-        fsm.rig.linearVelocity = new Vector3(fsm.rig.linearVelocity.x, 0, fsm.rig.linearVelocity.z);
-        fsm.rig.AddForce(Vector3.up * c.shorthopForce, ForceMode.VelocityChange);
+        fsm.gravity.horizontalVelocity = savedHorizontalVelocity;
+        fsm.gravity.verticalVelocity = co.shorthopForce;
+        fsm.animator?.PlayAnimation("Hop");
     }
+
     public void FixedUpdate()
     {
-        if (jump_executed) return;
+        if (ecb == null || jumpExecuted)
+            return;
+
+        // Keep horizontal movement continuous during jumpsquat.
+        ecb.Move(new Vector3(
+            savedHorizontalVelocity * Time.fixedDeltaTime,
+            0f,
+            0f
+        ));
+
         frames++;
-        if(frames > 4)
+
+        if (frames >= JUMPSQUAT_LENGTH)
         {
-            jump_executed = true;
-            if(fsm.input.IsHoldingJump)
-            {
+            jumpExecuted = true;
+
+            if (fip.IsHoldingJump())
                 FullHop();
-            }
             else
-            {
                 ShortHop();
-            }
+
+            fsm.SetState(new AirState());
         }
     }
 }

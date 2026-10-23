@@ -6,11 +6,29 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/MM_UI.unity
+    guid: 4ef90ce5bdb0d3b44b92413bbaf1fbcb
+  - enabled: 1
+    path: Assets/Scenes/CA_UI.unity
+    guid: 0312f53148d12694d86a11c819b37fa5
+  - enabled: 1
+    path: Assets/Scenes/GameUI.unity
+    guid: 87289af55c089ac4db9993a9a7d4bc9e
+  - enabled: 1
+    path: Assets/Scenes/WinScreen.unity
+    guid: 4742e1bf0633afb4180e769dedcb6009
+  - enabled: 0
     path: Assets/Scenes/Main Menu.unity
     guid: 6c655e38e07c20a4fb3f363875e0ac88
-  - enabled: 1
-    path: Assets/Scenes/SampleScene.unity
+  - enabled: 0
+    path: Assets/Scenes/CharacterAttachmentsSelection.unity
+    guid: 976923dc029cffd428a05117ba9d20ce
+  - enabled: 0
+    path: Assets/Scenes/CharacterController.unity
     guid: 99c9720ab356a0642a771bea13969a05
+  - enabled: 0
+    path: Assets/Scenes/Reimport.unity
+    guid: 41624d6ef1a39964e9d87d79f5650a58
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 33bb63ee36ba54740973bc96d4ddc929, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

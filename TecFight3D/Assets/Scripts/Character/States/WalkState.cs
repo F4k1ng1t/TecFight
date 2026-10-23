@@ -1,33 +1,76 @@
+
 using UnityEngine;
 
 public class WalkState : IFighterState
 {
-    FighterStateMachine fsm;
+    private FighterStateMachine fsm;
+    private CharacterObject co;
+    private FighterInput fi;
+    private FighterInputProcesser fip;
+    private FighterECB ecb;
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        fsm.animator.PlayAnimation("Walk", true, 0);
+        co = f.charObj;
+        fi = f.input;
+        fip = f.fip;
+        ecb = f.GetComponent<FighterECB>();
+        fsm.animator.PlayAnimation("Walk");
     }
     public void Exit()
     {
-
     }
+
     public void Update()
     {
-        fsm.rig.linearVelocity = new Vector3(fsm.input.MoveInput.x * 5f, fsm.rig.linearVelocity.y, 0);
-        if (fsm.input.MoveInput.x == 0)
+        if (fip.Idle())
         {
-            fsm.rig.linearVelocity = new Vector3(0, fsm.rig.linearVelocity.y, 0);
             fsm.SetState(new IdleState());
+            return;
         }
-        if (fsm.input.IsHoldingJump)
+
+        if (fip.IsHoldingJump())
         {
             fsm.SetState(new JumpState());
+            return;
         }
 
+        if (fi.Attack)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetAttack());
+            return;
+        }
+
+        if (fi.Shield)
+        {
+            fsm.SetState(new ShieldState());
+        }
     }
+
     public void FixedUpdate()
     {
+        if (ecb == null) return;
 
+        float moveX = fi.MoveInput.x * co.walkSpeed;
+        if(fi.MoveInput.x > 0)
+        {
+            fsm.SetDirection(1);
+        }
+        else if(fi.MoveInput.x < 0)
+        {
+            fsm.SetDirection(-1);
+        }
+
+        // Store horizontal momentum for jumps and air drift.
+        fsm.gravity.horizontalVelocity = moveX;
+
+        Vector3 displacement = new Vector3(
+            moveX * Time.fixedDeltaTime,
+            0f,
+            0f
+        );
+
+        ecb.Move(displacement);
     }
 }

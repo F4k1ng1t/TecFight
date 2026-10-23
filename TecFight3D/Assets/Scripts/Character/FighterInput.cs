@@ -8,14 +8,13 @@ public class FighterInput : MonoBehaviour
 
     public bool IsHoldingJump { get; private set; }
 
-    public bool Shorthop {  get; private set; }
 
-    public bool Fullhop { get; private set; }
-
-    public bool LightAttack;
+    public bool Attack;
 
     // One-shot event. Remains true until consumed.
     public bool Flick { get; private set; }
+
+    public bool Shield;
 
     // Normalized cardinal direction of the detected flick.
     // Right = (1, 0)
@@ -68,64 +67,42 @@ public class FighterInput : MonoBehaviour
 
     private void OnEnable()
     {
-        if (isSandbang)
-        {
-            return;
-        }
-        controls.Fighter.Move.performed += OnMove;
-        controls.Fighter.Move.canceled += OnMove;
-        controls.Fighter.Jump.started += OnJumpStarted;
-        controls.Fighter.Jump.performed += OnJumpPerformed;
-        controls.Fighter.Jump.canceled += OnJumpCanceled;
-        controls.Fighter.Attack.performed += OnLightAttack;
-
         controls.Enable();
     }
 
     private void OnDisable()
     {
-        if (isSandbang)
-        {
-            return;
-        }
-        controls.Fighter.Move.performed -= OnMove;
-        controls.Fighter.Move.canceled -= OnMove;
-        controls.Fighter.Jump.started -= OnJumpStarted;
-        controls.Fighter.Jump.performed -= OnJumpPerformed;
-        controls.Fighter.Jump.canceled -= OnJumpCanceled;
-        controls.Fighter.Attack.performed -= OnLightAttack;
-
         controls.Disable();
     }
 
     private void Update()
     {
+        Flick = false;
         DetectFlick();
     }
 
-    private void OnMove(InputAction.CallbackContext ctx)
+    public void OnMove(InputAction.CallbackContext ctx)
     {
+        //Debug.Log("Move: " + ctx.ReadValue<Vector2>());
         MoveInput = ctx.ReadValue<Vector2>();
     }
 
-    private void OnJumpStarted(InputAction.CallbackContext ctx)
+    public void OnJump(InputAction.CallbackContext ctx)
     {
-        IsHoldingJump = true;
+        IsHoldingJump = ctx.ReadValueAsButton();
+
     }
-    private void OnJumpPerformed(InputAction.CallbackContext ctx)
+    public void OnAttack(InputAction.CallbackContext ctx)
     {
-        IsHoldingJump = true;
-    }
-    private void OnJumpCanceled(InputAction.CallbackContext ctx)
-    {
-        IsHoldingJump = false;
-    }
-    private void OnLightAttack(InputAction.CallbackContext ctx)
-    {
-        LightAttack = true;
+        Attack = ctx.ReadValueAsButton();
     }
 
-    private void DetectFlick()
+    public void OnShield(InputAction.CallbackContext ctx)
+    {
+        Shield = ctx.ReadValueAsButton();
+    }
+
+private void DetectFlick()
     {
         Vector2 currentInput = ApplyDeadzone(MoveInput);
 
@@ -269,7 +246,7 @@ public class FighterInput : MonoBehaviour
     private void TriggerFlick(StickDirection direction)
     {
         Flick = true;
-        Debug.Log(direction.ToString());
+        //Debug.Log(direction.ToString());
         switch (direction)
         {
             case StickDirection.Left:
@@ -291,12 +268,6 @@ public class FighterInput : MonoBehaviour
     }
 
     public void ConsumeFlick()
-    {
-        Flick = false;
-        FlickDirection = Vector2.zero;
-    }
-
-    private void LateUpdate()
     {
         Flick = false;
         FlickDirection = Vector2.zero;

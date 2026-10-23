@@ -13,20 +13,14 @@ public class CharacterAnimator : MonoBehaviour
         animator = gameObject.GetComponent<Animator>();
         characterMesh = gameObject;
     }
-    public void PlayAnimation(string animationName, bool looping, float transitionTime = 0f)
+    public void PlayAnimation(string animationName)
     {
         if (!animator)
         {
             return;
         }
-        sameState = false;
-        //Debug.Log("Playing " + animationName);
-        if (!looping)
-        {
-            animator.CrossFade(animationName, transitionTime);
-            return;
-        }
-        StartCoroutine(LoopAnimation(animationName));
+        Debug.Log("Playing " + animationName);
+        animator.CrossFade(animationName, 0);
     }
 
     private IEnumerator LoopAnimation(string animationName)
@@ -52,9 +46,14 @@ public class CharacterAnimator : MonoBehaviour
         characterMesh.transform.rotation = Quaternion.Euler(0, 0, 0);
     }
 
+    private void Update()
+    {
+        //Debug.Log("Playing " + animator.GetCurrentAnimatorStateInfo(0).shortNameHash + " Time: " + animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+    }
+
     public bool IsPlaying()
     {
-        return animator.GetCurrentAnimatorStateInfo(0).length >
-         animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
+        //notes: this doesn't work for the looping animations as they restart from 0 before they ever exceed 1
+        return animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f;
     }
 }

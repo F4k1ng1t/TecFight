@@ -8,6 +8,7 @@ public class GroundedState : IFighterState
     {
         fsm = f;
         frames = 0;
+        fsm.currentDJC = fsm.charObj.doubleJumpCount;
     }
     public void Exit()
     {
