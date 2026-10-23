@@ -17,6 +17,8 @@ MonoBehaviour:
   maxTravelDistance: 12
   travelSpeed: 20
   fallSpeed: 12
-  chargeAnimation: 
-  launchAnimation: 
-  specialFallAnimation: 
+  rotationSpeed: 720
+  rotationOffset: -90
+  chargeAnimation: USpecial_Charge
+  launchAnimation: USpecial_Launch
+  specialFallAnimation: Special_Fall

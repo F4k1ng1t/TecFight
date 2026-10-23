@@ -14,6 +14,7 @@ public class Gravity : MonoBehaviour
 
     [Header("Horizontal Movement")]
     public float horizontalVelocity;
+    public bool clearHorizontalVelocityOnLanding = true;
 
     private void Awake()
     {
@@ -28,13 +29,10 @@ public class Gravity : MonoBehaviour
 
         verticalVelocity -= fsm.charObj.fallAccel * Time.fixedDeltaTime;
 
-        // Only apply stored horizontal momentum while airborne.
         float horizontalDisplacement = 0f;
 
         if (!ecb.IsGrounded)
-        {
             horizontalDisplacement = horizontalVelocity * Time.fixedDeltaTime;
-        }
 
         Vector3 displacement = new Vector3(
             horizontalDisplacement,
@@ -44,17 +42,15 @@ public class Gravity : MonoBehaviour
 
         Vector3 resolved = ecb.Move(displacement);
 
-        // Stop vertical velocity when a collision blocks vertical movement.
         if (Mathf.Abs(resolved.y - displacement.y) > 0.001f)
-        {
             verticalVelocity = 0f;
-        }
 
-        // Clear accumulated momentum on landing.
         if (ecb.IsGrounded && verticalVelocity <= 0f)
         {
             verticalVelocity = 0f;
-            horizontalVelocity = 0f;
+
+            if (clearHorizontalVelocityOnLanding)
+                horizontalVelocity = 0f;
         }
     }
 

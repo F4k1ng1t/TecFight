@@ -59,6 +59,10 @@ public class ShieldState : IFighterState
         {
             fsm.SetState(new IdleState());
         }
+        if (fsm.fip.JumpPressed())
+        {
+            fsm.SetState(new JumpState());
+        }
     }
 
     private void UpdateSheildHealth()

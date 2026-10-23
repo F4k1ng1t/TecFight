@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: NeutralSpecial
   m_EditorClassIdentifier: 
   attackName: 
-  animationName: 
+  animationName: NSpecial
   startup: 0
   activeFrames: 0
   endlag: 0
@@ -21,4 +21,5 @@ MonoBehaviour:
   strong: 0
   special: 0
   grab: 0
+  jumpCancel: 1
   attackBehaviour: {fileID: 0}

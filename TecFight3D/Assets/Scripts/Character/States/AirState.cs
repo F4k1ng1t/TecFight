@@ -52,6 +52,10 @@ public class AirState : IFighterState
 
             return;
         }
+        if (fi.Shield)
+        {
+            fsm.SetState(new AirdodgeState());
+        }
     }
 
     public void FixedUpdate()

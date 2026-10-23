@@ -12,17 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0184845c8fae5448b2ac62b7617be41, type: 3}
   m_Name: SideSpecialBehaviour
   m_EditorClassIdentifier: 
-  searchRadius: 8
-  maxVerticalAngle: 60
-  maxDepthDifference: 2
+  rushDistance: 5
+  rushSpeed: 25
   opponentLayers:
     serializedVersion: 2
-    m_Bits: 4294967295
-  rushSpeed: 25
-  maxRushTime: 0.5
-  stopDistance: 1
-  whiffAnimation: SideSpecialWhiff
-  whiffDuration: 0.3
-  recoveryAnimation: SideSpecialRecovery
-  recoveryDuration: 0.4
-  rushAnimation: SideSpecial
+    m_Bits: 128
+  hitRadius: 0.5
+  hitboxOffset: {x: 0, y: 1, z: 0}
+  rushAnimation: SSpecialChase
+  hitAnimation: SSpecialHit
+  whiffAnimation: 
+  hitDuration: 0.5
+  whiffDuration: 0.8

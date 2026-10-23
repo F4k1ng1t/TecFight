@@ -15,7 +15,7 @@ MonoBehaviour:
   bindingIndex: 0
   offset: {x: 0, y: 0, z: 0}
   activeFrames: 1
-  radius: 0.005
+  radius: 1
   height: 0
   sendAngle: 90
   knockback: 0.1

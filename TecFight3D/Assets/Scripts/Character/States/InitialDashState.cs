@@ -62,21 +62,17 @@ public class InitialDashState : IFighterState
         }
     }
 
+
     public void FixedUpdate()
     {
-        if (ecb == null) return;
+        if (ecb == null)
+            return;
 
         float moveX = dashDirection * fsm.charObj.initialDashSpeed;
 
-        // Preserve dash momentum for jumping and air drift.
         fsm.gravity.horizontalVelocity = moveX;
 
-        Vector3 displacement = new Vector3(
-            moveX * Time.fixedDeltaTime,
-            0f,
-            0f
-        );
-
+        Vector3 displacement = new Vector3(moveX * Time.fixedDeltaTime, 0f, 0f);
         ecb.Move(displacement);
 
         frames++;
@@ -85,16 +81,15 @@ public class InitialDashState : IFighterState
         {
             float inputX = fsm.input.MoveInput.x;
 
+            // Stop the initial dash from leaving stored momentum.
+            fsm.gravity.horizontalVelocity = 0f;
+
             if (Mathf.Abs(inputX) > INPUT_THRESHOLD)
             {
                 if (inputX * dashDirection < -INPUT_THRESHOLD)
-                {
                     fsm.SetState(new RunTurnaroundState());
-                }
                 else
-                {
                     fsm.SetState(new RunState());
-                }
             }
             else
             {
@@ -102,4 +97,5 @@ public class InitialDashState : IFighterState
             }
         }
     }
+
 }
