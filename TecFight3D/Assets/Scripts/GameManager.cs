@@ -62,6 +62,10 @@ public class GameManager : MonoBehaviour
         perPlayerLives[playerIndex] = perPlayerLives[playerIndex] - 1;
         //ui update
         Players[playerIndex].gameObject.GetComponent<KnockbackHandler>().ResetDamage();
+        var f = Players[playerIndex].gameObject.GetComponent<FighterStateMachine>();
+        f.SetState(new AirState());
+        f.gravity.horizontalVelocity = 0;
+        f.gravity.verticalVelocity = 0;
         Destroy(lifeUIHLG[playerIndex].GetChild(0).gameObject);
         if (perPlayerLives[playerIndex] < 1)
         {
