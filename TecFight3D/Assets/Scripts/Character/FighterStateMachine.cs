@@ -11,10 +11,12 @@ public class FighterStateMachine : MonoBehaviour
     public FighterInputProcesser fip;
     public Gravity gravity;
     public GetAttackObject getAttack;
+    public FighterECB ecb;
     [Tooltip("the character's attributes.")]
     public CharacterObject charObj;
     public int direction = 1;
     public int currentDJC;
+    public bool airMovementEnabled = true;
 
     public IFighterState currentState;
     //sheild stuff
@@ -37,17 +39,18 @@ public class FighterStateMachine : MonoBehaviour
         animator = gameObject.GetComponentInChildren<CharacterAnimator>();
         getAttack = GetComponent<GetAttackObject>();
         currentDJC = charObj.doubleJumpCount;
-        SetState(new AirState());
+        ecb = GetComponent<FighterECB>();
+        //SetState(new AirState());
     }
 
     // Update is called once per frame
     void Update()
     {
-        currentState.Update();
+        currentState?.Update();
     }
     void FixedUpdate()
     {
-        currentState.FixedUpdate();
+        currentState?.FixedUpdate();
     }
     public void SetState(IFighterState newState)
     {
@@ -65,13 +68,20 @@ public class FighterStateMachine : MonoBehaviour
     }
     public void SetStateAttack(AttackObject attack)
     {
-        if (currentState != null)
+        if (attack == null)
         {
-            currentState.Exit();
+            Debug.LogError("SetStateAttack received a null AttackObject.", this);
+            return;
         }
-        currentState = new AttackState();
-        currentState.Enter(this, attack);
-        Debug.Log(currentState.GetType().Name);
+
+        if (currentState != null)
+            currentState.Exit();
+
+        AttackState newState = new AttackState();
+        currentState = newState;
+        newState.Enter(this, attack);
+
+        Debug.Log($"Entered AttackState with attack: {attack.attackName}");
     }
     public void SetDirection(float newDirection)
     {
@@ -90,28 +100,31 @@ public class FighterStateMachine : MonoBehaviour
     {
         float inputX = input.MoveInput.x;
         float currentVelocity = gravity.horizontalVelocity;
+        if (airMovementEnabled)
+        {
+            if (Mathf.Abs(currentVelocity) < charObj.airSpeed)
+            {
+                gravity.horizontalVelocity += inputX * charObj.airAccel * Time.fixedDeltaTime;
+                gravity.horizontalVelocity = Mathf.Clamp(
+                    gravity.horizontalVelocity,
+                    -charObj.airSpeed,
+                    charObj.airSpeed
+                );
+            }
+            else if (fip.AttemptMoveOpposite())
+            {
+                gravity.horizontalVelocity += inputX * charObj.airAccel * Time.fixedDeltaTime;
+            }
 
-        if (Mathf.Abs(currentVelocity) < charObj.airSpeed)
-        {
-            gravity.horizontalVelocity += inputX * charObj.airAccel * Time.fixedDeltaTime;
-            gravity.horizontalVelocity = Mathf.Clamp(
-                gravity.horizontalVelocity,
-                -charObj.airSpeed,
-                charObj.airSpeed
-            );
+            if (fip.FastFall())
+            {
+                gravity.verticalVelocity = Mathf.Max(
+                    gravity.verticalVelocity,
+                    -charObj.fastfallSpeed
+                );
+            }
         }
-        else if (fip.AttemptMoveOpposite())
-        {
-            gravity.horizontalVelocity += inputX * charObj.airAccel * Time.fixedDeltaTime;
-        }
-
-        if (fip.FastFall())
-        {
-            gravity.verticalVelocity = Mathf.Max(
-                gravity.verticalVelocity,
-                -charObj.fastfallSpeed
-            );
-        }
+            
     }
 
 
