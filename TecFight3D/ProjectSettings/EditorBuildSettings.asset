@@ -6,6 +6,9 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
+    path: Assets/Scenes/Level One.unity
+    guid: 9df3c083e34e17447989e8bf4c6aacdf
+  - enabled: 1
     path: Assets/Scenes/MM_UI.unity
     guid: 4ef90ce5bdb0d3b44b92413bbaf1fbcb
   - enabled: 1
