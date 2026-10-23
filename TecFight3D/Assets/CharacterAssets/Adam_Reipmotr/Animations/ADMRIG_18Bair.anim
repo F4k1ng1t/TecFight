@@ -263222,3 +263222,10 @@ AnimationClip:
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
+  - time: 0.23333333
+    functionName: SpawnHitbox
+    data: 
+    objectReferenceParameter: {fileID: 11400000, guid: e5e76662dc5b82049927e6439f6e1440, type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0

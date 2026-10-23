@@ -278983,10 +278983,24 @@ AnimationClip:
   m_HasGenericRootTransform: 0
   m_HasMotionFloatCurves: 0
   m_Events:
+  - time: 0.13333334
+    functionName: SpawnHitbox
+    data: 
+    objectReferenceParameter: {fileID: 11400000, guid: 2a77adb3cbf63ad45a7586c63c470f61, type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
   - time: 0.33333334
     functionName: SpawnEffectAtPoint
     data: 
     objectReferenceParameter: {fileID: 11400000, guid: 66f7c6ba4a09e7941a1388ee497603b8, type: 2}
+    floatParameter: 0
+    intParameter: 0
+    messageOptions: 0
+  - time: 0.35
+    functionName: SpawnHitbox
+    data: 
+    objectReferenceParameter: {fileID: 11400000, guid: 6f796f6ade924d246a3d27abe3224cd6, type: 2}
     floatParameter: 0
     intParameter: 0
     messageOptions: 0
