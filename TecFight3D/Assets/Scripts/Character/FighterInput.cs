@@ -10,6 +10,8 @@ public class FighterInput : MonoBehaviour
 
 
     public bool Attack;
+    public bool Strong;
+    public bool Special;
 
     // One-shot event. Remains true until consumed.
     public bool Flick { get; private set; }
@@ -96,7 +98,14 @@ public class FighterInput : MonoBehaviour
     {
         Attack = ctx.ReadValueAsButton();
     }
-
+    public void OnStrong(InputAction.CallbackContext ctx)
+    {
+        Strong = ctx.ReadValueAsButton();
+    }
+    public void OnSpecial(InputAction.CallbackContext ctx)
+    {
+        Special = ctx.ReadValueAsButton();
+    }
     public void OnShield(InputAction.CallbackContext ctx)
     {
         Shield = ctx.ReadValueAsButton();

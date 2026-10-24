@@ -12,6 +12,7 @@ public class AirState : IFighterState
         fsm = f;
         fi = fsm.input;
         fip = fsm.fip;
+
         fsm.animator?.PlayAnimation("Fall");
     }
 
@@ -19,20 +20,48 @@ public class AirState : IFighterState
 
     public void Update()
     {
+        if (fsm == null || fi == null || fip == null)
+            return;
+
         if (fip.JumpPressed() && fsm.currentDJC > 0)
         {
             fsm.SetState(new DoubleJumpState());
             return;
-        }        
+        }
+
         if (fi.Attack)
         {
-            fsm.SetStateAttack(fsm.getAttack.GetAttack());
+            AttackObject attack = fsm.getAttack.GetAttack();
+
+            if (attack != null)
+                fsm.SetStateAttack(attack);
+
+            return;
+        }
+
+        if (fi.Special)
+        {
+            AttackObject special = fsm.getAttack.GetSpecial();
+
+            Debug.Log(special == null
+                ? "GetSpecial returned NULL"
+                : $"Selected special: {special.attackName}");
+
+            if (special != null)
+                fsm.SetStateAttack(special);
+
+            return;
+        }
+        if (fi.Shield)
+        {
+            fsm.SetState(new AirdodgeState());
         }
     }
 
     public void FixedUpdate()
     {
-        
+        if (fsm == null)
+            return;
 
         fsm.ApplyAirMovement();
     }

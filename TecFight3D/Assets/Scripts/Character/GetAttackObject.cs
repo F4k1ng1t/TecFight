@@ -1,6 +1,7 @@
 
 using UnityEngine;
 using AYellowpaper.SerializedCollections;
+using UnityEngine.Scripting.APIUpdating;
 
 public class GetAttackObject : MonoBehaviour
 {
@@ -21,6 +22,7 @@ public class GetAttackObject : MonoBehaviour
         {
             if (Mathf.Abs(f.input.MoveInput.x) > 0.5f)
             {
+                f.SetDirection(f.input.MoveInput.x);
                 return attackObjects["ForwardTilt"];
             }
             if (f.input.MoveInput.y < -0.5f)
@@ -33,7 +35,7 @@ public class GetAttackObject : MonoBehaviour
             }
             return attackObjects["Jab1"];
         }
-        if ((f.currentState is RunState || f.currentState is InitialDashState) && f.input.Attack)
+        if ((f.currentState is RunState || f.currentState is InitialDashState))
         {
             return attackObjects["DashAttack"];
         }
@@ -58,16 +60,54 @@ public class GetAttackObject : MonoBehaviour
             }
             return attackObjects["NeutralAir"];
         }
-
+        if(f.currentState is KnockdownState)
+        {
+            return attackObjects["GetupAttack"];
+        }
 
         return null;
     }
-    //public SpecialObject GetSpecial()
-    //{
-
-    //}
-    //public StrongObject GetStrong()
-    //{
-
-    //}
+    public AttackObject GetSpecial()
+    {
+        //do we need this? (redundant with the state transition check)
+        if (f.currentState is IdleState || f.currentState is AirState || f.currentState is RunState || f.currentState is WalkState) //Make an actionability variable instead of this brute force method
+        {
+            if (Mathf.Abs(f.input.MoveInput.x) > 0.5f)
+            {
+                f.SetDirection(f.input.MoveInput.x);
+                return attackObjects["SideSpecial"];
+            }
+            if (f.input.MoveInput.y > 0.5f)
+            {
+                return attackObjects["UpSpecial"];
+            }
+            if (f.input.MoveInput.y < -0.5f)
+            {
+                return attackObjects["DownSpecial"];
+            }
+            return attackObjects["NeutralSpecial"];
+        }
+        return null;
+    }
+    public AttackObject GetStrong()
+    {
+        if (f.currentState is IdleState || f.currentState is WalkState)
+        {
+            if (Mathf.Abs(f.input.MoveInput.x) > 0.5f)
+            {
+                f.SetDirection(f.input.MoveInput.x);
+                return attackObjects["ForwardStrong"];
+            }
+            if (f.input.MoveInput.y > 0.5f)
+            {
+                return attackObjects["UpStrong"];
+            }
+            if (f.input.MoveInput.y < -0.5f)
+            {
+                return attackObjects["DownStrong"];
+            }
+            return attackObjects["ForwardStrong"];
+        }
+        return null;
+    }
 }

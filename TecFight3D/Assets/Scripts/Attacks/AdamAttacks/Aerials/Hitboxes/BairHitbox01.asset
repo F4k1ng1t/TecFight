@@ -14,8 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   bindingIndex: 0
   offset: {x: 1.2, y: 1.5, z: 0}
-  activeFrames: 30
-  radius: 1
+  activeFrames: 2
+  radius: 0.75
   height: 0
   sendAngle: 270
   knockback: 0.1

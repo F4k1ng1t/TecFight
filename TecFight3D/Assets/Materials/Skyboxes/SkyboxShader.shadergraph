@@ -308,6 +308,12 @@
         },
         {
             "m_Id": "72b7ff3beec24294b956f3298b449358"
+        },
+        {
+            "m_Id": "3a77512dc09846e5accec3fb64da0683"
+        },
+        {
+            "m_Id": "a30dd945c1834e5980558039f4624e8e"
         }
     ],
     "m_GroupDatas": [
@@ -1355,6 +1361,12 @@
         "m_Blocks": [
             {
                 "m_Id": "72bba2da340a4530b40462cd58941e91"
+            },
+            {
+                "m_Id": "3a77512dc09846e5accec3fb64da0683"
+            },
+            {
+                "m_Id": "a30dd945c1834e5980558039f4624e8e"
             }
         ]
     },
@@ -1374,7 +1386,7 @@
     "m_SubDatas": [],
     "m_ActiveTargets": [
         {
-            "m_Id": "56d65c5e93284c86ab76e9539f05d2b7"
+            "m_Id": "5fc4539d25e04f09b5d8e6c790cfb1d7"
         }
     ]
 }
@@ -1494,6 +1506,12 @@
     },
     "isMainColor": false,
     "m_ColorMode": 0
+}
+
+{
+    "m_SGVersion": 2,
+    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalUnlitSubTarget",
+    "m_ObjectId": "07f3718add874316921286e9cf31c526"
 }
 
 {
@@ -2014,7 +2032,7 @@
     "m_Title": "Day",
     "m_Position": {
         "x": -2864.0,
-        "y": -442.5
+        "y": -442.5001220703125
     }
 }
 
@@ -2272,7 +2290,7 @@
     "m_Title": "Sun",
     "m_Position": {
         "x": -2864.0,
-        "y": -726.0
+        "y": -726.0001220703125
     }
 }
 
@@ -3051,6 +3069,40 @@
 }
 
 {
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
+    "m_ObjectId": "3a77512dc09846e5accec3fb64da0683",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "SurfaceDescription.Alpha",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "cf0f567afe474d53a3172c7d62836594"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SerializedDescriptor": "SurfaceDescription.Alpha"
+}
+
+{
     "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.ViewDirectionNode",
     "m_ObjectId": "3c249c110d224f62964245db7daaa291",
@@ -3619,6 +3671,21 @@
 }
 
 {
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "45c0dfae357641609e9a1b6cccff263f",
+    "m_Id": 0,
+    "m_DisplayName": "Alpha Clip Threshold",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "AlphaClipThreshold",
+    "m_StageCapability": 2,
+    "m_Value": 0.5,
+    "m_DefaultValue": 0.5,
+    "m_Labels": []
+}
+
+{
     "m_SGVersion": 1,
     "m_Type": "UnityEditor.ShaderGraph.Internal.Vector1ShaderProperty",
     "m_ObjectId": "45c5cf56b004423a852cb66e02e2371c",
@@ -3803,7 +3870,7 @@
     "m_Title": "Stars",
     "m_Position": {
         "x": -2853.0,
-        "y": -1054.5
+        "y": -1054.5001220703125
     }
 }
 
@@ -4124,24 +4191,6 @@
     "m_CustomColors": {
         "m_SerializableColors": []
     }
-}
-
-{
-    "m_SGVersion": 2,
-    "m_Type": "UnityEditor.Rendering.BuiltIn.ShaderGraph.BuiltInTarget",
-    "m_ObjectId": "56d65c5e93284c86ab76e9539f05d2b7",
-    "m_Datas": [],
-    "m_ActiveSubTarget": {
-        "m_Id": "70a1bdebd17d459792c68a614ffceb32"
-    },
-    "m_AllowMaterialOverride": false,
-    "m_SurfaceType": 0,
-    "m_ZWriteControl": 0,
-    "m_ZTestMode": 4,
-    "m_AlphaMode": 0,
-    "m_RenderFace": 2,
-    "m_AlphaClip": false,
-    "m_CustomEditorGUI": ""
 }
 
 {
@@ -4553,6 +4602,31 @@
 }
 
 {
+    "m_SGVersion": 1,
+    "m_Type": "UnityEditor.Rendering.Universal.ShaderGraph.UniversalTarget",
+    "m_ObjectId": "5fc4539d25e04f09b5d8e6c790cfb1d7",
+    "m_Datas": [],
+    "m_ActiveSubTarget": {
+        "m_Id": "07f3718add874316921286e9cf31c526"
+    },
+    "m_AllowMaterialOverride": true,
+    "m_SurfaceType": 0,
+    "m_ZTestMode": 4,
+    "m_ZWriteControl": 2,
+    "m_AlphaMode": 0,
+    "m_RenderFace": 0,
+    "m_AlphaClip": false,
+    "m_CastShadows": false,
+    "m_ReceiveShadows": false,
+    "m_DisableTint": false,
+    "m_AdditionalMotionVectorMode": 0,
+    "m_AlembicMotionVectors": false,
+    "m_SupportsLODCrossFade": false,
+    "m_CustomEditorGUI": "",
+    "m_SupportVFX": false
+}
+
+{
     "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.Vector4MaterialSlot",
     "m_ObjectId": "5ffce9e9617c497f87b63844342ed490",
@@ -4812,7 +4886,7 @@
     "m_Title": "Ground",
     "m_Position": {
         "x": -2862.0,
-        "y": 540.5
+        "y": 540.4998779296875
     }
 }
 
@@ -4850,12 +4924,6 @@
     "m_Property": {
         "m_Id": "5bdb180949a04e579ab5c309c356d975"
     }
-}
-
-{
-    "m_SGVersion": 0,
-    "m_Type": "UnityEditor.Rendering.BuiltIn.ShaderGraph.BuiltInUnlitSubTarget",
-    "m_ObjectId": "70a1bdebd17d459792c68a614ffceb32"
 }
 
 {
@@ -5441,7 +5509,7 @@
     "m_Title": "Slider Switch",
     "m_Position": {
         "x": -1926.0,
-        "y": -1075.0
+        "y": -1075.000244140625
     }
 }
 
@@ -6418,6 +6486,40 @@
     "m_Value": 0.0,
     "m_DefaultValue": 0.0,
     "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.BlockNode",
+    "m_ObjectId": "a30dd945c1834e5980558039f4624e8e",
+    "m_Group": {
+        "m_Id": ""
+    },
+    "m_Name": "SurfaceDescription.AlphaClipThreshold",
+    "m_DrawState": {
+        "m_Expanded": true,
+        "m_Position": {
+            "serializedVersion": "2",
+            "x": 0.0,
+            "y": 0.0,
+            "width": 0.0,
+            "height": 0.0
+        }
+    },
+    "m_Slots": [
+        {
+            "m_Id": "45c0dfae357641609e9a1b6cccff263f"
+        }
+    ],
+    "synonyms": [],
+    "m_Precision": 0,
+    "m_PreviewExpanded": true,
+    "m_DismissedVersion": 0,
+    "m_PreviewMode": 0,
+    "m_CustomColors": {
+        "m_SerializableColors": []
+    },
+    "m_SerializedDescriptor": "SurfaceDescription.AlphaClipThreshold"
 }
 
 {
@@ -7983,6 +8085,21 @@
 
 {
     "m_SGVersion": 0,
+    "m_Type": "UnityEditor.ShaderGraph.Vector1MaterialSlot",
+    "m_ObjectId": "cf0f567afe474d53a3172c7d62836594",
+    "m_Id": 0,
+    "m_DisplayName": "Alpha",
+    "m_SlotType": 0,
+    "m_Hidden": false,
+    "m_ShaderOutputName": "Alpha",
+    "m_StageCapability": 2,
+    "m_Value": 1.0,
+    "m_DefaultValue": 1.0,
+    "m_Labels": []
+}
+
+{
+    "m_SGVersion": 0,
     "m_Type": "UnityEditor.ShaderGraph.DynamicVectorMaterialSlot",
     "m_ObjectId": "cf5fa1bf748b48cdaa7aa4cbdf21ebed",
     "m_Id": 1,
@@ -9210,7 +9327,7 @@
     "m_Title": "Aurora",
     "m_Position": {
         "x": -2888.5,
-        "y": 22.5
+        "y": 22.4998779296875
     }
 }
 

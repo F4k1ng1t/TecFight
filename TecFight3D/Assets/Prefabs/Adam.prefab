@@ -21,6 +21,7 @@ GameObject:
   - component: {fileID: 8137324313489253180}
   - component: {fileID: 2314309265234030554}
   - component: {fileID: 8150620991732940459}
+  - component: {fileID: 2255928395914834260}
   m_Layer: 0
   m_Name: Adam
   m_TagString: Untagged
@@ -223,10 +224,13 @@ MonoBehaviour:
   fip: {fileID: 4029443859107576906}
   gravity: {fileID: 0}
   getAttack: {fileID: 0}
+  ecb: {fileID: 0}
   charObj: {fileID: 11400000, guid: 74e98eaafd1e6a9438a27bfa5b96b855, type: 2}
   direction: 1
   currentDJC: 0
+  airMovementEnabled: 1
   isSheilding: 0
+  isDodging: 0
   sheildHealth: 0
   timeSinceSheild: 0
   sheild: {fileID: 6801550247688604944}
@@ -243,6 +247,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Attack: 0
+  Strong: 0
+  Special: 0
   Shield: 0
   deadzone: 0.15
   flickThreshold: 0.7
@@ -262,7 +268,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 1
-  checkDistance: 1
 --- !u!114 &4735461320162401858
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -276,6 +281,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   active: 1
+  verticalVelocity: 0
+  horizontalVelocity: 0
+  clearHorizontalVelocityOnLanding: 1
 --- !u!114 &4029443859107576906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -301,7 +309,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 0
-  checkDistance: 1
 --- !u!114 &8137324313489253180
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -367,6 +374,31 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: 80ef2f4ba5ee90046bc2fd339c40a486, type: 2}
     - Key: Jab1
       Value: {fileID: 11400000, guid: 83fb60fbb7cd15349811c9bc54663222, type: 2}
+--- !u!114 &2255928395914834260
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4956610443638527348}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0341175fc5ea9704782a17221339b7fb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  halfWidth: 0.4
+  height: 2
+  feetOffset: {x: 0, y: 0, z: 0}
+  collisionLayers:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  skinWidth: 0.02
+  edgeSamples: 3
+  collideWithTriggers: 0
+  enableOneWayPlatforms: 1
+  groundCheckDistance: 0.08
+  minimumGroundNormalY: 0.55
+  drawGizmos: 1
 --- !u!1 &6801550247688604944
 GameObject:
   m_ObjectHideFlags: 0
@@ -4432,14 +4464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 84531318982cacb47a9a5f37ed784a65, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  parentBone: {fileID: 4579132290416991356}
-  activeFrames: 1
-  radius: 0.01
-  height: 0
-  sendAngle: 300
-  knockback: 0.1
-  damage: 1
-  priority: 0
+  parentBones: []
   targetLayer:
     serializedVersion: 2
     m_Bits: 128
@@ -4484,11 +4509,6 @@ CapsuleCollider:
   m_Height: 0.03
   m_Direction: 1
   m_Center: {x: 0, y: 0.005, z: 0}
---- !u!4 &4579132290416991356 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: -7239238108118453929, guid: 35a77e0dc77a6b94493996ff98dc116c, type: 3}
-  m_PrefabInstance: {fileID: 2595577264757517611}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &5624542614134409935 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7641258849201350628, guid: 35a77e0dc77a6b94493996ff98dc116c, type: 3}

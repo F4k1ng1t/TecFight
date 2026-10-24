@@ -45,7 +45,7 @@ public class IdleState : IFighterState
                 return;
             }
         }
-        if (fip.Walk() && walkHeld >= 30)
+        if (fip.Walk() && walkHeld >= 10)
         {
             fsm.SetDirection(fi.MoveInput.x);
             fsm.SetState(new WalkState());
@@ -59,6 +59,15 @@ public class IdleState : IFighterState
         if (fi.Attack)
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
+        }
+        if (fi.Strong)
+        {
+            Debug.Log("why");
+            fsm.SetStateAttack(fsm.getAttack.GetStrong());
+        }
+        if(fi.Special)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetSpecial());
         }
         if (fi.Shield)
         {

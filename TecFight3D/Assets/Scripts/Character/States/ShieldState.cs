@@ -13,8 +13,7 @@ public class ShieldState : IFighterState
         fi = f.input;
         fsm.sheild.SetActive(true);
         UpdateSheildHealth();
-        //need to play sheild enter
-        fsm.animator?.PlayAnimation("SheildHold");
+        fsm.animator?.PlayAnimation("SheildEnter");
         fsm.isSheilding = true;
     }
     public void Exit()
@@ -58,6 +57,10 @@ public class ShieldState : IFighterState
         if (!fi.Shield)
         {
             fsm.SetState(new IdleState());
+        }
+        if (fsm.fip.JumpPressed())
+        {
+            fsm.SetState(new JumpState());
         }
     }
 

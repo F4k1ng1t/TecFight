@@ -14,7 +14,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   airAccel: 20
   airSpeed: 8
-  walkSpeed: 1.5
+  walkSpeed: 4
   runSpeed: 11
   initialDashSpeed: 12
   weight: 0
@@ -25,6 +25,6 @@ MonoBehaviour:
   maxfallSpeed: 20
   shorthopForce: 10
   fullhopForce: 15
-  doubleJumpForce: 10
+  doubleJumpForce: 12
   doubleJumpCount: 1
   shieldHealth: 25

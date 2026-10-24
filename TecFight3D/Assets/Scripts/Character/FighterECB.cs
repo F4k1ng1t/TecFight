@@ -19,6 +19,9 @@ public class FighterECB : MonoBehaviour
     [Range(1, 8)] public int edgeSamples = 3;
     public bool collideWithTriggers = false;
 
+    [Header("One-Way Platforms")]
+    public bool enableOneWayPlatforms = true;
+
     [Header("Grounding")]
     [Min(0.001f)] public float groundCheckDistance = 0.08f;
     [Range(0f, 1f)] public float minimumGroundNormalY = 0.55f;
@@ -33,25 +36,24 @@ public class FighterECB : MonoBehaviour
     public Vector3 GroundNormal { get; private set; } = Vector3.up;
     public Vector3 LastResolvedPosition { get; private set; }
 
-    public Vector3 FeetPosition =>
-        transform.TransformPoint(feetOffset);
+    private Gravity gravity;
 
-    public Vector3 CenterPosition =>
-        FeetPosition + Vector3.up * (height * 0.5f);
+    private QueryTriggerInteraction TriggerInteraction =>
+        collideWithTriggers ? QueryTriggerInteraction.Collide : QueryTriggerInteraction.Ignore;
 
-    public Vector3 TopPosition =>
-        FeetPosition + Vector3.up * height;
+    public Vector3 FeetPosition => transform.TransformPoint(feetOffset);
+    public Vector3 CenterPosition => FeetPosition + Vector3.up * (height * 0.5f);
+    public Vector3 TopPosition => FeetPosition + Vector3.up * height;
 
     public Vector3 LeftPosition =>
-        FeetPosition + Vector3.up * (height * 0.5f)
-        + Vector3.left * halfWidth;
+        FeetPosition + Vector3.up * (height * 0.5f) + Vector3.left * halfWidth;
 
     public Vector3 RightPosition =>
-        FeetPosition + Vector3.up * (height * 0.5f)
-        + Vector3.right * halfWidth;
+        FeetPosition + Vector3.up * (height * 0.5f) + Vector3.right * halfWidth;
 
     private void Awake()
     {
+        gravity = GetComponent<Gravity>();
         LastResolvedPosition = transform.position;
     }
 
@@ -60,26 +62,15 @@ public class FighterECB : MonoBehaviour
         CheckGround();
     }
 
-    /// <summary>
-    /// Moves the fighter through the ECB collision system.
-    /// Displacement is measured in world units.
-    /// Z displacement is intentionally ignored.
-    /// </summary>
     public Vector3 Move(Vector3 displacement)
     {
         HitWall = false;
         HitCeiling = false;
 
-        float resolvedX = ResolveAxis(
-            Vector3.right, displacement.x);
+        float resolvedX = ResolveAxis(Vector3.right, displacement.x);
+        float resolvedY = ResolveAxis(Vector3.up, displacement.y);
 
-        float resolvedY = ResolveAxis(
-            Vector3.up, displacement.y);
-
-        Vector3 resolved = new Vector3(
-            resolvedX,
-            resolvedY,
-            0f);
+        Vector3 resolved = new Vector3(resolvedX, resolvedY, 0f);
 
         transform.position += resolved;
         LastResolvedPosition = transform.position;
@@ -97,11 +88,22 @@ public class FighterECB : MonoBehaviour
         Vector3 direction = axis * Mathf.Sign(amount);
         float allowedDistance = Mathf.Abs(amount);
 
-        // Sample the boundary at the current position.
+        bool movingDown = axis == Vector3.up && amount < 0f;
+        bool movingUp = axis == Vector3.up && amount > 0f;
+
+        // One-way platforms are handled only by the feet during downward movement.
+        if (enableOneWayPlatforms && movingDown)
+        {
+            float platformDistance = ResolveOneWayPlatformsDownward();
+
+            if (platformDistance >= 0f)
+                allowedDistance = Mathf.Min(allowedDistance, platformDistance);
+        }
+
         foreach (Vector3 sample in GetBoundarySamples())
         {
-            // Offset the origin slightly away from the ECB
-            // to avoid starting the ray directly on a surface.
+            // The feet-only platform check above handles downward platform collisions.
+            // Ignore platform colliders in all other ECB raycasts.
             Vector3 origin = sample - direction * skinWidth;
 
             if (!Physics.Raycast(
@@ -110,37 +112,85 @@ public class FighterECB : MonoBehaviour
                 out RaycastHit hit,
                 Mathf.Abs(amount) + skinWidth,
                 collisionLayers,
-                collideWithTriggers
-                    ? QueryTriggerInteraction.Collide
-                    : QueryTriggerInteraction.Ignore))
+                TriggerInteraction))
             {
                 continue;
             }
 
-            // Ignore colliders belonging to this fighter.
             if (hit.collider.transform.IsChildOf(transform))
                 continue;
 
-            float safeDistance = Mathf.Max(
-                0f, hit.distance - skinWidth);
+            OneWayPlatform platform = enableOneWayPlatforms
+                ? hit.collider.GetComponentInParent<OneWayPlatform>()
+                : null;
 
-            allowedDistance = Mathf.Min(
-                allowedDistance, safeDistance);
+            if (platform != null)
+                continue;
+
+            float safeDistance = Mathf.Max(0f, hit.distance - skinWidth);
+            allowedDistance = Mathf.Min(allowedDistance, safeDistance);
 
             if (axis == Vector3.right)
                 HitWall = true;
 
-            if (axis == Vector3.up && amount < 0f &&
-                hit.normal.y >= minimumGroundNormalY)
-            {
+            if (movingDown && hit.normal.y >= minimumGroundNormalY)
                 GroundNormal = hit.normal;
-            }
 
-            if (axis == Vector3.up && amount > 0f)
+            if (movingUp)
                 HitCeiling = true;
         }
 
         return Mathf.Sign(amount) * allowedDistance;
+    }
+
+    /// <summary>
+    /// Checks only the ECB's feet against one-way platforms while descending.
+    /// Returns -1 if no platform is hit, otherwise the allowed downward distance.
+    /// </summary>
+    private float ResolveOneWayPlatformsDownward()
+    {
+        Vector3 feet = FeetPosition;
+        Vector3 origin = feet + Vector3.up * skinWidth;
+
+        float checkDistance = skinWidth + 1000f;
+        float nearestDistance = float.MaxValue;
+        bool foundPlatform = false;
+        Vector3 nearestNormal = Vector3.up;
+
+        RaycastHit[] hits = Physics.RaycastAll(
+            origin,
+            Vector3.down,
+            checkDistance,
+            collisionLayers,
+            TriggerInteraction);
+
+        foreach (RaycastHit hit in hits)
+        {
+            if (hit.collider.transform.IsChildOf(transform))
+                continue;
+
+            OneWayPlatform platform = hit.collider.GetComponentInParent<OneWayPlatform>();
+
+            if (platform == null)
+                continue;
+
+            if (hit.normal.y < minimumGroundNormalY)
+                continue;
+
+            if (hit.distance < nearestDistance)
+            {
+                nearestDistance = hit.distance;
+                nearestNormal = hit.normal;
+                foundPlatform = true;
+            }
+        }
+
+        if (!foundPlatform)
+            return -1f;
+
+        GroundNormal = nearestNormal;
+
+        return Mathf.Max(0f, nearestDistance - skinWidth);
     }
 
     private void CheckGround()
@@ -148,26 +198,36 @@ public class FighterECB : MonoBehaviour
         IsGrounded = false;
         GroundNormal = Vector3.up;
 
-        // Probe from the bottom vertex.
-        Vector3 origin = FeetPosition
-            + Vector3.up * skinWidth;
+        if (enableOneWayPlatforms && gravity != null && gravity.verticalVelocity > 0f)
+            return;
 
-        if (Physics.Raycast(
+        Vector3 origin = FeetPosition + Vector3.up * skinWidth;
+
+        if (!Physics.Raycast(
             origin,
             Vector3.down,
             out RaycastHit hit,
             groundCheckDistance + skinWidth,
             collisionLayers,
-            collideWithTriggers
-                ? QueryTriggerInteraction.Collide
-                : QueryTriggerInteraction.Ignore))
+            TriggerInteraction))
         {
-            if (!hit.collider.transform.IsChildOf(transform) &&
-                hit.normal.y >= minimumGroundNormalY)
-            {
-                IsGrounded = true;
-                GroundNormal = hit.normal;
-            }
+            return;
+        }
+
+        if (hit.collider.transform.IsChildOf(transform))
+            return;
+
+        OneWayPlatform platform = enableOneWayPlatforms
+            ? hit.collider.GetComponentInParent<OneWayPlatform>()
+            : null;
+
+        if (platform != null && gravity != null && gravity.verticalVelocity > 0f)
+            return;
+
+        if (hit.normal.y >= minimumGroundNormalY)
+        {
+            IsGrounded = true;
+            GroundNormal = hit.normal;
         }
     }
 
@@ -176,10 +236,6 @@ public class FighterECB : MonoBehaviour
         CheckGround();
     }
 
-    /// <summary>
-    /// Returns sample points along the four diamond edges.
-    /// No depth or Z-axis sampling is performed.
-    /// </summary>
     private Vector3[] GetBoundarySamples()
     {
         List<Vector3> samples = new List<Vector3>();
@@ -187,13 +243,8 @@ public class FighterECB : MonoBehaviour
         Vector3 feet = FeetPosition;
         Vector3 top = feet + Vector3.up * height;
 
-        Vector3 left = feet
-            + Vector3.up * (height * 0.5f)
-            + Vector3.left * halfWidth;
-
-        Vector3 right = feet
-            + Vector3.up * (height * 0.5f)
-            + Vector3.right * halfWidth;
+        Vector3 left = feet + Vector3.up * (height * 0.5f) + Vector3.left * halfWidth;
+        Vector3 right = feet + Vector3.up * (height * 0.5f) + Vector3.right * halfWidth;
 
         Vector3[] vertices = { feet, left, top, right };
 
@@ -220,13 +271,8 @@ public class FighterECB : MonoBehaviour
         Vector3 feet = transform.TransformPoint(feetOffset);
         Vector3 top = feet + Vector3.up * height;
 
-        Vector3 left = feet
-            + Vector3.up * (height * 0.5f)
-            + Vector3.left * halfWidth;
-
-        Vector3 right = feet
-            + Vector3.up * (height * 0.5f)
-            + Vector3.right * halfWidth;
+        Vector3 left = feet + Vector3.up * (height * 0.5f) + Vector3.left * halfWidth;
+        Vector3 right = feet + Vector3.up * (height * 0.5f) + Vector3.right * halfWidth;
 
         Gizmos.color = Color.yellow;
 
@@ -236,9 +282,6 @@ public class FighterECB : MonoBehaviour
         Gizmos.DrawLine(right, feet);
 
         Gizmos.color = Color.green;
-
-        Gizmos.DrawLine(
-            feet + Vector3.up * skinWidth,
-            feet + Vector3.down * groundCheckDistance);
+        Gizmos.DrawLine(feet + Vector3.up * skinWidth, feet + Vector3.down * groundCheckDistance);
     }
 }

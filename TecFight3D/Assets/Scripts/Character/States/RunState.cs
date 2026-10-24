@@ -56,6 +56,10 @@ public class RunState : IFighterState
                 return;
             }
         }
+        if (fsm.input.Special)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetSpecial());
+        }
         else
         {
             idleFrames = 0;
