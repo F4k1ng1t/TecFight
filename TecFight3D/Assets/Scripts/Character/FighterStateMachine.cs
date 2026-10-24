@@ -17,6 +17,7 @@ public class FighterStateMachine : MonoBehaviour
     public int direction = 1;
     public int currentDJC;
     public bool airMovementEnabled = true;
+    public bool hasAirdodge = false;
 
     public IFighterState currentState;
     //sheild stuff

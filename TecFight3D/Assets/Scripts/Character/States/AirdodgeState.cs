@@ -22,6 +22,7 @@ public class AirdodgeState : IFighterState
     {
         fsm = f;
         gravity = fsm.gravity;
+        fsm.hasAirdodge = false;
 
         dodgeTimer = 0f;
         recoveryTimer = 0f;
