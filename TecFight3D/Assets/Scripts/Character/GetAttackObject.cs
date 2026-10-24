@@ -60,13 +60,17 @@ public class GetAttackObject : MonoBehaviour
             }
             return attackObjects["NeutralAir"];
         }
-
+        if(f.currentState is KnockdownState)
+        {
+            return attackObjects["GetupAttack"];
+        }
 
         return null;
     }
     public AttackObject GetSpecial()
     {
-        if (f.currentState is IdleState || f.currentState is AirState) //Make an actionability variable instead of this brute force method
+        //do we need this? (redundant with the state transition check)
+        if (f.currentState is IdleState || f.currentState is AirState || f.currentState is RunState || f.currentState is WalkState) //Make an actionability variable instead of this brute force method
         {
             if (Mathf.Abs(f.input.MoveInput.x) > 0.5f)
             {

@@ -13,8 +13,7 @@ public class ShieldState : IFighterState
         fi = f.input;
         fsm.sheild.SetActive(true);
         UpdateSheildHealth();
-        //need to play sheild enter
-        fsm.animator?.PlayAnimation("SheildHold");
+        fsm.animator?.PlayAnimation("SheildEnter");
         fsm.isSheilding = true;
     }
     public void Exit()

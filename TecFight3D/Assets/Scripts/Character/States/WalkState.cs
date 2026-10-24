@@ -45,10 +45,13 @@ public class WalkState : IFighterState
         {
             fsm.SetStateAttack(fsm.getAttack.GetStrong());
         }
-
         if (fi.Shield)
         {
             fsm.SetState(new ShieldState());
+        }
+        if (fi.Special)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetSpecial());
         }
     }
 

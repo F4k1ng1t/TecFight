@@ -1,5 +1,18 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!114 &-8088735248380072099
+MonoBehaviour:
+  m_ObjectHideFlags: 11
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d0353a89b1f911e48b9e16bdc9f2e058, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 9
 --- !u!114 &-3860857685972556667
 MonoBehaviour:
   m_ObjectHideFlags: 11
@@ -30,14 +43,38 @@ Material:
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
   m_CustomRenderQueue: -1
-  stringTagMap: {}
-  disabledShaderPasses: []
+  stringTagMap:
+    RenderType: Opaque
+  disabledShaderPasses:
+  - DepthOnly
+  - SHADOWCASTER
+  - MOTIONVECTORS
   m_LockedProperties: 
   m_SavedProperties:
     serializedVersion: 3
-    m_TexEnvs: []
+    m_TexEnvs:
+    - unity_Lightmaps:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_LightmapsInd:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - unity_ShadowMasks:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
+    - _AlphaClip: 0
+    - _AlphaToMask: 0
+    - _AuroraBlend: 1
+    - _AuroraDistortionSpeed: 0.05
+    - _AuroraInsensity: 1
+    - _AuroraNoiseScale: 20
+    - _AuroraPower: 1
+    - _AuroraTwirlStength: 0.5
     - _BUILTIN_AlphaClip: 0
     - _BUILTIN_Blend: 0
     - _BUILTIN_CullMode: 2
@@ -49,16 +86,37 @@ Material:
     - _BUILTIN_ZTest: 4
     - _BUILTIN_ZWrite: 1
     - _BUILTIN_ZWriteControl: 0
+    - _Blend: 0
     - _Blinking_Speed: 0
+    - _CastShadows: 0
+    - _Cull: 0
+    - _DayNightSlider: 0
+    - _DstBlend: 0
+    - _GradientOffset: 0
     - _HorizonBlend: 0.0001
     - _NadirBend: 1.6
+    - _QueueControl: 0
+    - _QueueOffset: 0
+    - _Slider: 0
+    - _SrcBlend: 1
     - _StarHeight: 200
     - _StarIntensity: 0
     - _StarPower: 30
+    - _SunSize: 0.2
+    - _Surface: 0
+    - _ZTest: 4
+    - _ZWrite: 0
+    - _ZWriteControl: 2
     - _ZenithBlend: 1.1
     m_Colors:
+    - _AuroraDistortionMinMax: {r: 10, g: 12, b: 0, a: 0}
+    - _AuroraScrollSpeed: {r: 0, g: 0, b: 0, a: 0}
+    - _AuroraTiling: {r: 1, g: 1, b: 0, a: 0}
+    - _AuroraTwirlOffset: {r: 0, g: 0, b: 0, a: 0}
     - _GoundColor: {r: 1, g: 0.47110838, b: 0.34905648, a: 0}
     - _HorizonColor: {r: 0.4339623, g: 0.18726636, b: 0.110537514, a: 0}
+    - _NightSkyColor: {r: 0.03860603, g: 0.076364465, b: 0.20125777, a: 0}
     - _SkyColor: {r: 1, g: 0.9737329, b: 0.77672946, a: 0}
+    - _SunColor: {r: 0.9182389, g: 0.7379125, b: 0.1472646, a: 0}
   m_BuildTextureStacks: []
   m_AllowLocking: 1

@@ -372,6 +372,8 @@ MonoBehaviour:
       Value: {fileID: 11400000, guid: b9e4f63da54f0bf40949306b01e3f6f9, type: 2}
     - Key: ForwardAir
       Value: {fileID: 11400000, guid: 19d9624828c137b4482260e858b9ede8, type: 2}
+    - Key: GetupAttack
+      Value: {fileID: 11400000, guid: 7236b10cd7231dd42ad81ad4a739706a, type: 2}
     - Key: NeutralAir
       Value: {fileID: 11400000, guid: 96c57323d518f72448bdcc1037de8a1c, type: 2}
     - Key: UpAir

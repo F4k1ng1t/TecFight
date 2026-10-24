@@ -3,7 +3,7 @@ using UnityEngine.UI;
 
 public class KnockbackHandler : MonoBehaviour
 {
-    const float knockbackDecay = 0.6f;
+    const float knockbackDecay = 0.9f;
     [SerializeField] private float totalHealth = 100;
     [SerializeField] private float damage = 0;
     private Image healthSlider;
@@ -13,6 +13,8 @@ public class KnockbackHandler : MonoBehaviour
     FighterECB ecb;
     Vector3 knockbackDirection;
     float knockbackStrength;
+    float lastHitboxTimestamp = 0;
+
     private void Start()
     {
         fsm = GetComponent<FighterStateMachine>();
@@ -35,19 +37,27 @@ public class KnockbackHandler : MonoBehaviour
         healthSlider.fillAmount = damage / totalHealth;
     }
 
-    public void OnHit(Vector3 knockback, float deltDamage)
+    public void OnHit(Vector3 knockback, float deltDamage, float timeStamp)
     {
+        //my thought is we could assign each hitbox a code based on the time it is spawned & maybe a player ID if it is nessecary, once that hitbox code hits it becomes the last hitbox code and the player can't be hit by that box again
+        if (timeStamp <= lastHitboxTimestamp)
+        {
+            return;
+        }
         if (fsm.isDodging)
         {
             //damage is dodged
             return;
         }
+        lastHitboxTimestamp = timeStamp;
         if (fsm.isSheilding)
         {
             //take sheild damage
             fsm.sheildHealth -= deltDamage;
             return;
         }
+        //fsm.SetDirection(-player.direction); //sets the direction opposite the hitting players direction
+        fsm.SetState(new HitState());
         damage += deltDamage;
         knockbackDirection = knockback.normalized;
         knockbackStrength = knockback.magnitude * damage;
