@@ -49,20 +49,33 @@ public class RunState : IFighterState
         if (Mathf.Abs(moveX) < IDLE_THRESHOLD)
         {
             idleFrames++;
-
+            Debug.Log(idleFrames);
             if (idleFrames >= IDLE_DELAY_FRAMES)
             {
+                
                 fsm.SetState(new IdleState());
                 return;
             }
         }
+        else
+        {
+            Debug.Log(idleFrames);
+            idleFrames = 0;
+        }
         if (fsm.input.Special)
         {
             fsm.SetStateAttack(fsm.getAttack.GetSpecial());
+            return;
         }
-        else
+        if (fsm.input.Strong)
         {
-            idleFrames = 0;
+            fsm.SetStateAttack(fsm.getAttack.GetStrong());
+            return;
+        }
+        if (fsm.input.Attack)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetAttack());
+            return;
         }
     }
 

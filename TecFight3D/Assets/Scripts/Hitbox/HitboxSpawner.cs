@@ -66,7 +66,7 @@ public class HitboxSpawner : MonoBehaviour
                         hitbox.knockback * Mathf.Sin(Mathf.Deg2Rad * hitbox.sendAngle) * player.direction, 
                         hitbox.knockback * Mathf.Cos(Mathf.Deg2Rad * hitbox.sendAngle)),
                         hitbox.damage,
-                        startTime);
+                        startTime, hitbox.scaling);
                     FighterStateMachine enemy = hurtbox.transform.root.gameObject.GetComponent<FighterStateMachine>();
                     if (enemy != null)
                     {

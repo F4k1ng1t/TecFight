@@ -19,7 +19,7 @@ public class CharacterAnimator : MonoBehaviour
         {
             return;
         }
-        Debug.Log("Playing " + animationName);
+        //Debug.Log("Playing " + animationName);
         animator.CrossFade(animationName, 0);
     }
 

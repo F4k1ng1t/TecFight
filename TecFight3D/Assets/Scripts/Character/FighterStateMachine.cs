@@ -65,7 +65,7 @@ public class FighterStateMachine : MonoBehaviour
         }
         currentState = newState;
         currentState.Enter(this);
-        Debug.Log(newState.GetType().Name);
+        //Debug.Log(newState.GetType().Name);
     }
     public void SetStateAttack(AttackObject attack)
     {

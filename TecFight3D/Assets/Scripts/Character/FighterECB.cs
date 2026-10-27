@@ -1,5 +1,8 @@
 
 using System.Collections.Generic;
+using System.Security.Cryptography;
+using Unity.VisualScripting;
+using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 [RequireComponent(typeof(FighterStateMachine))]
@@ -66,9 +69,115 @@ public class FighterECB : MonoBehaviour
     {
         HitWall = false;
         HitCeiling = false;
+        RaycastHit hit;
+        float resolvedX = displacement.x;
+        if (displacement.x < 0)
+        {
+            if (Physics.Raycast(
+                LeftPosition,
+                Vector3.left,
+                out hit,
+                Mathf.Abs(displacement.x) + skinWidth,
+                collisionLayers,
+                TriggerInteraction))
+            {
+                resolvedX = 0;
+                HitWall = true;
+            }
+            else if (Physics.Raycast(
+                FeetPosition,
+                Vector3.left,
+                out hit,
+                Mathf.Abs(displacement.y) + skinWidth,
+                collisionLayers,
+                TriggerInteraction))
+            {
+                Debug.Log("hit under: " + hit.collider.name);
+                resolvedX = 0;
+                GroundNormal = hit.normal;
+            }
+        }
+        else if (displacement.x > 0)
+        {
+            if (Physics.Raycast(
+                RightPosition,
+                Vector3.right,
+                out hit,
+                Mathf.Abs(displacement.x) + skinWidth,
+                collisionLayers,
+                TriggerInteraction))
+            {
+                resolvedX = 0;
+                HitWall = true;
+            }
+            else if (Physics.Raycast(
+                FeetPosition,
+                Vector3.right,
+                out hit,
+                Mathf.Abs(displacement.y) + skinWidth,
+                collisionLayers,
+                TriggerInteraction))
+            {
+                Debug.Log("hit under: " + hit.collider.name);
+                resolvedX = 0;
+                GroundNormal = hit.normal;
+            }
+        }
 
-        float resolvedX = ResolveAxis(Vector3.right, displacement.x);
-        float resolvedY = ResolveAxis(Vector3.up, displacement.y);
+        float resolvedY = displacement.y;
+        if (displacement.y < 0)
+        {
+            //raycast from feet down
+            if (Physics.Raycast(
+                FeetPosition,
+                Vector3.down,
+                out hit,
+                Mathf.Abs(displacement.y) + skinWidth,
+                collisionLayers,
+                TriggerInteraction))
+            {
+                Debug.Log("hit under: " + hit.collider.name);
+                resolvedY = 0;
+                GroundNormal = hit.normal;
+            }
+            //if the side raycsasts hit the floor move the character outwards
+            else if (Physics.Raycast(
+                LeftPosition,
+                Vector3.down,
+                out hit,
+                Mathf.Abs(displacement.x) + skinWidth,
+                collisionLayers,
+                TriggerInteraction))
+            {
+                Debug.Log("LeftUnder");
+                resolvedX = halfWidth;
+            }
+            else if (Physics.Raycast(
+                RightPosition,
+                Vector3.down,
+                out hit,
+                Mathf.Abs(displacement.x) + skinWidth,
+                collisionLayers,
+                TriggerInteraction))
+            {
+                Debug.Log("RightUnder");
+                resolvedX = -halfWidth;
+            }
+        }
+        else if (displacement.y > 0)
+        {
+            if (Physics.Raycast(
+                TopPosition,
+                Vector3.up,
+                out hit,
+                Mathf.Abs(displacement.y) + skinWidth,
+                collisionLayers,
+                TriggerInteraction))
+            {
+                resolvedY = hit.distance;
+                HitCeiling = true;
+            }
+        }
 
         Vector3 resolved = new Vector3(resolvedX, resolvedY, 0f);
 
@@ -80,6 +189,9 @@ public class FighterECB : MonoBehaviour
         return resolved;
     }
 
+    //this function is mostly fine, but we need some new behavior for moving down
+    // on left or right, stop on any collision
+    //on up/down, move outward on anything that isnt a foot/head collision
     private float ResolveAxis(Vector3 axis, float amount)
     {
         if (Mathf.Abs(amount) < 0.000001f)
@@ -106,6 +218,7 @@ public class FighterECB : MonoBehaviour
             // Ignore platform colliders in all other ECB raycasts.
             Vector3 origin = sample - direction * skinWidth;
 
+            //check the direction we want to move for collisions
             if (!Physics.Raycast(
                 origin,
                 direction,
@@ -114,6 +227,7 @@ public class FighterECB : MonoBehaviour
                 collisionLayers,
                 TriggerInteraction))
             {
+                //if the raycast doesn't hit anything continue
                 continue;
             }
 
@@ -124,6 +238,7 @@ public class FighterECB : MonoBehaviour
                 ? hit.collider.GetComponentInParent<OneWayPlatform>()
                 : null;
 
+            Debug.Log(gameObject.name + sample + " hit " + hit.collider.gameObject.name);
             if (platform != null)
                 continue;
 
@@ -253,6 +368,7 @@ public class FighterECB : MonoBehaviour
             Vector3 a = vertices[edge];
             Vector3 b = vertices[(edge + 1) % vertices.Length];
 
+            //the amount of point it checks between each part of the ECB Diamond
             for (int i = 0; i <= edgeSamples; i++)
             {
                 float t = (float)i / edgeSamples;
@@ -276,10 +392,10 @@ public class FighterECB : MonoBehaviour
 
         Gizmos.color = Color.yellow;
 
-        Gizmos.DrawLine(feet, left);
-        Gizmos.DrawLine(left, top);
-        Gizmos.DrawLine(top, right);
-        Gizmos.DrawLine(right, feet);
+        Gizmos.DrawLine(FeetPosition, LeftPosition);
+        Gizmos.DrawLine(LeftPosition, TopPosition);
+        Gizmos.DrawLine(TopPosition, RightPosition);
+        Gizmos.DrawLine(RightPosition, FeetPosition);
 
         Gizmos.color = Color.green;
         Gizmos.DrawLine(feet + Vector3.up * skinWidth, feet + Vector3.down * groundCheckDistance);

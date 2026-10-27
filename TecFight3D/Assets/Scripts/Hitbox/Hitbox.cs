@@ -13,4 +13,5 @@ public class Hitbox : ScriptableObject
     public float knockback = 0.1f;
     public float damage = 1f;
     public int priority = 0;
+    public float scaling;
 }
