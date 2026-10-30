@@ -41,8 +41,8 @@ public class FighterECB : MonoBehaviour
 
     private Gravity gravity;
 
-    private QueryTriggerInteraction TriggerInteraction =>
-        collideWithTriggers ? QueryTriggerInteraction.Collide : QueryTriggerInteraction.Ignore;
+    private QueryTriggerInteraction TriggerInteraction => collideWithTriggers ? QueryTriggerInteraction.Collide : QueryTriggerInteraction.Ignore;
+
 
     public Vector3 FeetPosition => transform.TransformPoint(feetOffset);
     public Vector3 CenterPosition => FeetPosition + Vector3.up * (height * 0.5f);
@@ -272,12 +272,7 @@ public class FighterECB : MonoBehaviour
         bool foundPlatform = false;
         Vector3 nearestNormal = Vector3.up;
 
-        RaycastHit[] hits = Physics.RaycastAll(
-            origin,
-            Vector3.down,
-            checkDistance,
-            collisionLayers,
-            TriggerInteraction);
+        RaycastHit[] hits = Physics.RaycastAll(origin, Vector3.down, checkDistance, collisionLayers, TriggerInteraction);
 
         foreach (RaycastHit hit in hits)
         {
@@ -318,13 +313,7 @@ public class FighterECB : MonoBehaviour
 
         Vector3 origin = FeetPosition + Vector3.up * skinWidth;
 
-        if (!Physics.Raycast(
-            origin,
-            Vector3.down,
-            out RaycastHit hit,
-            groundCheckDistance + skinWidth,
-            collisionLayers,
-            TriggerInteraction))
+        if (!Physics.Raycast(origin, Vector3.down, out RaycastHit hit, groundCheckDistance + skinWidth, collisionLayers, TriggerInteraction))
         {
             return;
         }
