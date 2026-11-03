@@ -17,6 +17,7 @@ public class FighterStateMachine : MonoBehaviour
     public int direction = 1;
     public int currentDJC;
     public bool airMovementEnabled = true;
+    public bool hasAirdodge = false;
 
     public IFighterState currentState;
     //sheild stuff
@@ -64,7 +65,7 @@ public class FighterStateMachine : MonoBehaviour
         }
         currentState = newState;
         currentState.Enter(this);
-        Debug.Log(newState.GetType().Name);
+        //Debug.Log(newState.GetType().Name);
     }
     public void SetStateAttack(AttackObject attack)
     {

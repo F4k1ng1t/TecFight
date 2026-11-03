@@ -52,7 +52,7 @@ public class AirState : IFighterState
 
             return;
         }
-        if (fi.Shield)
+        if (fi.Shield && fsm.hasAirdodge)
         {
             fsm.SetState(new AirdodgeState());
         }

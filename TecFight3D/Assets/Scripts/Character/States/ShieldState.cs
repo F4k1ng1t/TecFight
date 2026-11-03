@@ -29,7 +29,7 @@ public class ShieldState : IFighterState
     {
 
     }
-    void IFighterState.Update()
+    public void Update()
     {
         //tick down sheild health
         fsm.sheildHealth -= sheildDecayRate * Time.deltaTime;

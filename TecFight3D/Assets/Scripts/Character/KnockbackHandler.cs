@@ -37,7 +37,7 @@ public class KnockbackHandler : MonoBehaviour
         healthSlider.fillAmount = damage / totalHealth;
     }
 
-    public void OnHit(Vector3 knockback, float deltDamage, float timeStamp)
+    public void OnHit(Vector3 knockback, float deltDamage, float timeStamp, float scaling)
     {
         //my thought is we could assign each hitbox a code based on the time it is spawned & maybe a player ID if it is nessecary, once that hitbox code hits it becomes the last hitbox code and the player can't be hit by that box again
         if (timeStamp <= lastHitboxTimestamp)
@@ -60,7 +60,7 @@ public class KnockbackHandler : MonoBehaviour
         fsm.SetState(new HitState());
         damage += deltDamage;
         knockbackDirection = knockback.normalized;
-        knockbackStrength = knockback.magnitude * damage;
+        knockbackStrength = 0.1f * (knockback.magnitude + (scaling * damage));
         healthSlider.fillAmount = damage / totalHealth;
     }
 
