@@ -25,7 +25,7 @@ public class HitState : IFighterState
         }
     }
 
-    void IFighterState.Update()
+    public void Update()
     {
 
     }

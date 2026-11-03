@@ -69,119 +69,16 @@ public class FighterECB : MonoBehaviour
     {
         HitWall = false;
         HitCeiling = false;
-        RaycastHit hit;
-        float resolvedX = displacement.x;
-        if (displacement.x < 0)
-        {
-            if (Physics.Raycast(
-                LeftPosition,
-                Vector3.left,
-                out hit,
-                Mathf.Abs(displacement.x) + skinWidth,
-                collisionLayers,
-                TriggerInteraction))
-            {
-                resolvedX = 0;
-                HitWall = true;
-            }
-            else if (Physics.Raycast(
-                FeetPosition,
-                Vector3.left,
-                out hit,
-                Mathf.Abs(displacement.y) + skinWidth,
-                collisionLayers,
-                TriggerInteraction))
-            {
-                Debug.Log("hit under: " + hit.collider.name);
-                resolvedX = 0;
-                GroundNormal = hit.normal;
-            }
-        }
-        else if (displacement.x > 0)
-        {
-            if (Physics.Raycast(
-                RightPosition,
-                Vector3.right,
-                out hit,
-                Mathf.Abs(displacement.x) + skinWidth,
-                collisionLayers,
-                TriggerInteraction))
-            {
-                resolvedX = 0;
-                HitWall = true;
-            }
-            else if (Physics.Raycast(
-                FeetPosition,
-                Vector3.right,
-                out hit,
-                Mathf.Abs(displacement.y) + skinWidth,
-                collisionLayers,
-                TriggerInteraction))
-            {
-                Debug.Log("hit under: " + hit.collider.name);
-                resolvedX = 0;
-                GroundNormal = hit.normal;
-            }
-        }
+        GroundNormal = Vector3.up;
 
-        float resolvedY = displacement.y;
-        if (displacement.y < 0)
-        {
-            //raycast from feet down
-            if (Physics.Raycast(
-                FeetPosition,
-                Vector3.down,
-                out hit,
-                Mathf.Abs(displacement.y) + skinWidth,
-                collisionLayers,
-                TriggerInteraction))
-            {
-                Debug.Log("hit under: " + hit.collider.name);
-                resolvedY = 0;
-                GroundNormal = hit.normal;
-            }
-            //if the side raycsasts hit the floor move the character outwards
-            else if (Physics.Raycast(
-                LeftPosition,
-                Vector3.down,
-                out hit,
-                Mathf.Abs(displacement.x) + skinWidth,
-                collisionLayers,
-                TriggerInteraction))
-            {
-                Debug.Log("LeftUnder");
-                resolvedX = halfWidth;
-            }
-            else if (Physics.Raycast(
-                RightPosition,
-                Vector3.down,
-                out hit,
-                Mathf.Abs(displacement.x) + skinWidth,
-                collisionLayers,
-                TriggerInteraction))
-            {
-                Debug.Log("RightUnder");
-                resolvedX = -halfWidth;
-            }
-        }
-        else if (displacement.y > 0)
-        {
-            if (Physics.Raycast(
-                TopPosition,
-                Vector3.up,
-                out hit,
-                Mathf.Abs(displacement.y) + skinWidth,
-                collisionLayers,
-                TriggerInteraction))
-            {
-                resolvedY = hit.distance;
-                HitCeiling = true;
-            }
-        }
+        float resolvedX = ResolveAxis(Vector3.right, displacement.x);
+        transform.position += Vector3.right * resolvedX;
+
+        float resolvedY = ResolveAxis(Vector3.up, displacement.y);
+        transform.position += Vector3.up * resolvedY;
 
         Vector3 resolved = new Vector3(resolvedX, resolvedY, 0f);
 
-        transform.position += resolved;
         LastResolvedPosition = transform.position;
 
         CheckGround();

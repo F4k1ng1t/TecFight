@@ -21,3 +21,4 @@ MonoBehaviour:
   knockback: 0.1
   damage: 3.5
   priority: 0
+  scaling: 1

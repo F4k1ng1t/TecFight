@@ -16,7 +16,21 @@ public class AttackAnimationEvents : MonoBehaviour
     public void EnableJumpCancel()
     {
         if (fsm.currentState is AttackState attackState)
-            attackState.EnableJumpCancel();
+        {
+            if (fsm.ecb.IsGrounded)
+            {
+                attackState.EnableJumpCancel();
+            }
+            else if (fsm.currentDJC > 0)
+            {
+                fsm.currentDJC--;
+                attackState.EnableJumpCancel();
+            }
+            else
+            {
+                return;
+            }
+        }
     }
 
     public void DisableJumpCancel()
