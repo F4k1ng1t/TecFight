@@ -13,6 +13,8 @@ public class GameManager : MonoBehaviour
     [SerializeField] Image[] healthBars;
     [SerializeField] GameObject CharacterPrefab;
     [SerializeField] BlastZoneBehavior blastZones;
+    [SerializeField] AudioClip deathSound;
+    private AudioSource audioSource;
     Transform[] Players;
     int[] perPlayerLives;
     private void Awake()
@@ -54,11 +56,16 @@ public class GameManager : MonoBehaviour
         {
             blastZones = FindAnyObjectByType<BlastZoneBehavior>();
         }
+        if(audioSource == null)
+        {
+            audioSource = GetComponent<AudioSource>();
+        }
         blastZones.SetPlayers(Players);
     }
 
     public void TakeLife(int playerIndex)
     {
+        audioSource.PlayOneShot(deathSound);
         perPlayerLives[playerIndex] = perPlayerLives[playerIndex] - 1;
         //ui update
         Players[playerIndex].gameObject.GetComponent<KnockbackHandler>().ResetDamage();

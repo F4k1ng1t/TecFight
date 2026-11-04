@@ -6,6 +6,7 @@ public class KnockbackHandler : MonoBehaviour
     const float knockbackDecay = 0.9f;
     [SerializeField] private float totalHealth = 100;
     [SerializeField] private float damage = 0;
+    [SerializeField] AudioClip hitSound;
     private Image healthSlider;
     private float currentHealth;
 
@@ -55,9 +56,11 @@ public class KnockbackHandler : MonoBehaviour
             //take sheild damage
             fsm.sheildHealth -= deltDamage;
             return;
+            //mayhaps add a sheild hit sound
         }
         //fsm.SetDirection(-player.direction); //sets the direction opposite the hitting players direction
         fsm.SetState(new HitState());
+        fsm.audioSource.PlayOneShot(hitSound);
         damage += deltDamage;
         knockbackDirection = knockback.normalized;
         knockbackStrength = 0.1f * (knockback.magnitude + (scaling * damage));
