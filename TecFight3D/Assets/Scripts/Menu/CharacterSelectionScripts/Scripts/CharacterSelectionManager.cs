@@ -73,6 +73,7 @@ public class CharacterSelectionManager : MonoBehaviour
         }
     }
 
+
     void Update()
     {
         HandlePlayerInput(player1Slot, p1HorizontalAxis);
