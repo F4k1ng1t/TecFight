@@ -22,6 +22,7 @@ GameObject:
   - component: {fileID: 4461924170368556080}
   - component: {fileID: 3737536983505518563}
   - component: {fileID: 3023638460375466935}
+  - component: {fileID: 2142017298349264990}
   m_Layer: 0
   m_Name: AdamSFX
   m_TagString: Untagged
@@ -226,7 +227,7 @@ MonoBehaviour:
   gravity: {fileID: 0}
   getAttack: {fileID: 0}
   ecb: {fileID: 0}
-  audioSource: {fileID: 3023638460375466935}
+  fighterAudio: {fileID: 0}
   charObj: {fileID: 11400000, guid: 74e98eaafd1e6a9438a27bfa5b96b855, type: 2}
   direction: 1
   currentDJC: 0
@@ -514,6 +515,24 @@ AudioSource:
     m_PreInfinity: 2
     m_PostInfinity: 2
     m_RotationOrder: 4
+--- !u!114 &2142017298349264990
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085761460890895847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad9500e1d4938d49971ac3c47560ac9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSource: {fileID: 3023638460375466935}
+  jumpSound: {fileID: 8300000, guid: b52c18305052d3047a477d3f24391ad1, type: 3}
+  dashSound: {fileID: 8300000, guid: 9a54b235fc5abbc4a95ef7edb7581228, type: 3}
+  sheildEnterSound: {fileID: 8300000, guid: 05d868ee117715547b4ad17cd8308df9, type: 3}
+  sheildExitSound: {fileID: 8300000, guid: 50b57f044ff027c43bf46d6103fd9cba, type: 3}
+  dodgeSound: {fileID: 8300000, guid: 83f8c02d69ca90f459623b9022267b12, type: 3}
 --- !u!1 &8794615132843499775
 GameObject:
   m_ObjectHideFlags: 0

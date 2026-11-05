@@ -34,7 +34,7 @@ public class HitboxSpawner : MonoBehaviour
     public void SpawnHitbox(Hitbox hitbox)
     {
         if(hitbox.AttackSound)
-            fsm.audioSource.PlayOneShot(hitbox.AttackSound);
+            fsm.fighterAudio.PlayOneShot(hitbox.AttackSound);
         StartCoroutine(Hitbox(hitbox));
     }
 

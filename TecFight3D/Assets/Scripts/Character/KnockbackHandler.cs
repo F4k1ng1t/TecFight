@@ -60,7 +60,7 @@ public class KnockbackHandler : MonoBehaviour
         }
         //fsm.SetDirection(-player.direction); //sets the direction opposite the hitting players direction
         fsm.SetState(new HitState());
-        fsm.audioSource.PlayOneShot(hitSound);
+        fsm.fighterAudio.PlayOneShot(hitSound);
         damage += deltDamage;
         knockbackDirection = knockback.normalized;
         knockbackStrength = 0.1f * (knockback.magnitude + (scaling * damage));

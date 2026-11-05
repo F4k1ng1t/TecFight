@@ -24,6 +24,7 @@ public class InitialDashState : IFighterState
         // Direction of the dash when we entered.
         dashDirection = fsm.direction;
         fsm.animator.PlayAnimation("Dash");
+        fsm.fighterAudio.PlayDashSound();
     }
 
     public void Exit() { }
