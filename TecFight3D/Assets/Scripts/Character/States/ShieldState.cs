@@ -62,6 +62,11 @@ public class ShieldState : IFighterState
         {
             fsm.SetState(new JumpState());
         }
+        if (fi.Attack)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetGrab());
+            return;
+        }
     }
 
     private void UpdateSheildHealth()

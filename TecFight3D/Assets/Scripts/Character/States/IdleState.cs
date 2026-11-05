@@ -73,6 +73,10 @@ public class IdleState : IFighterState
         {
             fsm.SetState(new ShieldState());
         }
+        if (fi.Grab)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetGrab());
+        }
     }
     public void FixedUpdate()
     {

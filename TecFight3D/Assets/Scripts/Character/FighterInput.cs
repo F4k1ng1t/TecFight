@@ -12,6 +12,7 @@ public class FighterInput : MonoBehaviour
     public bool Attack;
     public bool Strong;
     public bool Special;
+    public bool Grab;
 
     // One-shot event. Remains true until consumed.
     public bool Flick { get; private set; }
@@ -110,8 +111,12 @@ public class FighterInput : MonoBehaviour
     {
         Shield = ctx.ReadValueAsButton();
     }
+    public void OnGrab(InputAction.CallbackContext ctx)
+    {
+        Grab = ctx.ReadValueAsButton();
+    }
 
-private void DetectFlick()
+    private void DetectFlick()
     {
         Vector2 currentInput = ApplyDeadzone(MoveInput);
 

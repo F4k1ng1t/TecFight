@@ -54,23 +54,36 @@ public class HitboxSpawner : MonoBehaviour
             
             if (hitHurtboxes.Length > 0)
             {
-                foreach(Collider hurtbox in hitHurtboxes)
+                foreach (Collider hurtbox in hitHurtboxes)
                 {
-                    if(hurtbox.transform.root == transform.root)
-                    {
+                    if (hurtbox.transform.root == transform.root)
                         continue;
-                    }
-                    Debug.Log("x: " + Mathf.Sin(Mathf.Deg2Rad * hitbox.sendAngle));
-                    FighterStateMachine player = gameObject.GetComponentInParent<FighterStateMachine>();
-                    hurtbox.transform.root.gameObject.GetComponent<KnockbackHandler>().OnHit(new Vector3(
-                        hitbox.knockback * Mathf.Sin(Mathf.Deg2Rad * hitbox.sendAngle) * player.direction, 
-                        hitbox.knockback * Mathf.Cos(Mathf.Deg2Rad * hitbox.sendAngle)),
-                        hitbox.damage,
-                        startTime, hitbox.scaling);
-                    FighterStateMachine enemy = hurtbox.transform.root.gameObject.GetComponent<FighterStateMachine>();
-                    if (enemy != null)
+
+                    FighterStateMachine enemy = hurtbox.transform.root.GetComponent<FighterStateMachine>();
+
+                    if (enemy == null)
+                        continue;
+
+                    if (hitbox.grab)
                     {
+                        GrabInteraction grabInteraction = GetComponentInParent<GrabInteraction>();
+
+                        if (grabInteraction != null)
+                            grabInteraction.StartGrab(enemy);
                     }
+                    else
+                    {
+                        enemy.GetComponent<KnockbackHandler>().OnHit(
+                            new Vector3(
+                                hitbox.knockback * Mathf.Sin(Mathf.Deg2Rad * hitbox.sendAngle) * fsm.direction,
+                                hitbox.knockback * Mathf.Cos(Mathf.Deg2Rad * hitbox.sendAngle)
+                            ),
+                            hitbox.damage,
+                            startTime,
+                            hitbox.scaling
+                        );
+                    }
+
                     break;
                 }
                 //we hit a hurtbox
