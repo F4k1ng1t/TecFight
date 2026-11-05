@@ -19,4 +19,6 @@ public class CharacterObject : ScriptableObject
     public float doubleJumpForce;
     public int doubleJumpCount;
     public int shieldHealth;
+    public float groundTraction;
+    public float airFriction;
 }

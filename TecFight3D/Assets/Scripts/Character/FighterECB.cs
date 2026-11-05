@@ -1,11 +1,9 @@
 
 using System.Collections.Generic;
-using System.Security.Cryptography;
-using Unity.VisualScripting;
-using UnityEditor.PackageManager.UI;
 using UnityEngine;
 
 [RequireComponent(typeof(FighterStateMachine))]
+[RequireComponent(typeof(FighterPhysics))]
 public class FighterECB : MonoBehaviour
 {
     [Header("Diamond Dimensions")]
@@ -39,10 +37,10 @@ public class FighterECB : MonoBehaviour
     public Vector3 GroundNormal { get; private set; } = Vector3.up;
     public Vector3 LastResolvedPosition { get; private set; }
 
-    private Gravity gravity;
+    private FighterPhysics physics;
 
-    private QueryTriggerInteraction TriggerInteraction => collideWithTriggers ? QueryTriggerInteraction.Collide : QueryTriggerInteraction.Ignore;
-
+    private QueryTriggerInteraction TriggerInteraction =>
+        collideWithTriggers ? QueryTriggerInteraction.Collide : QueryTriggerInteraction.Ignore;
 
     public Vector3 FeetPosition => transform.TransformPoint(feetOffset);
     public Vector3 CenterPosition => FeetPosition + Vector3.up * (height * 0.5f);
@@ -56,7 +54,7 @@ public class FighterECB : MonoBehaviour
 
     private void Awake()
     {
-        gravity = GetComponent<Gravity>();
+        physics = GetComponent<FighterPhysics>();
         LastResolvedPosition = transform.position;
     }
 
@@ -86,9 +84,6 @@ public class FighterECB : MonoBehaviour
         return resolved;
     }
 
-    //this function is mostly fine, but we need some new behavior for moving down
-    // on left or right, stop on any collision
-    //on up/down, move outward on anything that isnt a foot/head collision
     private float ResolveAxis(Vector3 axis, float amount)
     {
         if (Mathf.Abs(amount) < 0.000001f)
@@ -100,10 +95,10 @@ public class FighterECB : MonoBehaviour
         bool movingDown = axis == Vector3.up && amount < 0f;
         bool movingUp = axis == Vector3.up && amount > 0f;
 
-        // One-way platforms are handled only by the feet during downward movement.
+        // One-way platforms are checked only at the feet while descending.
         if (enableOneWayPlatforms && movingDown)
         {
-            float platformDistance = ResolveOneWayPlatformsDownward();
+            float platformDistance = ResolveOneWayPlatformsDownward(Mathf.Abs(amount));
 
             if (platformDistance >= 0f)
                 allowedDistance = Mathf.Min(allowedDistance, platformDistance);
@@ -111,11 +106,8 @@ public class FighterECB : MonoBehaviour
 
         foreach (Vector3 sample in GetBoundarySamples())
         {
-            // The feet-only platform check above handles downward platform collisions.
-            // Ignore platform colliders in all other ECB raycasts.
             Vector3 origin = sample - direction * skinWidth;
 
-            //check the direction we want to move for collisions
             if (!Physics.Raycast(
                 origin,
                 direction,
@@ -124,7 +116,6 @@ public class FighterECB : MonoBehaviour
                 collisionLayers,
                 TriggerInteraction))
             {
-                //if the raycast doesn't hit anything continue
                 continue;
             }
 
@@ -135,7 +126,7 @@ public class FighterECB : MonoBehaviour
                 ? hit.collider.GetComponentInParent<OneWayPlatform>()
                 : null;
 
-            Debug.Log(gameObject.name + sample + " hit " + hit.collider.gameObject.name);
+            // One-way platforms are handled separately.
             if (platform != null)
                 continue;
 
@@ -156,20 +147,27 @@ public class FighterECB : MonoBehaviour
     }
 
     /// <summary>
-    /// Checks only the ECB's feet against one-way platforms while descending.
-    /// Returns -1 if no platform is hit, otherwise the allowed downward distance.
+    /// Checks only the feet against one-way platforms while descending.
+    /// Returns -1 if no platform is hit.
+    /// Otherwise returns the allowed downward distance.
     /// </summary>
-    private float ResolveOneWayPlatformsDownward()
+    private float ResolveOneWayPlatformsDownward(float movementDistance)
     {
-        Vector3 feet = FeetPosition;
-        Vector3 origin = feet + Vector3.up * skinWidth;
+        Vector3 origin = FeetPosition + Vector3.up * skinWidth;
 
-        float checkDistance = skinWidth + 1000f;
+        float checkDistance = movementDistance + skinWidth;
         float nearestDistance = float.MaxValue;
+
         bool foundPlatform = false;
         Vector3 nearestNormal = Vector3.up;
 
-        RaycastHit[] hits = Physics.RaycastAll(origin, Vector3.down, checkDistance, collisionLayers, TriggerInteraction);
+        RaycastHit[] hits = Physics.RaycastAll(
+            origin,
+            Vector3.down,
+            checkDistance,
+            collisionLayers,
+            TriggerInteraction
+        );
 
         foreach (RaycastHit hit in hits)
         {
@@ -205,12 +203,15 @@ public class FighterECB : MonoBehaviour
         IsGrounded = false;
         GroundNormal = Vector3.up;
 
-        if (enableOneWayPlatforms && gravity != null && gravity.verticalVelocity > 0f)
-            return;
-
         Vector3 origin = FeetPosition + Vector3.up * skinWidth;
 
-        if (!Physics.Raycast(origin, Vector3.down, out RaycastHit hit, groundCheckDistance + skinWidth, collisionLayers, TriggerInteraction))
+        if (!Physics.Raycast(
+            origin,
+            Vector3.down,
+            out RaycastHit hit,
+            groundCheckDistance + skinWidth,
+            collisionLayers,
+            TriggerInteraction))
         {
             return;
         }
@@ -222,7 +223,8 @@ public class FighterECB : MonoBehaviour
             ? hit.collider.GetComponentInParent<OneWayPlatform>()
             : null;
 
-        if (platform != null && gravity != null && gravity.verticalVelocity > 0f)
+        // Only ignore one-way platforms while rising.
+        if (platform != null && physics != null && physics.Velocity.y > 0f)
             return;
 
         if (hit.normal.y >= minimumGroundNormalY)
@@ -244,8 +246,8 @@ public class FighterECB : MonoBehaviour
         Vector3 feet = FeetPosition;
         Vector3 top = feet + Vector3.up * height;
 
-        Vector3 left = feet + Vector3.up * (height * 0.5f) + Vector3.left * halfWidth;
-        Vector3 right = feet + Vector3.up * (height * 0.5f) + Vector3.right * halfWidth;
+        Vector3 left = FeetPosition + Vector3.up * (height * 0.5f) + Vector3.left * halfWidth;
+        Vector3 right = FeetPosition + Vector3.up * (height * 0.5f) + Vector3.right * halfWidth;
 
         Vector3[] vertices = { feet, left, top, right };
 
@@ -254,7 +256,6 @@ public class FighterECB : MonoBehaviour
             Vector3 a = vertices[edge];
             Vector3 b = vertices[(edge + 1) % vertices.Length];
 
-            //the amount of point it checks between each part of the ECB Diamond
             for (int i = 0; i <= edgeSamples; i++)
             {
                 float t = (float)i / edgeSamples;
@@ -278,12 +279,15 @@ public class FighterECB : MonoBehaviour
 
         Gizmos.color = Color.yellow;
 
-        Gizmos.DrawLine(FeetPosition, LeftPosition);
-        Gizmos.DrawLine(LeftPosition, TopPosition);
-        Gizmos.DrawLine(TopPosition, RightPosition);
-        Gizmos.DrawLine(RightPosition, FeetPosition);
+        Gizmos.DrawLine(feet, left);
+        Gizmos.DrawLine(left, top);
+        Gizmos.DrawLine(top, right);
+        Gizmos.DrawLine(right, feet);
 
         Gizmos.color = Color.green;
-        Gizmos.DrawLine(feet + Vector3.up * skinWidth, feet + Vector3.down * groundCheckDistance);
+        Gizmos.DrawLine(
+            feet + Vector3.up * skinWidth,
+            feet + Vector3.down * groundCheckDistance
+        );
     }
 }

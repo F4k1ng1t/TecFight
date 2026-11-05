@@ -4,7 +4,6 @@ using UnityEngine;
 public class InitialDashState : IFighterState
 {
     private FighterStateMachine fsm;
-    private FighterECB ecb;
 
     private int frames;
     private int dashDirection;
@@ -16,14 +15,11 @@ public class InitialDashState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        ecb = f.GetComponent<FighterECB>();
 
         frames = 0;
-        dashDirection = f.direction;
-
-        // Direction of the dash when we entered.
         dashDirection = fsm.direction;
-        fsm.animator.PlayAnimation("Dash");
+
+        fsm.animator?.PlayAnimation("Dash");
     }
 
     public void Exit() { }
@@ -62,18 +58,14 @@ public class InitialDashState : IFighterState
         }
     }
 
-
     public void FixedUpdate()
     {
-        if (ecb == null)
+        if (fsm.physics == null)
             return;
 
         float moveX = dashDirection * fsm.charObj.initialDashSpeed;
 
-        fsm.gravity.horizontalVelocity = moveX;
-
-        Vector3 displacement = new Vector3(moveX * Time.fixedDeltaTime, 0f, 0f);
-        ecb.Move(displacement);
+        fsm.physics.SetHorizontalVelocity(moveX);
 
         frames++;
 
@@ -81,8 +73,8 @@ public class InitialDashState : IFighterState
         {
             float inputX = fsm.input.MoveInput.x;
 
-            // Stop the initial dash from leaving stored momentum.
-            fsm.gravity.horizontalVelocity = 0f;
+            // Clear initial dash momentum before transitioning.
+            fsm.physics.SetHorizontalVelocity(0f);
 
             if (Mathf.Abs(inputX) > INPUT_THRESHOLD)
             {
@@ -97,5 +89,4 @@ public class InitialDashState : IFighterState
             }
         }
     }
-
 }

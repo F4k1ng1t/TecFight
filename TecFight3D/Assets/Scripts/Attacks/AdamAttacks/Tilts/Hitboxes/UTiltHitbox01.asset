@@ -17,7 +17,8 @@ MonoBehaviour:
   activeFrames: 10
   radius: 1
   height: 0
-  sendAngle: 20
-  knockback: 0.1
+  sendAngle: 0
+  knockback: 5
   damage: 6
   priority: 0
+  scaling: 0.25

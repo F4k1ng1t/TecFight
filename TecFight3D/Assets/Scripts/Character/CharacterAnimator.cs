@@ -56,4 +56,13 @@ public class CharacterAnimator : MonoBehaviour
         //notes: this doesn't work for the looping animations as they restart from 0 before they ever exceed 1
         return animator.GetCurrentAnimatorStateInfo(0).normalizedTime < 1f;
     }
+    public bool IsAnimationFinished(string animationName)
+    {
+        if (!animator)
+            return false;
+
+        AnimatorStateInfo state = animator.GetCurrentAnimatorStateInfo(0);
+
+        return state.IsName(animationName) && state.normalizedTime >= 1f;
+    }
 }

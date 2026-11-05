@@ -6,7 +6,7 @@ public class FighterInputProcesser : MonoBehaviour
     private FighterStateMachine fsm;
     private FighterInput fi;
     private CharacterObject co;
-    private Gravity gravity;
+    private FighterPhysics physics;
 
     private bool prevJumpInput;
 
@@ -14,7 +14,7 @@ public class FighterInputProcesser : MonoBehaviour
     {
         fsm = GetComponent<FighterStateMachine>();
         fi = GetComponent<FighterInput>();
-        gravity = GetComponent<Gravity>();
+        physics = GetComponent<FighterPhysics>();
     }
 
     private void Start()
@@ -44,13 +44,17 @@ public class FighterInputProcesser : MonoBehaviour
 
     public bool CompareCurrentAirSpeedMax()
     {
-        return Mathf.Abs(gravity.horizontalVelocity) >= co.airSpeed;
+        return physics != null &&
+               Mathf.Abs(physics.Velocity.x) >= co.airSpeed;
     }
 
     public bool AttemptMoveOpposite()
     {
+        if (physics == null || fi == null)
+            return false;
+
         float inputX = fi.MoveInput.x;
-        float velocityX = gravity.horizontalVelocity;
+        float velocityX = physics.Velocity.x;
 
         return Mathf.Abs(inputX) > 0.2f &&
                Mathf.Abs(velocityX) > 0.01f &&
@@ -59,10 +63,10 @@ public class FighterInputProcesser : MonoBehaviour
 
     public bool FastFall()
     {
-        if (gravity == null || fi == null)
+        if (physics == null || fi == null)
             return false;
 
-        return gravity.verticalVelocity <= 0f &&
+        return physics.Velocity.y <= 0f &&
                fi.MoveInput.y < -0.5f;
     }
 

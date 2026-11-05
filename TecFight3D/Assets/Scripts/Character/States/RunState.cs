@@ -4,7 +4,6 @@ using UnityEngine;
 public class RunState : IFighterState
 {
     private FighterStateMachine fsm;
-    private FighterECB ecb;
     private int runDirection;
     private int idleFrames;
 
@@ -16,18 +15,14 @@ public class RunState : IFighterState
     {
         fsm = f;
         runDirection = fsm.direction;
-        fsm.animator.PlayAnimation("Dash");
-        ecb = f.GetComponent<FighterECB>();
-        runDirection = f.direction;
         idleFrames = 0;
 
         fsm.animator?.PlayAnimation("Dash");
     }
+
     public void Exit()
     {
-
     }
-
 
     public void Update()
     {
@@ -49,29 +44,30 @@ public class RunState : IFighterState
         if (Mathf.Abs(moveX) < IDLE_THRESHOLD)
         {
             idleFrames++;
-            Debug.Log(idleFrames);
+
             if (idleFrames >= IDLE_DELAY_FRAMES)
             {
-                
                 fsm.SetState(new IdleState());
                 return;
             }
         }
         else
         {
-            Debug.Log(idleFrames);
             idleFrames = 0;
         }
+
         if (fsm.input.Special)
         {
             fsm.SetStateAttack(fsm.getAttack.GetSpecial());
             return;
         }
+
         if (fsm.input.Strong)
         {
             fsm.SetStateAttack(fsm.getAttack.GetStrong());
             return;
         }
+
         if (fsm.input.Attack)
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
@@ -81,17 +77,10 @@ public class RunState : IFighterState
 
     public void FixedUpdate()
     {
-        if (ecb == null) return;
+        if (fsm.physics == null)
+            return;
 
         float moveX = runDirection * fsm.charObj.runSpeed;
-
-        // Store horizontal momentum for jumping and air drift.
-        fsm.gravity.horizontalVelocity = moveX;
-
-        ecb.Move(new Vector3(
-            moveX * Time.fixedDeltaTime,
-            0f,
-            0f
-        ));
+        fsm.physics.SetHorizontalVelocity(moveX);
     }
 }

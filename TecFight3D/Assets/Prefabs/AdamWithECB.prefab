@@ -14,13 +14,13 @@ GameObject:
   - component: {fileID: 8758518623474716514}
   - component: {fileID: 1239425376250338603}
   - component: {fileID: 36805058041085164}
-  - component: {fileID: 5897323667119843189}
   - component: {fileID: 6245076219115732766}
   - component: {fileID: 3359330467990905578}
   - component: {fileID: 1920953508601646157}
   - component: {fileID: 977852233353092550}
   - component: {fileID: 4461924170368556080}
   - component: {fileID: 3737536983505518563}
+  - component: {fileID: 9183927027553703366}
   m_Layer: 0
   m_Name: AdamWithECB
   m_TagString: Untagged
@@ -222,13 +222,14 @@ MonoBehaviour:
   rig: {fileID: 3939521261834363832}
   input: {fileID: 1239425376250338603}
   fip: {fileID: 6245076219115732766}
-  gravity: {fileID: 0}
+  physics: {fileID: 0}
   getAttack: {fileID: 0}
   ecb: {fileID: 0}
   charObj: {fileID: 11400000, guid: 74e98eaafd1e6a9438a27bfa5b96b855, type: 2}
   direction: 1
   currentDJC: 0
   airMovementEnabled: 1
+  hasAirdodge: 0
   isSheilding: 0
   isDodging: 0
   sheildHealth: 0
@@ -268,22 +269,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isGrounded: 1
---- !u!114 &5897323667119843189
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2085761460890895847}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 698549b3432e7e74791aa1b3da66e1eb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  active: 1
-  verticalVelocity: 0
-  horizontalVelocity: 0
-  clearHorizontalVelocityOnLanding: 1
 --- !u!114 &6245076219115732766
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -413,6 +398,25 @@ MonoBehaviour:
   groundCheckDistance: 0.08
   minimumGroundNormalY: 0.55
   drawGizmos: 1
+--- !u!114 &9183927027553703366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2085761460890895847}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 698549b3432e7e74791aa1b3da66e1eb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mass: 1
+  gravity: 30
+  useGravity: 1
+  groundTraction: 60
+  airFriction: 2
+  stopThreshold: 0.05
+  inputDeadzone: 0.2
 --- !u!1 &8794615132843499775
 GameObject:
   m_ObjectHideFlags: 0

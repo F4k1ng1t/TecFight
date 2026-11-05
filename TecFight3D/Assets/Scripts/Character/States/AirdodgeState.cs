@@ -3,12 +3,12 @@ using UnityEngine;
 
 public class AirdodgeState : IFighterState
 {
-    private const float DODGE_DURATION = 0.25f;
-    private const float DODGE_SPEED = 18f;
+    private const float DODGE_DURATION = 0.1f;
+    private const float DODGE_SPEED = 12f;
     private const float RECOVERY_DURATION = 0.45f;
 
     private FighterStateMachine fsm;
-    private Gravity gravity;
+    private FighterPhysics physics;
 
     private Vector3 dodgeDirection;
     private float dodgeTimer;
@@ -16,12 +16,11 @@ public class AirdodgeState : IFighterState
 
     private bool dodging;
     private bool originalGravityActive;
-    private bool originalClearHorizontalVelocity;
 
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        gravity = fsm.gravity;
+        physics = fsm.GetComponent<FighterPhysics>();
         fsm.hasAirdodge = false;
 
         dodgeTimer = 0f;
@@ -35,18 +34,15 @@ public class AirdodgeState : IFighterState
 
         dodgeDirection = new Vector3(input.x, input.y, 0f).normalized;
 
-        if (gravity != null)
+        if (physics != null)
         {
-            originalGravityActive = gravity.active;
-            originalClearHorizontalVelocity = gravity.clearHorizontalVelocityOnLanding;
+            originalGravityActive = physics.useGravity;
 
-            gravity.active = false;
-            gravity.verticalVelocity = 0f;
-            gravity.horizontalVelocity = 0f;
-            gravity.clearHorizontalVelocityOnLanding = false;
+            physics.useGravity = false;
+            physics.SetVelocity(dodgeDirection * DODGE_SPEED);
         }
 
-        fsm.animator?.PlayAnimation("Airdodge");
+        fsm.animator?.PlayAnimation("AirDodge");
     }
 
     public void Update()
@@ -75,14 +71,11 @@ public class AirdodgeState : IFighterState
 
     public void FixedUpdate()
     {
-        if (!dodging || fsm.ecb == null)
+        if (!dodging || physics == null || fsm.ecb == null)
             return;
 
-        Vector3 displacement = dodgeDirection * DODGE_SPEED * Time.fixedDeltaTime;
-        Vector3 resolved = fsm.ecb.Move(displacement);
-
-        if ((displacement - resolved).sqrMagnitude > 0.0001f)
-            EndDodge();
+        // FighterPhysics normally handles movement.
+        // Do not move the ECB directly here.
     }
 
     private void EndDodge()
@@ -93,38 +86,24 @@ public class AirdodgeState : IFighterState
         dodging = false;
         recoveryTimer = 0f;
 
-        if (gravity != null)
-        {
-            gravity.horizontalVelocity = 0f;
-            gravity.verticalVelocity = 0f;
-            gravity.active = originalGravityActive;
-        }
+        if (physics != null)
+            physics.useGravity = originalGravityActive;
     }
 
     private void FinishAirdodge(bool grounded)
     {
-        if (gravity != null)
-        {
-            gravity.horizontalVelocity = 0f;
-            gravity.verticalVelocity = 0f;
-            gravity.active = originalGravityActive;
-            gravity.clearHorizontalVelocityOnLanding = originalClearHorizontalVelocity;
-        }
+        if (physics != null)
+            physics.useGravity = originalGravityActive;
 
         if (grounded)
-            fsm.SetState(new IdleState());
+            fsm.SetState(new WavelandState());
         else
             fsm.SetState(new AirState());
     }
 
     public void Exit()
     {
-        if (gravity != null)
-        {
-            gravity.horizontalVelocity = 0f;
-            gravity.verticalVelocity = 0f;
-            gravity.active = originalGravityActive;
-            gravity.clearHorizontalVelocityOnLanding = originalClearHorizontalVelocity;
-        }
+        if (physics != null)
+            physics.useGravity = originalGravityActive;
     }
 }
