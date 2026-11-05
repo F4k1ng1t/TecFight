@@ -21,3 +21,5 @@ MonoBehaviour:
   knockback: 0.1
   damage: 1
   priority: 0
+  scaling: 0
+  AttackSound: {fileID: 8300000, guid: e54a7b7a1d676dd4cba690946c0f81ae, type: 3}

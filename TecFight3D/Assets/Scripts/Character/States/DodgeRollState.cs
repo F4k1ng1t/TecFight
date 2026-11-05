@@ -15,6 +15,7 @@ public class DodgeRollState : IFighterState
     {
         fsm = f;
         fsm.animator?.PlayAnimation("DodgeRoll");
+        fsm.fighterAudio.PlayDodgeSound();
     }
     public void Exit()
     {

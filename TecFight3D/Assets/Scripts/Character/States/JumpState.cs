@@ -29,6 +29,7 @@ public class JumpState : IFighterState
         jumpExecuted = false;
 
         fsm.animator?.PlayAnimation("JumpSquat");
+        fsm.fighterAudio?.PlayJumpSound();
 
     }
     public void Exit()

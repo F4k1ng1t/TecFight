@@ -12,6 +12,7 @@ public class SpotDodgeState : IFighterState
     {
         fsm = f;
         fsm.animator?.PlayAnimation("SpotDodge");
+        fsm.fighterAudio.PlayDodgeSound();
     }
     public void Exit()
     {
