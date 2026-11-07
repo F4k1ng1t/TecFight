@@ -13,8 +13,8 @@ public class FighterStateMachine : MonoBehaviour
     public FighterPhysics physics;
     public GetAttackObject getAttack;
     public FighterECB ecb;
-
-    [Tooltip("The character's attributes.")]
+    public FighterAudio fighterAudio;
+    [Tooltip("the character's attributes.")]
     public CharacterObject charObj;
 
     public int direction = 1;
@@ -47,6 +47,9 @@ public class FighterStateMachine : MonoBehaviour
         getAttack = GetComponent<GetAttackObject>();
         currentDJC = charObj.doubleJumpCount;
         ecb = GetComponent<FighterECB>();
+        if(!fighterAudio)
+            fighterAudio = GetComponent<FighterAudio>();
+        //SetState(new AirState());
     }
 
     private void Update()

@@ -4,8 +4,12 @@ using UnityEngine.UI;
 
 public class KnockbackHandler : MonoBehaviour
 {
-    [SerializeField] private float totalHealth = 100f;
-    [SerializeField] private float damage = 0f;
+    const float knockbackDecay = 0.9f;
+    [SerializeField] private float totalHealth = 100;
+    [SerializeField] private float damage = 0;
+    [SerializeField] AudioClip hitSound;
+    private Image healthSlider;
+    private float currentHealth;
 
     private Image healthSlider;
     private FighterStateMachine fsm;
@@ -41,8 +45,11 @@ public class KnockbackHandler : MonoBehaviour
         {
             fsm.sheildHealth -= deltDamage;
             return;
+            //mayhaps add a sheild hit sound
         }
-
+        //fsm.SetDirection(-player.direction); //sets the direction opposite the hitting players direction
+        fsm.SetState(new HitState());
+        fsm.fighterAudio.PlayOneShot(hitSound);
         damage += deltDamage;
 
         float knockbackStrength = knockback.magnitude + scaling * damage;

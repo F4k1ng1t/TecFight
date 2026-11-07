@@ -18,6 +18,7 @@ public class DoubleJumpState : IFighterState
         fsm.currentDJC--;
 
         fsm.SetState(new AirState());
+        fsm.fighterAudio?.PlayJumpSound();
     }
 
     public void Exit() { }

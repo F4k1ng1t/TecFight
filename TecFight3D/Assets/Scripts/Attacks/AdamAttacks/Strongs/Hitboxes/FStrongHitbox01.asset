@@ -22,3 +22,4 @@ MonoBehaviour:
   damage: 3.5
   priority: 0
   scaling: 1
+  AttackSound: {fileID: 8300000, guid: 04394c34168de274cbea38ed89d2f592, type: 3}

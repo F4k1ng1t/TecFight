@@ -18,8 +18,8 @@ public class InitialDashState : IFighterState
 
         frames = 0;
         dashDirection = fsm.direction;
-
         fsm.animator?.PlayAnimation("Dash");
+        fsm.fighterAudio.PlayDashSound();
     }
 
     public void Exit() { }

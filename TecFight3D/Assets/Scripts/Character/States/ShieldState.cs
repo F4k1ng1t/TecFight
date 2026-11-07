@@ -15,6 +15,7 @@ public class ShieldState : IFighterState
         UpdateSheildHealth();
         fsm.animator?.PlayAnimation("SheildEnter");
         fsm.isSheilding = true;
+        fsm.fighterAudio.PlaySheildEnterSound();
     }
     public void Exit()
     {
@@ -56,6 +57,7 @@ public class ShieldState : IFighterState
         }
         if (!fi.Shield)
         {
+            fsm.fighterAudio.PlaySheildExitSound();
             fsm.SetState(new IdleState());
         }
         if (fsm.fip.JumpPressed())

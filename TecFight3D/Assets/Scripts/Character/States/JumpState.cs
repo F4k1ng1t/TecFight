@@ -23,8 +23,8 @@ public class JumpState : IFighterState
         jumpExecuted = false;
 
         savedHorizontalVelocity = fsm.physics.Velocity.x;
-
         fsm.animator?.PlayAnimation("JumpSquat");
+        fsm.fighterAudio?.PlayJumpSound();
     }
 
     public void Exit()
