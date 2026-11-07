@@ -1,3 +1,4 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,51 +10,37 @@ public class KnockbackHandler : MonoBehaviour
     [SerializeField] AudioClip hitSound;
     private Image healthSlider;
     private float currentHealth;
+    private FighterStateMachine fsm;
+    private FighterPhysics physics;
 
-    FighterStateMachine fsm;
-    FighterECB ecb;
-    Vector3 knockbackDirection;
-    float knockbackStrength;
-    float lastHitboxTimestamp = 0;
+    private float lastHitboxTimestamp;
 
     private void Start()
     {
         fsm = GetComponent<FighterStateMachine>();
-        ecb = GetComponent<FighterECB>();
-    }
-
-    private void FixedUpdate()
-    {
-        if(ecb && knockbackStrength > 0.001f)
-        {
-            //include some semblance of fsm.charobj.weight here
-            ecb.Move(knockbackDirection * knockbackStrength);
-            knockbackStrength *= knockbackDecay;
-        }
+        physics = GetComponent<FighterPhysics>();
     }
 
     public void SetHealthBar(Image healthBar)
     {
         healthSlider = healthBar;
-        healthSlider.fillAmount = damage / totalHealth;
+
+        if (healthSlider != null)
+            healthSlider.fillAmount = damage / totalHealth;
     }
 
     public void OnHit(Vector3 knockback, float deltDamage, float timeStamp, float scaling)
     {
-        //my thought is we could assign each hitbox a code based on the time it is spawned & maybe a player ID if it is nessecary, once that hitbox code hits it becomes the last hitbox code and the player can't be hit by that box again
         if (timeStamp <= lastHitboxTimestamp)
-        {
             return;
-        }
+
         if (fsm.isDodging)
-        {
-            //damage is dodged
             return;
-        }
+
         lastHitboxTimestamp = timeStamp;
+
         if (fsm.isSheilding)
         {
-            //take sheild damage
             fsm.sheildHealth -= deltDamage;
             return;
             //mayhaps add a sheild hit sound
@@ -62,42 +49,23 @@ public class KnockbackHandler : MonoBehaviour
         fsm.SetState(new HitState());
         fsm.fighterAudio.PlayOneShot(hitSound);
         damage += deltDamage;
-        knockbackDirection = knockback.normalized;
-        knockbackStrength = 0.1f * (knockback.magnitude + (scaling * damage));
-        healthSlider.fillAmount = damage / totalHealth;
+
+        float knockbackStrength = knockback.magnitude + scaling * damage;
+        Vector3 knockbackVelocity = knockback.normalized * knockbackStrength;
+
+        fsm.SetState(new HitState());
+
+        physics.AddForce(knockbackVelocity, ForceMode.VelocityChange);
+
+        if (healthSlider != null)
+            healthSlider.fillAmount = damage / totalHealth;
     }
 
     public void ResetDamage()
     {
-        damage = 0;
-        healthSlider.fillAmount = damage / totalHealth;
-    }
+        damage = 0f;
 
-
-    void TakeDamage(int damage)
-    {
-        if (currentHealth > 0)
-        {
-            currentHealth -= damage;
-
-            if (currentHealth < 0)
-            {
-                currentHealth = 0;
-            }
-
-
-            Debug.Log("Player Health: " + currentHealth);
-
-            if (currentHealth == 0)
-            {
-                Die();
-            }
-        }
-    }
-
-
-    void Die()
-    {
-        Debug.Log("Player has died!");
+        if (healthSlider != null)
+            healthSlider.fillAmount = damage / totalHealth;
     }
 }

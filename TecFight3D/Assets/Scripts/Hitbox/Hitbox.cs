@@ -14,5 +14,6 @@ public class Hitbox : ScriptableObject
     public float damage = 1f;
     public int priority = 0;
     public float scaling;
+    public bool grab;
     public AudioClip AttackSound;
 }

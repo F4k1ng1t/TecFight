@@ -105,4 +105,8 @@ public class GetAttackObject : MonoBehaviour
         }
         return null;
     }
+    public AttackObject GetGrab()
+    {
+        return attackObjects["Grab"];
+    }
 }

@@ -35,6 +35,7 @@ public class SideSpecialBehaviour : AttackBehaviour
     private float distanceTravelled;
     private float phaseTimer;
     private bool originalGravityActive;
+    private bool physicsStepPending;
 
     public override bool CanExit => false;
     public override bool ControlsAirMovement => true;
@@ -45,11 +46,12 @@ public class SideSpecialBehaviour : AttackBehaviour
         distanceTravelled = 0f;
         phaseTimer = 0f;
         phase = Phase.Rushing;
+        physicsStepPending = false;
 
-        originalGravityActive = fsm.gravity != null && fsm.gravity.active;
+        originalGravityActive = fsm.physics.useGravity;
+        fsm.physics.useGravity = false;
 
-        if (fsm.gravity != null)
-            fsm.gravity.active = false;
+        fsm.physics.SetVelocity(new Vector3(fsm.direction * rushSpeed, 0f, 0f));
 
         if (!string.IsNullOrEmpty(rushAnimation))
             fsm.animator.PlayAnimation(rushAnimation);
@@ -60,9 +62,7 @@ public class SideSpecialBehaviour : AttackBehaviour
         if (phase == Phase.Rushing)
         {
             if (CheckForOpponent())
-            {
                 BeginHit();
-            }
 
             return;
         }
@@ -81,6 +81,26 @@ public class SideSpecialBehaviour : AttackBehaviour
         if (phase != Phase.Rushing)
             return;
 
+        // Consume the movement result from the previous physics tick.
+        if (physicsStepPending)
+        {
+            distanceTravelled += Mathf.Abs(fsm.physics.LastResolvedMovement.x);
+            physicsStepPending = false;
+
+            if (CheckForOpponent())
+            {
+                BeginHit();
+                return;
+            }
+
+            if (fsm.physics.LastHitWall || fsm.physics.LastHitCeiling ||
+                distanceTravelled >= rushDistance - 0.001f)
+            {
+                BeginWhiff();
+                return;
+            }
+        }
+
         float remainingDistance = rushDistance - distanceTravelled;
 
         if (remainingDistance <= 0f)
@@ -89,31 +109,10 @@ public class SideSpecialBehaviour : AttackBehaviour
             return;
         }
 
-        float stepDistance = Mathf.Min(
-            rushSpeed * Time.fixedDeltaTime,
-            remainingDistance
-        );
+        float stepDistance = Mathf.Min(rushSpeed * Time.fixedDeltaTime, remainingDistance);
 
-        Vector3 displacement = new Vector3(
-            fsm.direction * stepDistance,
-            0f,
-            0f
-        );
-
-        Vector3 resolvedMovement = fsm.ecb.Move(displacement);
-
-        distanceTravelled += Mathf.Abs(resolvedMovement.x);
-
-        if (CheckForOpponent())
-        {
-            BeginHit();
-            return;
-        }
-
-        if (fsm.ecb.HitWall || fsm.ecb.HitCeiling)
-            BeginWhiff();
-        else if (distanceTravelled >= rushDistance - 0.001f)
-            BeginWhiff();
+        fsm.physics.SetHorizontalVelocity(fsm.direction * stepDistance / Time.fixedDeltaTime);
+        physicsStepPending = true;
     }
 
     private bool CheckForOpponent()
@@ -132,8 +131,7 @@ public class SideSpecialBehaviour : AttackBehaviour
             if (col == null)
                 continue;
 
-            FighterStateMachine opponent =
-                col.GetComponentInParent<FighterStateMachine>();
+            FighterStateMachine opponent = col.GetComponentInParent<FighterStateMachine>();
 
             if (opponent == null || opponent == fsm)
                 continue;
@@ -180,11 +178,16 @@ public class SideSpecialBehaviour : AttackBehaviour
 
     private void RestoreGravity()
     {
-        if (fsm.gravity != null)
-            fsm.gravity.active = originalGravityActive;
+        if (fsm == null || fsm.physics == null)
+            return;
 
-        if (fsm.ecb != null && fsm.ecb.IsGrounded && fsm.gravity != null)
-            fsm.gravity.verticalVelocity = 0f;
+        fsm.physics.useGravity = originalGravityActive;
+
+        if (fsm.ecb != null && fsm.ecb.IsGrounded && fsm.physics.Velocity.y < 0f)
+            fsm.physics.SetVerticalVelocity(0f);
+
+        // Stop the rush when entering hit or whiff recovery.
+        fsm.physics.SetHorizontalVelocity(0f);
     }
 
     private void FinishAttack()
@@ -204,5 +207,4 @@ public class SideSpecialBehaviour : AttackBehaviour
     {
         RestoreGravity();
     }
-
 }

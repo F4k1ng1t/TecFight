@@ -33,12 +33,18 @@ public class UpSpecialBehaviour : AttackBehaviour
 
     private Phase phase;
     private FighterStateMachine fsm;
+    private FighterPhysics physics;
+
     private Transform characterVisual;
     private Quaternion originalVisualRotation;
+
     private float chargeTime;
     private float remainingDistance;
+
     private Vector2 aimDirection;
     private bool previousSpecialHeld;
+
+    private bool originalGravityActive;
 
     public override bool CanExit => false;
     public override bool ControlsAirMovement => true;
@@ -46,6 +52,8 @@ public class UpSpecialBehaviour : AttackBehaviour
     public override void OnAttackEnter(FighterStateMachine f, AttackObject attack)
     {
         fsm = f;
+        physics = fsm.physics;
+
         phase = Phase.Charging;
         chargeTime = 0f;
         remainingDistance = 0f;
@@ -58,13 +66,19 @@ public class UpSpecialBehaviour : AttackBehaviour
         if (characterVisual != null)
             originalVisualRotation = characterVisual.localRotation;
 
-        FighterInput input = fsm.GetComponent<FighterInput>();
+        FighterInput input = fsm.input;
         previousSpecialHeld = input != null && input.Special;
 
-        fsm.gravity.active = false;
+        if (physics != null)
+        {
+            originalGravityActive = physics.useGravity;
+
+            physics.useGravity = false;
+            physics.ClearVelocity();
+        }
 
         if (!string.IsNullOrEmpty(chargeAnimation))
-            fsm.animator.PlayAnimation(chargeAnimation);
+            fsm.animator?.PlayAnimation(chargeAnimation);
     }
 
     public override void OnAttackUpdate(FighterStateMachine f, AttackObject attack)
@@ -72,7 +86,7 @@ public class UpSpecialBehaviour : AttackBehaviour
         if (phase != Phase.Charging)
             return;
 
-        FighterInput input = fsm.GetComponent<FighterInput>();
+        FighterInput input = fsm.input;
 
         if (input == null)
             return;
@@ -91,23 +105,32 @@ public class UpSpecialBehaviour : AttackBehaviour
 
     public override void OnAttackFixedUpdate(FighterStateMachine f, AttackObject attack)
     {
+        if (physics == null)
+            return;
+
         switch (phase)
         {
             case Phase.Charging:
-                fsm.gravity.active = false;
+                physics.useGravity = false;
+                physics.SetVelocity(Vector3.zero);
+
                 UpdateRotation();
-                chargeTime = Mathf.Min(chargeTime + Time.fixedDeltaTime, maxChargeTime);
-                
+
+                chargeTime = Mathf.Min(
+                    chargeTime + Time.fixedDeltaTime,
+                    maxChargeTime
+                );
                 break;
 
             case Phase.Traveling:
-                fsm.gravity.active = false;
+                physics.useGravity = false;
+
                 UpdateRotation();
                 UpdateTravel();
                 break;
 
             case Phase.SpecialFall:
-                fsm.gravity.active = true;
+                physics.useGravity = true;
                 UpdateSpecialFall();
                 break;
         }
@@ -128,8 +151,16 @@ public class UpSpecialBehaviour : AttackBehaviour
             chargeRatio
         );
 
+        physics.SetVelocity(
+            new Vector3(
+                aimDirection.x * travelSpeed,
+                aimDirection.y * travelSpeed,
+                0f
+            )
+        );
+
         if (!string.IsNullOrEmpty(launchAnimation))
-            fsm.animator.PlayAnimation(launchAnimation);
+            fsm.animator?.PlayAnimation(launchAnimation);
     }
 
     private void UpdateRotation()
@@ -152,34 +183,11 @@ public class UpSpecialBehaviour : AttackBehaviour
 
     private void UpdateTravel()
     {
-        if (remainingDistance <= 0f)
-        {
-            BeginSpecialFall();
-            return;
-        }
+        float distanceThisStep = travelSpeed * Time.fixedDeltaTime;
 
-        float distanceThisStep = Mathf.Min(
-            travelSpeed * Time.fixedDeltaTime,
-            remainingDistance
-        );
+        remainingDistance -= distanceThisStep;
 
-        Vector3 displacement = new Vector3(
-            aimDirection.x,
-            aimDirection.y,
-            0f
-        ) * distanceThisStep;
-
-        Vector3 resolvedMovement = fsm.ecb.Move(displacement);
-
-        remainingDistance -= resolvedMovement.magnitude;
-
-        if (fsm.ecb.HitWall || fsm.ecb.HitCeiling)
-        {
-            BeginSpecialFall();
-            return;
-        }
-
-        if (remainingDistance <= 0.001f)
+        if (fsm.ecb.HitWall || fsm.ecb.HitCeiling || remainingDistance <= 0f)
             BeginSpecialFall();
     }
 
@@ -190,21 +198,26 @@ public class UpSpecialBehaviour : AttackBehaviour
 
         phase = Phase.SpecialFall;
 
+        physics.useGravity = true;
+
+        physics.SetVelocity(Vector3.zero);
+
+        physics.SetVerticalVelocity(-fallSpeed);
+
         if (!string.IsNullOrEmpty(specialFallAnimation))
-            fsm.animator.PlayAnimation(specialFallAnimation);
+            fsm.animator?.PlayAnimation(specialFallAnimation);
     }
 
     private void UpdateSpecialFall()
     {
-        fsm.ecb.Move(Vector3.down * fallSpeed * Time.fixedDeltaTime);
-
-        if (fsm.ecb.IsGrounded)
+        if (fsm.ecb != null && fsm.ecb.IsGrounded)
             fsm.SetState(new IdleState());
     }
 
     public override void OnAttackExit(FighterStateMachine f, AttackObject attack)
     {
-        fsm.gravity.active = true;
+        if (physics != null)
+            physics.useGravity = originalGravityActive;
 
         if (characterVisual != null)
             characterVisual.localRotation = originalVisualRotation;

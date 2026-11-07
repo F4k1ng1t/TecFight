@@ -1,3 +1,4 @@
+
 using UnityEngine;
 
 [CreateAssetMenu(fileName = "ForwardAirBehaviour", menuName = "Attack Behaviours/Forward Air")]
@@ -8,6 +9,7 @@ public class ForwardAirBehaviour : AttackBehaviour
 
     private float recoilTimer;
     private bool recoiling;
+    private float savedHorizontalVelocity;
 
     public override void OnAttackEnter(FighterStateMachine fsm, AttackObject attack)
     {
@@ -19,7 +21,9 @@ public class ForwardAirBehaviour : AttackBehaviour
     {
         recoilTimer = recoilDuration;
         recoiling = true;
-        //fsm.airMovementEnabled = false; // Disable air movement during recoil
+
+        savedHorizontalVelocity = fsm.physics.Velocity.x;
+        fsm.physics.SetHorizontalVelocity(-fsm.direction * recoilSpeed);
     }
 
     public override void OnAttackFixedUpdate(FighterStateMachine fsm, AttackObject attack)
@@ -27,17 +31,19 @@ public class ForwardAirBehaviour : AttackBehaviour
         if (!recoiling)
             return;
 
-        fsm.ecb.Move(Vector3.left * fsm.direction * recoilSpeed * Time.fixedDeltaTime);
+        fsm.physics.SetHorizontalVelocity(-fsm.direction * recoilSpeed);
 
         recoilTimer -= Time.fixedDeltaTime;
 
-        if (recoilTimer <= 0f || fsm.ecb.HitWall)
+        if (recoilTimer <= 0f || fsm.physics.LastHitWall)
+        {
             recoiling = false;
+            fsm.physics.SetHorizontalVelocity(savedHorizontalVelocity);
+        }
     }
 
     public override void OnAttackExit(FighterStateMachine fsm, AttackObject attack)
     {
         recoiling = false;
-        //fsm.airMovementEnabled = true; // Re-enable air movement after recoil
     }
 }

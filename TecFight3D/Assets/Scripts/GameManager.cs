@@ -1,3 +1,4 @@
+
 using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -6,9 +7,10 @@ using UnityEngine.UI;
 public class GameManager : MonoBehaviour
 {
     public static GameManager gameManager;
+
     [SerializeField] int lives = 3;
     [SerializeField] Transform[] spawnPoints;
-    [SerializeField] Transform[] lifeUIHLG; //you don't need to know what this is, right?
+    [SerializeField] Transform[] lifeUIHLG;
     [SerializeField] GameObject lifePrefab;
     [SerializeField] Image[] healthBars;
     [SerializeField] GameObject CharacterPrefab;
@@ -17,6 +19,7 @@ public class GameManager : MonoBehaviour
     private AudioSource audioSource;
     Transform[] Players;
     int[] perPlayerLives;
+
     private void Awake()
     {
         if (gameManager != null)
@@ -24,21 +27,24 @@ public class GameManager : MonoBehaviour
             Destroy(gameObject);
             return;
         }
+
         gameManager = this;
-        //the 2 in each of these is the number of players which we are setting statically for now
+
+        // The 2 in each of these is the number of players.
         Players = new Transform[2];
         perPlayerLives = Enumerable.Repeat(lives, 2).ToArray();
-        foreach(Transform hlg in lifeUIHLG)
+
+        foreach (Transform hlg in lifeUIHLG)
         {
-            for(int i = 0; i < lives; i++)
+            for (int i = 0; i < lives; i++)
             {
                 Instantiate(lifePrefab, hlg);
             }
         }
 
         GameObject temp;
-        //currently hard coded to spawn 2 of the same character in the 2 spawn points.
-        //Future updates will need to spawn the amount of players in the game, and spawn the players with the correct character and attachment
+
+        // Currently hard coded to spawn 2 of the same character.
         temp = Instantiate(CharacterPrefab, spawnPoints[0].position, spawnPoints[0].rotation);
         temp.GetComponent<KnockbackHandler>().SetHealthBar(healthBars[0]);
         temp.GetComponent<AttachmentHandler>().SetAttachment(AttachmentTransfer.p1Attachment);
@@ -69,14 +75,22 @@ public class GameManager : MonoBehaviour
         perPlayerLives[playerIndex] = perPlayerLives[playerIndex] - 1;
         //ui update
         Players[playerIndex].gameObject.GetComponent<KnockbackHandler>().ResetDamage();
-        var f = Players[playerIndex].gameObject.GetComponent<FighterStateMachine>();
+
+        FighterStateMachine f = Players[playerIndex].GetComponent<FighterStateMachine>();
+
+        // Reset all movement velocity.
+        f.physics.ClearVelocity();
+
+        // Restore gravity in case the player was in a special move.
+        f.physics.useGravity = true;
+
         f.SetState(new AirState());
-        f.gravity.horizontalVelocity = 0;
-        f.gravity.verticalVelocity = 0;
+
+        // Update lives UI.
         Destroy(lifeUIHLG[playerIndex].GetChild(0).gameObject);
+
         if (perPlayerLives[playerIndex] < 1)
         {
-            //end game
             SceneManager.LoadScene("WinScreen");
         }
     }

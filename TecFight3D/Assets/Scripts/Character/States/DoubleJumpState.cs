@@ -13,7 +13,7 @@ public class DoubleJumpState : IFighterState
         co = fsm.charObj;
         fip = fsm.fip;
 
-        fsm.gravity.verticalVelocity = co.doubleJumpForce;
+        fsm.physics.SetVerticalVelocity(co.doubleJumpForce);
 
         fsm.currentDJC--;
 
