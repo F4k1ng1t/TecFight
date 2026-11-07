@@ -59,6 +59,7 @@ public class GameManager : MonoBehaviour
     private void Start()
     {
         if (blastZones == null)
+        {
             blastZones = FindAnyObjectByType<BlastZoneBehavior>();
         }
         if(audioSource == null)

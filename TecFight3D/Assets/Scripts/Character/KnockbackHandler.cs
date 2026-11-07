@@ -10,8 +10,6 @@ public class KnockbackHandler : MonoBehaviour
     [SerializeField] AudioClip hitSound;
     private Image healthSlider;
     private float currentHealth;
-
-    private Image healthSlider;
     private FighterStateMachine fsm;
     private FighterPhysics physics;
 
