@@ -67,7 +67,8 @@ public class IdleState : IFighterState
         }
         if(fi.Special)
         {
-            fsm.SetStateAttack(fsm.getAttack.GetSpecial());
+            Debug.Log(fsm.specialManager);
+            fsm.SetState(fsm.specialManager.GetSpecial());
         }
         if (fi.Shield)
         {

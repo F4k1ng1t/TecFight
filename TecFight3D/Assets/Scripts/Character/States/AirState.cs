@@ -41,15 +41,7 @@ public class AirState : IFighterState
 
         if (fi.Special)
         {
-            AttackObject special = fsm.getAttack.GetSpecial();
-
-            Debug.Log(special == null
-                ? "GetSpecial returned NULL"
-                : $"Selected special: {special.attackName}");
-
-            if (special != null)
-                fsm.SetStateAttack(special);
-
+            fsm.SetState(fsm.specialManager.GetSpecial());
             return;
         }
         if (fi.Shield && fsm.hasAirdodge)

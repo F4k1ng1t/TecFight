@@ -1176,7 +1176,7 @@ MonoBehaviour:
   healthBars:
   - {fileID: 779757416}
   - {fileID: 111322935}
-  CharacterPrefab: {fileID: 2085761460890895847, guid: 75056c50156d30a448d6365333c378d1, type: 3}
+  CharacterPrefab: {fileID: 2085761460890895847, guid: 0d098f71444316a4890c8d5d8c517cc9, type: 3}
   blastZones: {fileID: 0}
   deathSound: {fileID: 8300000, guid: 1032174a888dff44e86016c2fa7c9992, type: 3}
 --- !u!114 &364181959
@@ -2519,7 +2519,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 3cc419ae6ae2ff24abaad874a22513e9, type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []

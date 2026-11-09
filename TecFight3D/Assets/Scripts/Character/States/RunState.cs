@@ -58,7 +58,7 @@ public class RunState : IFighterState
 
         if (fsm.input.Special)
         {
-            fsm.SetStateAttack(fsm.getAttack.GetSpecial());
+            fsm.SetState(fsm.specialManager.GetSpecial());
             return;
         }
 

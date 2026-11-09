@@ -60,6 +60,12 @@ public class KnockbackHandler : MonoBehaviour
         if (healthSlider != null)
             healthSlider.fillAmount = damage / totalHealth;
     }
+    public void TakeDamage(float amount)
+    {
+        damage += amount;
+        if (healthSlider != null)
+            healthSlider.fillAmount = damage / totalHealth;
+    }
 
     public void ResetDamage()
     {
