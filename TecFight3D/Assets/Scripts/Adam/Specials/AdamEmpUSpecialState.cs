@@ -1,53 +1,63 @@
+using UnityEngine;
+
 public class AdamEmpUSpecialState: IFighterState
 {
+    private const int maxChargeFrames = 20;
+    private const float travelDistancePerFrame = 24f / 60f;
+
     private FighterStateMachine fsm;
-    private bool jumpCancelEnabled;
+    private int frame = 0;
+    private bool launch = false;
+    private Vector2 launchDirection;
 
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
         fsm.animator.PlayAnimation("EmpoweredUSpecial_Charge");
-        DisableJumpCancel();
+        fsm.physics.SetVelocity(Vector3.zero);
+        fsm.physics.useGravity = false;
     }
 
     public void Exit()
     {
-        DisableJumpCancel();
+        fsm.physics.useGravity = true;
+        fsm.animator.transform.localRotation = Quaternion.identity;
     }
 
     public void Update()
     {
-
-        if (jumpCancelEnabled && fsm.fip.JumpPressed())
+        if (!launch && !fsm.input.Special)
         {
-            fsm.SetState(new JumpState());
+            launch = true;
+            fsm.animator.PlayAnimation("EmpoweredUSpecial_Launch");
+        }
+        if (!launch)
+        {
+            launchDirection = fsm.input.MoveInput;
+            fsm.animator.transform.localRotation = Quaternion.Euler(0, 0,
+                Mathf.Atan2(fsm.input.MoveInput.y, fsm.input.MoveInput.x) * Mathf.Rad2Deg - 90);
             return;
         }
 
         if (fsm.animator.IsPlaying())
             return;
 
-        if (!fsm.ecb.IsGrounded)//the person is in the air
-            fsm.SetState(new AirState());
-        else
-            fsm.SetState(new IdleState());
+        //fsm.SetState(new SpecialFallState());
     }
 
     public void FixedUpdate()
     {
-    }
-
-    public void ApplyRecoil()
-    {
-    }
-
-    public void EnableJumpCancel()
-    {
-        jumpCancelEnabled = true;
-    }
-
-    public void DisableJumpCancel()
-    {
-        jumpCancelEnabled = false;
+        if (!launch)
+        {
+            return;
+        }
+        frame++;
+        //launch
+        if (launch && frame < maxChargeFrames)
+        {
+            fsm.ecb.Move(launchDirection * travelDistancePerFrame);
+            return;
+        }
+        fsm.SetState(new SpecialFallState());
     }
 }

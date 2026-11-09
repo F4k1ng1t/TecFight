@@ -48,6 +48,7 @@ public class KnockbackHandler : MonoBehaviour
         //fsm.SetDirection(-player.direction); //sets the direction opposite the hitting players direction
         fsm.SetState(new HitState());
         fsm.fighterAudio.PlayOneShot(hitSound);
+        fsm.onDamageTaken.Invoke(deltDamage);
         damage += deltDamage;
 
         float knockbackStrength = knockback.magnitude + scaling * damage;

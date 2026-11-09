@@ -33,7 +33,7 @@ public class FighterStateMachine : MonoBehaviour
     [HideInInspector] public float timeSinceSheild;
 
     //events for per character specials (might need more for other characters)
-    public UnityEvent onDamageTaken;
+    public UnityEvent<float> onDamageTaken;
 
     public GameObject sheild;
 

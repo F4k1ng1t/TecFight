@@ -18,11 +18,14 @@ public class AdamSSpecialState : IFighterState
     {
         fsm = f;
         fsm.animator.PlayAnimation("SSpecialChase");
+        fsm.physics.SetVelocity(Vector3.zero);
+        fsm.physics.useGravity = false;
         DisableJumpCancel();
     }
 
     public void Exit()
     {
+        fsm.physics.useGravity = true;
         DisableJumpCancel();
     }
 
@@ -47,6 +50,10 @@ public class AdamSSpecialState : IFighterState
     public void FixedUpdate()
     {
         frame++;
+        if (frame == rushStop)
+        {
+            fsm.physics.useGravity = true;
+        }
         if(frame > rushStop || frame < rushStart || hit)
         {
             return;
@@ -61,7 +68,6 @@ public class AdamSSpecialState : IFighterState
                 {
                     if (hurtbox.transform.root == fsm.transform.root)
                         continue;
-                    Debug.Log("Sspecial hit: " + hurtbox.name);
                     fsm.animator.PlayAnimation("SSpecialHit");
                     hit = true;
                 }

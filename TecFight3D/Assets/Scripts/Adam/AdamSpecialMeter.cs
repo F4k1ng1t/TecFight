@@ -27,4 +27,9 @@ public class AdamSpecialMeter : MonoBehaviour
         }
         return false;
     }
+
+    public void AddCharge(float amount)
+    {
+        specialCharge = Mathf.Min(specialCharge + amount, specialMax);
+    }
 }

@@ -19,12 +19,14 @@ public class AdamEmpSSpecialState : IFighterState
     {
         fsm = f;
         fsm.animator.PlayAnimation("EmpoweredSSpecialChase");
+        fsm.physics.SetVelocity(Vector3.zero);
+        fsm.physics.useGravity = false;
         DisableJumpCancel();
     }
 
     public void Exit()
     {
-        DisableJumpCancel();
+        fsm.physics.useGravity = true;
     }
 
     public void Update()
@@ -48,6 +50,10 @@ public class AdamEmpSSpecialState : IFighterState
     public void FixedUpdate()
     {
         frame++;
+        if (frame == rushStop)
+        {
+            fsm.physics.useGravity = true;
+        }
         if (frame > rushStop || frame < rushStart || hit)
         {
             return;

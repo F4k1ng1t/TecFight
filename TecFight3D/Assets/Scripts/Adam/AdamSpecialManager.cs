@@ -15,6 +15,7 @@ public class AdamSpecialManager : MonoBehaviour, ICharacterSpecialManager
         {
             gameObject.GetComponent<AdamSpecialMeter>();
         }
+        fsm.onDamageTaken.AddListener(meter.AddCharge);
     }
     public IFighterState GetSpecial()
     {

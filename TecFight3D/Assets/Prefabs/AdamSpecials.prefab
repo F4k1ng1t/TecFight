@@ -222,7 +222,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 13fe1b15bcd92fa438b45ce0f8d15ebd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animator: {fileID: 0}
+  animator: {fileID: 7060332876142667053}
   rig: {fileID: 3939521261834363832}
   input: {fileID: 1239425376250338603}
   fip: {fileID: 6245076219115732766}
