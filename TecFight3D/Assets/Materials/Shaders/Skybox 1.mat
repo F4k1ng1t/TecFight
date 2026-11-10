@@ -67,7 +67,7 @@ Material:
     - _QueueControl: 0
     - _QueueOffset: 0
     - _ReceiveShadows: 0
-    - _Slider: 1
+    - _Slider: 0
     - _SrcBlend: 1
     - _StarHeight: 50
     - _StarIntensity: 1
