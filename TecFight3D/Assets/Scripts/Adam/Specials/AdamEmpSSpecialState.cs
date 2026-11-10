@@ -61,7 +61,7 @@ public class AdamEmpSSpecialState : IFighterState
         fsm.ecb.Move(Vector3.right * (rushDistance / (rushStop - rushStart)) * fsm.direction);
         if (frame < hitboxStop)
         {
-            Collider[] hitHurtboxes = Physics.OverlapSphere(fsm.transform.position + (offset * fsm.direction), hitboxRadius, hurtboxMask, QueryTriggerInteraction.Collide);
+            Collider[] hitHurtboxes = Physics.OverlapSphere(fsm.transform.position + offset, hitboxRadius, hurtboxMask, QueryTriggerInteraction.Collide);
             if (hitHurtboxes.Length > 0)
             {
                 foreach (Collider hurtbox in hitHurtboxes)
