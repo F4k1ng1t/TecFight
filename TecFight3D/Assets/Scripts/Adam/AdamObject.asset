@@ -28,3 +28,7 @@ MonoBehaviour:
   doubleJumpForce: 12
   doubleJumpCount: 1
   shieldHealth: 25
+  groundTraction: 0
+  airFriction: 0
+  stockPrefab: {fileID: 1873841398824516736, guid: c511c61777ba9ee4daa8c63292fdd956, type: 3}
+  UI: {fileID: 4629001762559849700, guid: 36c1d0d6c37697f4eb12767d8d4d8832, type: 3}

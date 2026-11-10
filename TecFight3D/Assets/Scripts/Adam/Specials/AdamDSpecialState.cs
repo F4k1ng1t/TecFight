@@ -85,7 +85,7 @@ public class AdamDSpecialState : IFighterState
     public void FixedUpdate()
     {
         knockbackHandler.TakeDamage(damagePerFrame);
-        specialMeter.specialCharge += chargePerFrame;
+        specialMeter.AddCharge(chargePerFrame);
     }
 
     public void ApplyRecoil()

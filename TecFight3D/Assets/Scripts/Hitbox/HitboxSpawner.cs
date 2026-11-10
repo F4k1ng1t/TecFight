@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using Unity.Mathematics;
-using static UnityEngine.Rendering.DebugUI;
 
 public class HitboxSpawner : MonoBehaviour
 {

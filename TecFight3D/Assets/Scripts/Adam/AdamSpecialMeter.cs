@@ -1,7 +1,9 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AdamSpecialMeter : MonoBehaviour
 {
+    private Image MeterUI;
     //amount of special a shine uses
     private const float shinePercent = 0.25f;
     private const float specialMax = 10f;
@@ -13,6 +15,7 @@ public class AdamSpecialMeter : MonoBehaviour
         if(specialCharge > (specialMax * shinePercent))
         {
             specialCharge -= specialCharge * shinePercent;
+            UpdateUI();
             return true;
         }
         return false;
@@ -22,7 +25,8 @@ public class AdamSpecialMeter : MonoBehaviour
     {
         if(specialCharge >= specialMax)
         {
-            specialCharge = 0;
+            specialCharge = 0; 
+            UpdateUI();
             return true;
         }
         return false;
@@ -31,5 +35,16 @@ public class AdamSpecialMeter : MonoBehaviour
     public void AddCharge(float amount)
     {
         specialCharge = Mathf.Min(specialCharge + amount, specialMax);
+        UpdateUI();
+    }
+
+    private void UpdateUI()
+    {
+        MeterUI.fillAmount = specialCharge / specialMax;
+    }
+    
+    public void ConnectUI(Image ui)
+    {
+        MeterUI = ui;
     }
 }

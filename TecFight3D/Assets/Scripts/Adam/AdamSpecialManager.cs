@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class AdamSpecialManager : MonoBehaviour, ICharacterSpecialManager
 {
@@ -50,5 +51,10 @@ public class AdamSpecialManager : MonoBehaviour, ICharacterSpecialManager
         }
         //this aint right but you know
         return new AirState();
+    }
+
+    public void ConnectUI(Image characterUIElement)
+    {
+        meter.ConnectUI(characterUIElement);
     }
 }
