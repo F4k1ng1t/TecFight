@@ -56,7 +56,7 @@ public class WalkState : IFighterState
 
         if (fi.Special)
         {
-            fsm.SetStateAttack(fsm.getAttack.GetSpecial());
+            fsm.SetState(fsm.specialManager.GetSpecial());
             return;
         }
     }

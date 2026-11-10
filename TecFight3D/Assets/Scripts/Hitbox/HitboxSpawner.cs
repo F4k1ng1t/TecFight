@@ -1,7 +1,5 @@
 using UnityEngine;
 using System.Collections;
-using Unity.Mathematics;
-using static UnityEngine.Rendering.DebugUI;
 
 public class HitboxSpawner : MonoBehaviour
 {
@@ -89,8 +87,7 @@ public class HitboxSpawner : MonoBehaviour
                     break;
                 }
                 //we hit a hurtbox
-                Debug.Log("hit " + hitHurtboxes[0].gameObject.name);
-                //hitHurtboxes[0].transform.root.GetComponent<FighterStateMachine>(); //put a bitch in hitstun
+                //Debug.Log("hit " + hitHurtboxes[0].gameObject.name);
             }
             yield return (new WaitForEndOfFrame());
         }

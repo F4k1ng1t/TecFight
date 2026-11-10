@@ -10,9 +10,7 @@ public class GameManager : MonoBehaviour
 
     [SerializeField] int lives = 3;
     [SerializeField] Transform[] spawnPoints;
-    [SerializeField] Transform[] lifeUIHLG;
-    [SerializeField] GameObject lifePrefab;
-    [SerializeField] Image[] healthBars;
+    [SerializeField] Transform[] UISpawnPoints;
     [SerializeField] GameObject CharacterPrefab;
     [SerializeField] BlastZoneBehavior blastZones;
     [SerializeField] AudioClip deathSound;
@@ -34,26 +32,37 @@ public class GameManager : MonoBehaviour
         Players = new Transform[2];
         perPlayerLives = Enumerable.Repeat(lives, 2).ToArray();
 
-        foreach (Transform hlg in lifeUIHLG)
-        {
-            for (int i = 0; i < lives; i++)
-            {
-                Instantiate(lifePrefab, hlg);
-            }
-        }
+            
 
         GameObject temp;
+        GameObject tempUI;
 
         // Currently hard coded to spawn 2 of the same character.
         temp = Instantiate(CharacterPrefab, spawnPoints[0].position, spawnPoints[0].rotation);
-        temp.GetComponent<KnockbackHandler>().SetHealthBar(healthBars[0]);
+        tempUI = Instantiate(temp.GetComponent<FighterStateMachine>().charObj.UI, UISpawnPoints[0]);
+        temp.GetComponent<KnockbackHandler>().SetHealthBar(tempUI.GetComponent<CharacterUIData>().HealthBar);
+        temp.GetComponent<ICharacterSpecialManager>().ConnectUI(tempUI.GetComponent<CharacterUIData>().CharacterSpecificUI);
         temp.GetComponent<AttachmentHandler>().SetAttachment(AttachmentTransfer.p1Attachment);
         Players[0] = temp.transform;
+        for (int i = 0; i < lives; i++)
+        {
+            Instantiate(temp.GetComponent<FighterStateMachine>().charObj.stockPrefab, tempUI.GetComponent<CharacterUIData>().StockHLG);
+        }
 
         temp = Instantiate(CharacterPrefab, spawnPoints[1].position, spawnPoints[1].rotation);
-        temp.GetComponent<KnockbackHandler>().SetHealthBar(healthBars[1]);
+        tempUI = Instantiate(temp.GetComponent<FighterStateMachine>().charObj.UI, UISpawnPoints[1]);
+        temp.GetComponent<KnockbackHandler>().SetHealthBar(tempUI.GetComponent<CharacterUIData>().HealthBar);
+        temp.GetComponent<ICharacterSpecialManager>().ConnectUI(tempUI.GetComponent<CharacterUIData>().CharacterSpecificUI);
         temp.GetComponent<AttachmentHandler>().SetAttachment(AttachmentTransfer.p2Attachment);
+        tempUI.transform.localScale = new Vector2(
+            tempUI.transform.localScale.x * -1,
+            tempUI.transform.localScale.y
+            ); 
         Players[1] = temp.transform;
+        for (int i = 0; i < lives; i++)
+        {
+            Instantiate(temp.GetComponent<FighterStateMachine>().charObj.stockPrefab, tempUI.GetComponent<CharacterUIData>().StockHLG);
+        }
     }
 
     private void Start()
@@ -87,7 +96,7 @@ public class GameManager : MonoBehaviour
         f.SetState(new AirState());
 
         // Update lives UI.
-        Destroy(lifeUIHLG[playerIndex].GetChild(0).gameObject);
+        Destroy(UISpawnPoints[playerIndex].GetComponentInChildren<CharacterUIData>().StockHLG.GetChild(0).gameObject);
 
         if (perPlayerLives[playerIndex] < 1)
         {

@@ -1,0 +1,1 @@
+Special state in the fsm need to be a signaler, tells the individual character controller to do the special things

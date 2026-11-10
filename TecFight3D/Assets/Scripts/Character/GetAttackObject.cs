@@ -67,6 +67,7 @@ public class GetAttackObject : MonoBehaviour
 
         return null;
     }
+    /*
     public AttackObject GetSpecial()
     {
         if (Mathf.Abs(f.input.MoveInput.x) > 0.5f)
@@ -84,6 +85,7 @@ public class GetAttackObject : MonoBehaviour
         }
         return attackObjects["NeutralSpecial"];
     }
+    */
     public AttackObject GetStrong()
     {
         if (f.currentState is IdleState || f.currentState is WalkState)

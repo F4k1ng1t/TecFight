@@ -21,4 +21,6 @@ public class CharacterObject : ScriptableObject
     public int shieldHealth;
     public float groundTraction;
     public float airFriction;
+    public GameObject stockPrefab;
+    public GameObject UI;
 }

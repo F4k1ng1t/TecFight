@@ -1,6 +1,7 @@
 
 using System;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class FighterStateMachine : MonoBehaviour
 {
@@ -23,12 +24,16 @@ public class FighterStateMachine : MonoBehaviour
     public bool hasAirdodge = false;
 
     public IFighterState currentState;
+    public ICharacterSpecialManager specialManager;
 
     // Shield stuff
     [HideInInspector] public bool isSheilding = false;
     [HideInInspector] public bool isDodging = false;
     [HideInInspector] public float sheildHealth;
     [HideInInspector] public float timeSinceSheild;
+
+    //events for per character specials (might need more for other characters)
+    public UnityEvent<float> onDamageTaken;
 
     public GameObject sheild;
 
@@ -48,7 +53,9 @@ public class FighterStateMachine : MonoBehaviour
         currentDJC = charObj.doubleJumpCount;
         ecb = GetComponent<FighterECB>();
         if(!fighterAudio)
-            fighterAudio = GetComponent<FighterAudio>();
+            fighterAudio = gameObject.GetComponent<FighterAudio>();
+        if (specialManager == null)
+            specialManager = gameObject.GetComponent<ICharacterSpecialManager>();
         //SetState(new AirState());
     }
 
