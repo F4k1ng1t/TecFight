@@ -40,7 +40,7 @@ Material:
     m_Floats:
     - _Base_Scale: 0.002
     - _Base_Speed: 30
-    - _Base_Strength: 4.2
+    - _Base_Strength: 20.18
     - _Curvature_Radius: 250
     - _Emission_Strength: 2
     - _Fade_Depth: 50

@@ -17,3 +17,8 @@ MonoBehaviour:
   startup: 0
   activeFrames: 0
   endlag: 0
+  aerial: 0
+  strong: 0
+  special: 0
+  grab: 0
+  attackBehaviour: {fileID: 11400000, guid: 1237988dffb708349a6638a82d91e1c1, type: 2}

@@ -19,10 +19,13 @@ public class HitState : IFighterState
 
     public void FixedUpdate()
     {
-
+        if (fsm.ecb.IsGrounded)
+        {
+            fsm.SetState(new KnockdownState());
+        }
     }
 
-    void IFighterState.Update()
+    public void Update()
     {
 
     }

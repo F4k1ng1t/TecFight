@@ -13,9 +13,9 @@ public class ShieldState : IFighterState
         fi = f.input;
         fsm.sheild.SetActive(true);
         UpdateSheildHealth();
-        //need to play sheild enter
-        fsm.animator?.PlayAnimation("SheildHold");
+        fsm.animator?.PlayAnimation("SheildEnter");
         fsm.isSheilding = true;
+        fsm.fighterAudio.PlaySheildEnterSound();
     }
     public void Exit()
     {
@@ -30,7 +30,7 @@ public class ShieldState : IFighterState
     {
 
     }
-    void IFighterState.Update()
+    public void Update()
     {
         //tick down sheild health
         fsm.sheildHealth -= sheildDecayRate * Time.deltaTime;
@@ -57,7 +57,17 @@ public class ShieldState : IFighterState
         }
         if (!fi.Shield)
         {
+            fsm.fighterAudio.PlaySheildExitSound();
             fsm.SetState(new IdleState());
+        }
+        if (fsm.fip.JumpPressed())
+        {
+            fsm.SetState(new JumpState());
+        }
+        if (fi.Attack)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetGrab());
+            return;
         }
     }
 

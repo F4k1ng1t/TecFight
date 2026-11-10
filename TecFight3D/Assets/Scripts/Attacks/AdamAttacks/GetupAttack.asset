@@ -1,0 +1,25 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5297ffd2de8c9054f9ba32a2eeab403e, type: 3}
+  m_Name: GetupAttack
+  m_EditorClassIdentifier: 
+  attackName: 
+  animationName: KnockdownGetupAttack
+  startup: 0
+  activeFrames: 0
+  endlag: 0
+  aerial: 0
+  strong: 0
+  special: 0
+  grab: 0
+  jumpCancel: 0
+  attackBehaviour: {fileID: 0}

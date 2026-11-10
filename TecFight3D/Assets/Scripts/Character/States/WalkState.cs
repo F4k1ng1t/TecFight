@@ -7,7 +7,6 @@ public class WalkState : IFighterState
     private CharacterObject co;
     private FighterInput fi;
     private FighterInputProcesser fip;
-    private FighterECB ecb;
 
     public void Enter(FighterStateMachine f)
     {
@@ -15,9 +14,10 @@ public class WalkState : IFighterState
         co = f.charObj;
         fi = f.input;
         fip = f.fip;
-        ecb = f.GetComponent<FighterECB>();
-        fsm.animator.PlayAnimation("Walk");
+
+        fsm.animator?.PlayAnimation("Walk");
     }
+
     public void Exit()
     {
     }
@@ -42,35 +42,38 @@ public class WalkState : IFighterState
             return;
         }
 
+        if (fi.Strong)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetStrong());
+            return;
+        }
+
         if (fi.Shield)
         {
             fsm.SetState(new ShieldState());
+            return;
+        }
+
+        if (fi.Special)
+        {
+            fsm.SetState(fsm.specialManager.GetSpecial());
+            return;
         }
     }
 
     public void FixedUpdate()
     {
-        if (ecb == null) return;
+        if (fsm.physics == null)
+            return;
 
-        float moveX = fi.MoveInput.x * co.walkSpeed;
-        if(fi.MoveInput.x > 0)
-        {
+        float inputX = fi.MoveInput.x;
+        float moveX = inputX * co.walkSpeed;
+
+        if (inputX > 0f)
             fsm.SetDirection(1);
-        }
-        else if(fi.MoveInput.x < 0)
-        {
+        else if (inputX < 0f)
             fsm.SetDirection(-1);
-        }
 
-        // Store horizontal momentum for jumps and air drift.
-        fsm.gravity.horizontalVelocity = moveX;
-
-        Vector3 displacement = new Vector3(
-            moveX * Time.fixedDeltaTime,
-            0f,
-            0f
-        );
-
-        ecb.Move(displacement);
+        fsm.physics.SetHorizontalVelocity(moveX);
     }
 }

@@ -45,7 +45,7 @@ public class IdleState : IFighterState
                 return;
             }
         }
-        if (fip.Walk() && walkHeld >= 30)
+        if (fip.Walk() && walkHeld >= 10)
         {
             fsm.SetDirection(fi.MoveInput.x);
             fsm.SetState(new WalkState());
@@ -60,9 +60,23 @@ public class IdleState : IFighterState
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
         }
+        if (fi.Strong)
+        {
+            Debug.Log("why");
+            fsm.SetStateAttack(fsm.getAttack.GetStrong());
+        }
+        if(fi.Special)
+        {
+            Debug.Log(fsm.specialManager);
+            fsm.SetState(fsm.specialManager.GetSpecial());
+        }
         if (fi.Shield)
         {
             fsm.SetState(new ShieldState());
+        }
+        if (fi.Grab)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetGrab());
         }
     }
     public void FixedUpdate()

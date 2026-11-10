@@ -4,7 +4,6 @@ using UnityEngine;
 public class InitialDashState : IFighterState
 {
     private FighterStateMachine fsm;
-    private FighterECB ecb;
 
     private int frames;
     private int dashDirection;
@@ -16,14 +15,11 @@ public class InitialDashState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        ecb = f.GetComponent<FighterECB>();
 
         frames = 0;
-        dashDirection = f.direction;
-
-        // Direction of the dash when we entered.
         dashDirection = fsm.direction;
-        fsm.animator.PlayAnimation("Dash");
+        fsm.animator?.PlayAnimation("Dash");
+        fsm.fighterAudio.PlayDashSound();
     }
 
     public void Exit() { }
@@ -64,20 +60,12 @@ public class InitialDashState : IFighterState
 
     public void FixedUpdate()
     {
-        if (ecb == null) return;
+        if (fsm.physics == null)
+            return;
 
         float moveX = dashDirection * fsm.charObj.initialDashSpeed;
 
-        // Preserve dash momentum for jumping and air drift.
-        fsm.gravity.horizontalVelocity = moveX;
-
-        Vector3 displacement = new Vector3(
-            moveX * Time.fixedDeltaTime,
-            0f,
-            0f
-        );
-
-        ecb.Move(displacement);
+        fsm.physics.SetHorizontalVelocity(moveX);
 
         frames++;
 
@@ -85,16 +73,15 @@ public class InitialDashState : IFighterState
         {
             float inputX = fsm.input.MoveInput.x;
 
+            // Clear initial dash momentum before transitioning.
+            fsm.physics.SetHorizontalVelocity(0f);
+
             if (Mathf.Abs(inputX) > INPUT_THRESHOLD)
             {
                 if (inputX * dashDirection < -INPUT_THRESHOLD)
-                {
                     fsm.SetState(new RunTurnaroundState());
-                }
                 else
-                {
                     fsm.SetState(new RunState());
-                }
             }
             else
             {

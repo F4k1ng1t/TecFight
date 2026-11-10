@@ -1,90 +1,78 @@
+
 using UnityEngine;
 using UnityEngine.UI;
 
 public class KnockbackHandler : MonoBehaviour
 {
-    const float knockbackDecay = 0.6f;
+    const float knockbackDecay = 0.9f;
     [SerializeField] private float totalHealth = 100;
     [SerializeField] private float damage = 0;
+    [SerializeField] AudioClip hitSound;
     private Image healthSlider;
     private float currentHealth;
+    private FighterStateMachine fsm;
+    private FighterPhysics physics;
 
-    FighterStateMachine fsm;
-    FighterECB ecb;
-    Vector3 knockbackDirection;
-    float knockbackStrength;
+    private float lastHitboxTimestamp;
+
     private void Start()
     {
         fsm = GetComponent<FighterStateMachine>();
-        ecb = GetComponent<FighterECB>();
-    }
-
-    private void FixedUpdate()
-    {
-        if(ecb && knockbackStrength > 0.001f)
-        {
-            //include some semblance of fsm.charobj.weight here
-            ecb.Move(knockbackDirection * knockbackStrength);
-            knockbackStrength *= knockbackDecay;
-        }
+        physics = GetComponent<FighterPhysics>();
     }
 
     public void SetHealthBar(Image healthBar)
     {
         healthSlider = healthBar;
-        healthSlider.fillAmount = damage / totalHealth;
+
+        if (healthSlider != null)
+            healthSlider.fillAmount = damage / totalHealth;
     }
 
-    public void OnHit(Vector3 knockback, float deltDamage)
+    public void OnHit(Vector3 knockback, float deltDamage, float timeStamp, float scaling)
     {
-        if (fsm.isDodging)
-        {
-            //damage is dodged
+        if (timeStamp <= lastHitboxTimestamp)
             return;
-        }
+
+        if (fsm.isDodging)
+            return;
+
+        lastHitboxTimestamp = timeStamp;
+
         if (fsm.isSheilding)
         {
-            //take sheild damage
             fsm.sheildHealth -= deltDamage;
             return;
+            //mayhaps add a sheild hit sound
         }
+        //fsm.SetDirection(-player.direction); //sets the direction opposite the hitting players direction
+        fsm.SetState(new HitState());
+        fsm.fighterAudio.PlayOneShot(hitSound);
+        fsm.onDamageTaken.Invoke(deltDamage);
         damage += deltDamage;
-        knockbackDirection = knockback.normalized;
-        knockbackStrength = knockback.magnitude * damage;
-        healthSlider.fillAmount = damage / totalHealth;
+
+        float knockbackStrength = knockback.magnitude + scaling * damage;
+        Vector3 knockbackVelocity = knockback.normalized * knockbackStrength;
+
+        fsm.SetState(new HitState());
+
+        physics.AddForce(knockbackVelocity, ForceMode.VelocityChange);
+
+        if (healthSlider != null)
+            healthSlider.fillAmount = damage / totalHealth;
+    }
+    public void TakeDamage(float amount)
+    {
+        damage += amount;
+        if (healthSlider != null)
+            healthSlider.fillAmount = damage / totalHealth;
     }
 
     public void ResetDamage()
     {
-        damage = 0;
-        healthSlider.fillAmount = damage / totalHealth;
-    }
+        damage = 0f;
 
-
-    void TakeDamage(int damage)
-    {
-        if (currentHealth > 0)
-        {
-            currentHealth -= damage;
-
-            if (currentHealth < 0)
-            {
-                currentHealth = 0;
-            }
-
-
-            Debug.Log("Player Health: " + currentHealth);
-
-            if (currentHealth == 0)
-            {
-                Die();
-            }
-        }
-    }
-
-
-    void Die()
-    {
-        Debug.Log("Player has died!");
+        if (healthSlider != null)
+            healthSlider.fillAmount = damage / totalHealth;
     }
 }

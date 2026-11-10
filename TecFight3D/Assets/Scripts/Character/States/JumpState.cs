@@ -6,7 +6,6 @@ public class JumpState : IFighterState
     private FighterStateMachine fsm;
     private CharacterObject co;
     private FighterInputProcesser fip;
-    private FighterECB ecb;
 
     private int frames;
     private const int JUMPSQUAT_LENGTH = 4;
@@ -19,52 +18,49 @@ public class JumpState : IFighterState
         fsm = f;
         co = f.charObj;
         fip = f.fip;
-        frames = 0;
-        fsm.animator.PlayAnimation("JumpSquat");
-        ecb = f.GetComponent<FighterECB>();
-
-        savedHorizontalVelocity = fsm.gravity.horizontalVelocity;
 
         frames = 0;
         jumpExecuted = false;
 
+        savedHorizontalVelocity = fsm.physics.Velocity.x;
         fsm.animator?.PlayAnimation("JumpSquat");
-
+        fsm.fighterAudio?.PlayJumpSound();
     }
+
     public void Exit()
     {
-        
     }
+
     public void Update()
     {
     }
 
     public void FullHop()
     {
-        //fsm.gravity.horizontalVelocity = savedHorizontalVelocity;
-        fsm.gravity.horizontalVelocity = Mathf.Clamp(savedHorizontalVelocity, -co.airSpeed, co.airSpeed);
-        fsm.gravity.verticalVelocity = co.fullhopForce;
+        fsm.physics.SetVelocity(new Vector3(
+            Mathf.Clamp(savedHorizontalVelocity, -co.airSpeed, co.airSpeed),
+            co.fullhopForce,
+            0f
+        ));
+
         fsm.animator?.PlayAnimation("Hop");
     }
 
     public void ShortHop()
     {
-        fsm.gravity.horizontalVelocity = savedHorizontalVelocity;
-        fsm.gravity.verticalVelocity = co.shorthopForce;
+        fsm.physics.SetVelocity(new Vector3(
+            savedHorizontalVelocity,
+            co.shorthopForce,
+            0f
+        ));
+
         fsm.animator?.PlayAnimation("Hop");
     }
 
     public void FixedUpdate()
     {
-        if (ecb == null || jumpExecuted)
+        if (jumpExecuted)
             return;
-
-        // Keep horizontal movement continuous during jumpsquat.
-        ecb.Move(new Vector3(
-            savedHorizontalVelocity * Time.fixedDeltaTime,
-            0f,
-            0f
-        ));
 
         frames++;
 
