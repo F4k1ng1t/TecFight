@@ -57,7 +57,7 @@ Material:
     - _Blinking_Speed: 0.001
     - _CastShadows: 0
     - _Cull: 0
-    - _DayNightSlider: 1
+    - _DayNightSlider: 0
     - _DistortionSpeed: 0.25
     - _DstBlend: 0
     - _GradientOffset: -0.22

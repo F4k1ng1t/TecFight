@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Hor
-    second: {fileID: 2100000, guid: deecdc6d8857b714697a68450938c98f, type: 2}
+    second: {fileID: 2100000, guid: 5d5c1cb1c4eeff748865ce02b94e7f8e, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Vet
-    second: {fileID: 2100000, guid: 60975cd6bf0fa5b46a6f96b1fa9a450b, type: 2}
+    second: {fileID: 2100000, guid: 5d5c1cb1c4eeff748865ce02b94e7f8e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -98,7 +98,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.25
+    globalScale: 25
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
