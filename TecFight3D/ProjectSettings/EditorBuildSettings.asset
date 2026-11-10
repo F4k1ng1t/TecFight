@@ -26,6 +26,9 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/Reimport.unity
     guid: 41624d6ef1a39964e9d87d79f5650a58
+  - enabled: 1
+    path: Assets/Scenes/LevelSelect_Test.unity
+    guid: abd32ca61bb01b743a3f0d3383fda752
   m_configObjects:
     com.unity.input.settings: {fileID: 11400000, guid: 7169ba921a3f6314c9043b01ce0dec0e, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}
