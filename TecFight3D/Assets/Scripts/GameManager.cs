@@ -100,6 +100,7 @@ public class GameManager : MonoBehaviour
 
         if (perPlayerLives[playerIndex] < 1)
         {
+            GameStats.winner = (playerIndex + 1) % 2 + 1; //dont worry about it
             SceneManager.LoadScene("WinScreen");
         }
     }
