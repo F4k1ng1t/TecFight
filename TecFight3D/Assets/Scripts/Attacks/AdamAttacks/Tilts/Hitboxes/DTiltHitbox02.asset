@@ -17,7 +17,10 @@ MonoBehaviour:
   activeFrames: 5
   radius: 1
   height: 0
-  sendAngle: 160
-  knockback: 0.1
-  damage: 6
+  sendAngle: 0
+  knockback: 4
+  damage: 4
   priority: 0
+  scaling: 0.2
+  grab: 0
+  AttackSound: {fileID: 0}

@@ -50,7 +50,7 @@ public class AdamSpecialManager : MonoBehaviour, ICharacterSpecialManager
             return new AdamNSpecialState();
         }
         //this aint right but you know
-        return new AirState();
+        return fsm.ecb.IsGrounded ? new IdleState() : new AirState();
     }
 
     public void ConnectUI(Image characterUIElement)

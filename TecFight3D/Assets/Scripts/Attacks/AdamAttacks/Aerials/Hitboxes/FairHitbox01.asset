@@ -18,8 +18,9 @@ MonoBehaviour:
   radius: 0.75
   height: 0
   sendAngle: 50
-  knockback: 0.06
-  damage: 2
+  knockback: 7
+  damage: 6
   priority: 0
-  scaling: 0
+  scaling: 0.2
+  grab: 0
   AttackSound: {fileID: 8300000, guid: e54a7b7a1d676dd4cba690946c0f81ae, type: 3}

@@ -13,13 +13,14 @@ MonoBehaviour:
   m_Name: NSpecialHitbox01
   m_EditorClassIdentifier: 
   bindingIndex: 0
-  offset: {x: 0, y: 0, z: 0}
+  offset: {x: 0, y: 1, z: 0}
   activeFrames: 1
   radius: 1
   height: 0
-  sendAngle: 90
-  knockback: 0.1
+  sendAngle: 0
+  knockback: 12
   damage: 1
   priority: 0
   scaling: 0
+  grab: 0
   AttackSound: {fileID: 8300000, guid: e54a7b7a1d676dd4cba690946c0f81ae, type: 3}

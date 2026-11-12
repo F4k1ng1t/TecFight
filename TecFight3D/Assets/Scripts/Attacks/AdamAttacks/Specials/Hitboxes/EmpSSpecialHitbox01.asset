@@ -17,10 +17,10 @@ MonoBehaviour:
   activeFrames: 3
   radius: 0.5
   height: 0
-  sendAngle: 240
-  knockback: 10
-  damage: 100
+  sendAngle: 60
+  knockback: 8
+  damage: 15
   priority: 0
-  scaling: 1
+  scaling: 0.9
   grab: 0
   AttackSound: {fileID: 8300000, guid: 04394c34168de274cbea38ed89d2f592, type: 3}
