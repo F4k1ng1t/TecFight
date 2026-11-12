@@ -1,47 +1,86 @@
-using NUnit;
+
 using UnityEngine;
 
 public class RunState : IFighterState
 {
-    FighterStateMachine fsm;
-    int initDirection;
-    int frames = 0;
+    private FighterStateMachine fsm;
+    private int runDirection;
+    private int idleFrames;
+
+    private const float TURNAROUND_THRESHOLD = 0.8f;
+    private const float IDLE_THRESHOLD = 0.2f;
+    private const int IDLE_DELAY_FRAMES = 10;
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        initDirection = fsm.direction;
-        fsm.animator.PlayAnimation("Dash", true, 0);
+        runDirection = fsm.direction;
+        idleFrames = 0;
+
+        fsm.animator?.PlayAnimation("Dash");
     }
+
     public void Exit()
     {
-
     }
+
     public void Update()
     {
-        float directionalInput = fsm.input.MoveInput.x * initDirection;
-        if (directionalInput < -0.8f)
+        float moveX = fsm.input.MoveInput.x;
+
+        if (Mathf.Abs(moveX) > TURNAROUND_THRESHOLD &&
+            Mathf.Sign(moveX) != runDirection)
         {
             fsm.SetState(new RunTurnaroundState());
             return;
         }
+
         if (fsm.input.IsHoldingJump)
         {
             fsm.SetState(new JumpState());
             return;
         }
-        if (Mathf.Abs(fsm.input.MoveInput.x) < 0.2f)
+
+        if (Mathf.Abs(moveX) < IDLE_THRESHOLD)
         {
-            frames++;
-            if (frames == 10)
+            idleFrames++;
+
+            if (idleFrames >= IDLE_DELAY_FRAMES)
             {
-                fsm.rig.linearVelocity = new Vector3(0, fsm.rig.linearVelocity.y, 0);
                 fsm.SetState(new IdleState());
                 return;
             }
         }
+        else
+        {
+            idleFrames = 0;
+        }
+
+        if (fsm.input.Special)
+        {
+            fsm.SetState(fsm.specialManager.GetSpecial());
+            return;
+        }
+
+        if (fsm.input.Strong)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetStrong());
+            return;
+        }
+
+        if (fsm.input.Attack)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetAttack());
+            return;
+        }
     }
+
     public void FixedUpdate()
     {
-        fsm.rig.linearVelocity = new Vector3(fsm.direction * fsm.charObj.runSpeed, fsm.rig.linearVelocity.y, 0);
+        if (fsm.physics == null)
+            return;
+
+        float moveX = runDirection * fsm.charObj.runSpeed;
+        fsm.physics.SetHorizontalVelocity(moveX);
     }
 }

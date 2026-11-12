@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: DairForce
   m_EditorClassIdentifier: 
   effect: {fileID: 7400000, guid: d74a90e70c5c7474a94f23e1220ca742, type: 2}
-  boundBone: 
+  bound: 1
   offset: {x: -0.1, y: 0.3, z: -0.3}
   rotation: {x: 0, y: 0, z: 90}
   scale: 0.1

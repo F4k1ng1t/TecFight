@@ -1,57 +1,78 @@
+
 using UnityEngine;
 
 public class JumpState : IFighterState
 {
-    FighterStateMachine fsm;
-    CharacterObject co;
-    FighterInputProcesser fip;
-    Rigidbody rig;
+    private FighterStateMachine fsm;
+    private CharacterObject co;
+    private FighterInputProcesser fip;
 
-    int frames = 0;
-    const int JUMPSQUAT_LENGTH = 4;
-    bool jump_executed = false;
+    private int frames;
+    private const int JUMPSQUAT_LENGTH = 4;
+    private bool jumpExecuted;
+
+    private float savedHorizontalVelocity;
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
         co = f.charObj;
-        rig = f.rig;
         fip = f.fip;
+
         frames = 0;
-        fsm.animator.PlayAnimation("JumpSquat", false);
-        
+        jumpExecuted = false;
+
+        savedHorizontalVelocity = fsm.physics.Velocity.x;
+        fsm.animator?.PlayAnimation("JumpSquat");
+        fsm.fighterAudio?.PlayJumpSound();
     }
+
     public void Exit()
     {
-        
     }
+
     public void Update()
     {
-
     }
+
     public void FullHop()
     {
-        rig.AddForce(Vector3.up * co.fullhopForce, ForceMode.VelocityChange);
-        fsm.animator.PlayAnimation("Hop", false);
+        fsm.physics.SetVelocity(new Vector3(
+            Mathf.Clamp(savedHorizontalVelocity, -co.airSpeed, co.airSpeed),
+            co.fullhopForce,
+            0f
+        ));
+
+        fsm.animator?.PlayAnimation("Hop");
     }
+
     public void ShortHop()
     {
-        rig.AddForce(Vector3.up * co.shorthopForce, ForceMode.VelocityChange);
+        fsm.physics.SetVelocity(new Vector3(
+            savedHorizontalVelocity,
+            co.shorthopForce,
+            0f
+        ));
+
+        fsm.animator?.PlayAnimation("Hop");
     }
+
     public void FixedUpdate()
     {
-        if (jump_executed) return;
+        if (jumpExecuted)
+            return;
+
         frames++;
-        if(frames > 4)
+
+        if (frames >= JUMPSQUAT_LENGTH)
         {
-            jump_executed = true;
-            if(fip.IsHoldingJump())
-            {
+            jumpExecuted = true;
+
+            if (fip.IsHoldingJump())
                 FullHop();
-            }
             else
-            {
                 ShortHop();
-            }
+
             fsm.SetState(new AirState());
         }
     }

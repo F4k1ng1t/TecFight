@@ -1,0 +1,4 @@
+Modify hitboxes to contain what type of attack it is, Special, Strong, Tilt
+Create a scaling modifier for hitbox size in hitbox spawner
+Create charge speed modifier
+Create damage modifier

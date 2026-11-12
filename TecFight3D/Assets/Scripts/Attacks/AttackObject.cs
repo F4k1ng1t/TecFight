@@ -5,10 +5,16 @@ public class AttackObject : ScriptableObject
 {
     public string attackName;
     public string animationName;
+
     public int startup;
     public int activeFrames;
     public int endlag;
-    public IAttackBehaviour attackBehaviour;
 
+    public bool aerial;
+    public bool strong;
+    public bool special;
+    public bool grab;
+    public bool jumpCancel;
 
+    public AttackBehaviour attackBehaviour;
 }

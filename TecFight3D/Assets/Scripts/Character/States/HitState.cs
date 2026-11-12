@@ -9,7 +9,7 @@ public class HitState : IFighterState
         // another script does the knockback
 
         fsm = f;
-        fsm.animator.PlayAnimation("HitStunSide", true);
+        fsm.animator.PlayAnimation("HitStunSide");
     }
 
     public void Exit()
@@ -19,10 +19,13 @@ public class HitState : IFighterState
 
     public void FixedUpdate()
     {
-
+        if (fsm.ecb.IsGrounded)
+        {
+            fsm.SetState(new KnockdownState());
+        }
     }
 
-    void IFighterState.Update()
+    public void Update()
     {
 
     }

@@ -10,19 +10,23 @@ public class SpawnEffect : MonoBehaviour
         GameObject Temp = Instantiate(effectObject);
         effectAnimator = Temp.GetComponent<Animator>();
         Temp.transform.localScale = Vector3.one * effect.scale;
-        if (effect.boundBone != "")
+        if (effect.bound)
         {
-            Temp.transform.SetParent(transform.Find(effect.boundBone));
-            Temp.transform.position += effect.offset;
+            Debug.Log("bound");
+            Temp.transform.SetParent(transform);
+            Temp.transform.localPosition = effect.offset;
+            Temp.transform.rotation = Quaternion.Euler(effect.rotation + Temp.transform.rotation.eulerAngles);
             effectAnimator.Play(effect.effect.name);
             Destroy(Temp, Temp.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).length);
             return;
         }
         Temp.transform.position = transform.position + effect.offset;
+        //if character is flipped apply the position offset in the oposite direction
         if(transform.rotation.y != 0)
         {
             Temp.transform.position -= Vector3.right * effect.offset.x * 2;
         }
+        //if character is flipped flip vfx
         Temp.transform.rotation = transform.rotation;
         Temp.transform.rotation = Quaternion.Euler(effect.rotation + Temp.transform.rotation.eulerAngles);
         effectAnimator.Play(effect.effect.name);

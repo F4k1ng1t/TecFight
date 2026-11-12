@@ -10,9 +10,14 @@ public class FighterInput : MonoBehaviour
 
 
     public bool Attack;
+    public bool Strong;
+    public bool Special;
+    public bool Grab;
 
     // One-shot event. Remains true until consumed.
     public bool Flick { get; private set; }
+
+    public bool Shield;
 
     // Normalized cardinal direction of the detected flick.
     // Right = (1, 0)
@@ -75,11 +80,13 @@ public class FighterInput : MonoBehaviour
 
     private void Update()
     {
+        Flick = false;
         DetectFlick();
     }
 
     public void OnMove(InputAction.CallbackContext ctx)
     {
+        //Debug.Log("Move: " + ctx.ReadValue<Vector2>());
         MoveInput = ctx.ReadValue<Vector2>();
     }
 
@@ -90,7 +97,23 @@ public class FighterInput : MonoBehaviour
     }
     public void OnAttack(InputAction.CallbackContext ctx)
     {
-        Attack = true;
+        Attack = ctx.ReadValueAsButton();
+    }
+    public void OnStrong(InputAction.CallbackContext ctx)
+    {
+        Strong = ctx.ReadValueAsButton();
+    }
+    public void OnSpecial(InputAction.CallbackContext ctx)
+    {
+        Special = ctx.ReadValueAsButton();
+    }
+    public void OnShield(InputAction.CallbackContext ctx)
+    {
+        Shield = ctx.ReadValueAsButton();
+    }
+    public void OnGrab(InputAction.CallbackContext ctx)
+    {
+        Grab = ctx.ReadValueAsButton();
     }
 
     private void DetectFlick()
@@ -237,7 +260,7 @@ public class FighterInput : MonoBehaviour
     private void TriggerFlick(StickDirection direction)
     {
         Flick = true;
-        Debug.Log(direction.ToString());
+        //Debug.Log(direction.ToString());
         switch (direction)
         {
             case StickDirection.Left:
@@ -259,12 +282,6 @@ public class FighterInput : MonoBehaviour
     }
 
     public void ConsumeFlick()
-    {
-        Flick = false;
-        FlickDirection = Vector2.zero;
-    }
-
-    private void LateUpdate()
     {
         Flick = false;
         FlickDirection = Vector2.zero;

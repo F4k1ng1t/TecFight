@@ -1,64 +1,60 @@
+
 using UnityEngine;
 
 public class AirState : IFighterState
 {
-    FighterStateMachine fsm;
-    CharacterObject co;
-    FighterInput fi;
-    Rigidbody rig;
-    FighterInputProcesser fip;
+    private FighterStateMachine fsm;
+    private FighterInput fi;
+    private FighterInputProcesser fip;
 
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-        co = fsm.charObj;
         fi = fsm.input;
-        rig = fsm.rig;
         fip = fsm.fip;
 
-        fsm.animator?.PlayAnimation("Fall", true);
+        fsm.animator?.PlayAnimation("Fall");
     }
 
-    public void Exit()
-    {
-    }
+    public void Exit() { }
 
     public void Update()
     {
-    }
+        if (fsm == null || fi == null || fip == null)
+            return;
 
-    public void FixedUpdate()
-    {
         if (fip.JumpPressed() && fsm.currentDJC > 0)
         {
             fsm.SetState(new DoubleJumpState());
             return;
         }
 
-        float currentVelocity = rig.linearVelocity.x;
-
-        if (Mathf.Abs(currentVelocity) < co.airSpeed)
+        if (fi.Attack)
         {
-            rig.AddForce(fi.MoveInput.x * co.airAccel, 0, 0, ForceMode.Acceleration);
+            AttackObject attack = fsm.getAttack.GetAttack();
 
-            rig.linearVelocity = new Vector3(Mathf.Clamp(rig.linearVelocity.x, -co.airSpeed, co.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
-        }
-        else if (fip.AttemptMoveOpposite())
-        {
-            rig.linearVelocity = new Vector3(Mathf.Clamp(currentVelocity, -co.airSpeed, co.airSpeed), rig.linearVelocity.y, rig.linearVelocity.z);
+            if (attack != null)
+                fsm.SetStateAttack(attack);
 
-            rig.AddForce(fi.MoveInput.x * co.airAccel, 0, 0, ForceMode.Acceleration);
-        }
-        else
-        {
-            rig.linearVelocity = new Vector3(currentVelocity, rig.linearVelocity.y, rig.linearVelocity.z);
+            return;
         }
 
-        if (fip.FastFall())
+        if (fi.Special)
         {
-            rig.AddForce(0, -co.fastfallAccel, 0, ForceMode.Acceleration);
-
-            rig.linearVelocity = new Vector3(rig.linearVelocity.x, Mathf.Max(rig.linearVelocity.y, -co.fastfallSpeed), rig.linearVelocity.z);
+            fsm.SetState(fsm.specialManager.GetSpecial());
+            return;
         }
+        if (fi.Shield && fsm.hasAirdodge)
+        {
+            fsm.SetState(new AirdodgeState());
+        }
+    }
+
+    public void FixedUpdate()
+    {
+        if (fsm == null)
+            return;
+
+        fsm.ApplyAirMovement();
     }
 }

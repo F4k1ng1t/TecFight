@@ -1,41 +1,79 @@
+
 using UnityEngine;
 
 public class WalkState : IFighterState
 {
-    FighterStateMachine fsm;
-    CharacterObject co;
-    FighterInput fi;
-    FighterInputProcesser fip;
-    Rigidbody rig;
+    private FighterStateMachine fsm;
+    private CharacterObject co;
+    private FighterInput fi;
+    private FighterInputProcesser fip;
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
         co = f.charObj;
         fi = f.input;
         fip = f.fip;
-        rig = f.rig;
-        fsm.animator.PlayAnimation("Walk", true, 0);
+
+        fsm.animator?.PlayAnimation("Walk");
     }
+
     public void Exit()
     {
-
     }
+
     public void Update()
     {
-        rig.linearVelocity = new Vector3(fi.MoveInput.x * co.walkSpeed, rig.linearVelocity.y, 0);
         if (fip.Idle())
         {
-            rig.linearVelocity = new Vector3(0, rig.linearVelocity.y, 0);
             fsm.SetState(new IdleState());
+            return;
         }
+
         if (fip.IsHoldingJump())
         {
             fsm.SetState(new JumpState());
+            return;
         }
 
+        if (fi.Attack)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetAttack());
+            return;
+        }
+
+        if (fi.Strong)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetStrong());
+            return;
+        }
+
+        if (fi.Shield)
+        {
+            fsm.SetState(new ShieldState());
+            return;
+        }
+
+        if (fi.Special)
+        {
+            fsm.SetState(fsm.specialManager.GetSpecial());
+            return;
+        }
     }
+
     public void FixedUpdate()
     {
-        rig.linearVelocity = new Vector3(fi.MoveInput.x * 5f, rig.linearVelocity.y, 0);
+        if (fsm.physics == null)
+            return;
+
+        float inputX = fi.MoveInput.x;
+        float moveX = inputX * co.walkSpeed;
+
+        if (inputX > 0f)
+            fsm.SetDirection(1);
+        else if (inputX < 0f)
+            fsm.SetDirection(-1);
+
+        fsm.physics.SetHorizontalVelocity(moveX);
     }
 }

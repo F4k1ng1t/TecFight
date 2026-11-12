@@ -21,7 +21,7 @@ public class BlastZoneBehavior : MonoBehaviour
         //the easiest solution
         foreach(Transform player in Players)
         {
-            Debug.Log("Checked: " + player.name + " X: " + player.position.x + " Y: " + player.position.y);
+            //Debug.Log("Checked: " + player.name + " X: " + player.position.x + " Y: " + player.position.y);
             if (player.position.x > stage.SideBlastZone || player.position.x < (stage.SideBlastZone * -1) || player.position.y > stage.TopBlastZone || player.position.y < stage.BottomBlastZone)
             {
                 //move player to respawn

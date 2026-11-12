@@ -1,20 +1,25 @@
+
 using UnityEngine;
 
 public class FighterInputProcesser : MonoBehaviour
 {
-    FighterStateMachine fsm;
-    FighterInput fi;
-    CharacterObject co;
-    Rigidbody rig;
+    private FighterStateMachine fsm;
+    private FighterInput fi;
+    private CharacterObject co;
+    private FighterPhysics physics;
 
-    private bool prevJumpInput = false;
+    private bool prevJumpInput;
 
-    public void Start()
+    private void Awake()
     {
         fsm = GetComponent<FighterStateMachine>();
-        fi = fsm.input;
+        fi = GetComponent<FighterInput>();
+        physics = GetComponent<FighterPhysics>();
+    }
+
+    private void Start()
+    {
         co = fsm.charObj;
-        rig = fsm.rig;
     }
 
     public bool Walk()
@@ -26,14 +31,12 @@ public class FighterInputProcesser : MonoBehaviour
     {
         return fi.IsHoldingJump;
     }
+
     public bool JumpPressed()
     {
-        if (!prevJumpInput)
-        {
-            return fi.IsHoldingJump;
-        }
-        return false;
+        return !prevJumpInput && fi.IsHoldingJump;
     }
+
     public bool Idle()
     {
         return Mathf.Abs(fi.MoveInput.x) < 0.05f;
@@ -41,17 +44,32 @@ public class FighterInputProcesser : MonoBehaviour
 
     public bool CompareCurrentAirSpeedMax()
     {
-        return rig.linearVelocity.x > co.airSpeed;
+        return physics != null &&
+               Mathf.Abs(physics.Velocity.x) >= co.airSpeed;
     }
+
     public bool AttemptMoveOpposite()
     {
-        return Mathf.Sign(fi.MoveInput.x) != Mathf.Sign(rig.linearVelocity.x);
+        if (physics == null || fi == null)
+            return false;
+
+        float inputX = fi.MoveInput.x;
+        float velocityX = physics.Velocity.x;
+
+        return Mathf.Abs(inputX) > 0.2f &&
+               Mathf.Abs(velocityX) > 0.01f &&
+               Mathf.Sign(inputX) != Mathf.Sign(velocityX);
     }
+
     public bool FastFall()
     {
-        return rig.linearVelocity.y <= 0 &&
+        if (physics == null || fi == null)
+            return false;
+
+        return physics.Velocity.y <= 0f &&
                fi.MoveInput.y < -0.5f;
     }
+
     private void FixedUpdate()
     {
         prevJumpInput = fi.IsHoldingJump;

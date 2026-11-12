@@ -1,4 +1,3 @@
-using UnityEditor.Experimental.GraphView;
 using UnityEngine;
 
 public class IdleState : IFighterState
@@ -17,7 +16,7 @@ public class IdleState : IFighterState
         fi = f.input;
         fip = f.fip;
         rig = f.rig;
-        fsm.animator?.PlayAnimation("Idle", true, fsm.direction);
+        fsm.animator?.PlayAnimation("Idle");
     }
     public void Exit()
     {
@@ -46,7 +45,7 @@ public class IdleState : IFighterState
                 return;
             }
         }
-        if (fip.Walk() && walkHeld >= 30)
+        if (fip.Walk() && walkHeld >= 10)
         {
             fsm.SetDirection(fi.MoveInput.x);
             fsm.SetState(new WalkState());
@@ -54,14 +53,30 @@ public class IdleState : IFighterState
         }
         if (fip.IsHoldingJump())
         {
-            Debug.Log("helo");
+            //Debug.Log("helo");
             fsm.SetState(new JumpState());
         }
         if (fi.Attack)
         {
-            Debug.Log("Jab");
-            fsm.SetState(new AttackState());
-            fi.Attack = false;
+            fsm.SetStateAttack(fsm.getAttack.GetAttack());
+        }
+        if (fi.Strong)
+        {
+            Debug.Log("why");
+            fsm.SetStateAttack(fsm.getAttack.GetStrong());
+        }
+        if(fi.Special)
+        {
+            Debug.Log(fsm.specialManager);
+            fsm.SetState(fsm.specialManager.GetSpecial());
+        }
+        if (fi.Shield)
+        {
+            fsm.SetState(new ShieldState());
+        }
+        if (fi.Grab)
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetGrab());
         }
     }
     public void FixedUpdate()
