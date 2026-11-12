@@ -6,6 +6,7 @@ public class MapManager : MonoBehaviour
 {
     [Header("UI References")]
     public Image previewImageDisplay;
+    public Image previewImageDisplayBackground;
     public Button playButton;         
 
     [System.Serializable]
@@ -24,6 +25,7 @@ public class MapManager : MonoBehaviour
     void Start()
     {
         if (previewImageDisplay != null) previewImageDisplay.gameObject.SetActive(false);
+        if (previewImageDisplayBackground != null) previewImageDisplayBackground.gameObject.SetActive(false);
         if (playButton != null) playButton.interactable = false;
     }
 
@@ -38,6 +40,12 @@ public class MapManager : MonoBehaviour
         {
             previewImageDisplay.gameObject.SetActive(true);
             previewImageDisplay.sprite = selectedMap.mapPreviewSprite;
+        }
+
+        if (previewImageDisplayBackground != null)
+        {
+            previewImageDisplayBackground.gameObject.SetActive(true);
+            previewImageDisplayBackground.sprite = selectedMap.mapPreviewSprite;
         }
 
         if (playButton != null) playButton.interactable = true;
