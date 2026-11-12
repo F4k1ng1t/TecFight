@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: P_Plank
-    second: {fileID: 2100000, guid: 998ace031b99b1d428a290646ec63491, type: 2}
+    second: {fileID: 2100000, guid: 6f69f5328f8b79e45b1c5052a774e9ed, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: P_Pole
-    second: {fileID: 2100000, guid: fe9f0d9f1e58d1540875ec91b553c22a, type: 2}
+    second: {fileID: 2100000, guid: 347a8ba01efb95a4b9909d94a30fbf57, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
