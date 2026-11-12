@@ -68,7 +68,7 @@ Material:
     - _QueueOffset: 0
     m_Colors:
     - _Color: {r: 0, g: 0.8794601, b: 1, a: 0}
-    - _ColorA: {r: 0.9575472, g: 0.6327718, b: 0, a: 1}
+    - _ColorA: {r: 0.9575471, g: 0.6327718, b: 0, a: 1}
     - _ColorB: {r: 0, g: 0.015976762, b: 0.3962264, a: 1}
     - _ColorC: {r: 0, g: 0.7796154, b: 1, a: 1}
     - _ColorGradient: {r: 0.59, g: 0.22, b: 0, a: 0}
