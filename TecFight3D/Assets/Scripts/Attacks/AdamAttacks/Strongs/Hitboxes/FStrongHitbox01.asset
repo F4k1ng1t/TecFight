@@ -15,11 +15,12 @@ MonoBehaviour:
   bindingIndex: 2
   offset: {x: 0, y: 0, z: 0}
   activeFrames: 8
-  radius: 1.25
+  radius: 1
   height: 0
   sendAngle: 50
-  knockback: 0.1
-  damage: 3.5
+  knockback: 6
+  damage: 5
   priority: 0
-  scaling: 1
+  scaling: 0.6
+  grab: 0
   AttackSound: {fileID: 8300000, guid: 04394c34168de274cbea38ed89d2f592, type: 3}
