@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/CA_UI.unity
     guid: 0312f53148d12694d86a11c819b37fa5
   - enabled: 1
+    path: Assets/Scenes/Audio.unity
+    guid: 0aa3d1a14ada2474ab9d4693c315ac63
+  - enabled: 1
     path: Assets/Scenes/Hitboxing.unity
     guid: 8f652c114c66cf349ad4e777e59319ab
   - enabled: 1

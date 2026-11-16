@@ -1,5 +1,12 @@
 using UnityEngine;
 
+public enum AttackType
+{
+    tilt,
+    strong,
+    special
+}
+
 [CreateAssetMenu(fileName = "Hitbox", menuName = "Scriptable Objects/Hitbox")]
 public class Hitbox : ScriptableObject
 {
@@ -16,4 +23,6 @@ public class Hitbox : ScriptableObject
     public float scaling;
     public bool grab;
     public AudioClip AttackSound;
+
+    public AttackType attackType;
 }
