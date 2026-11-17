@@ -13,5 +13,5 @@ MonoBehaviour:
   m_Name: Attachment3
   m_EditorClassIdentifier: 
   Name: Breach Module
-  Info: Empower goes to strongs instead of specials
+  Info: No meter, more powerful strongs
   Attachment: {fileID: 4599650621270815834, guid: 68b4e09ad08b5c84293c832be4c08a76, type: 3}
