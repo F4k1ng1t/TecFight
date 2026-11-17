@@ -46,17 +46,16 @@ public class KnockbackHandler : MonoBehaviour
             //mayhaps add a sheild hit sound
         }
         //fsm.SetDirection(-player.direction); //sets the direction opposite the hitting players direction
-        fsm.SetState(new HitState());
         fsm.fighterAudio.PlayOneShot(hitSound);
         fsm.onDamageTaken.Invoke(deltDamage);
         damage += deltDamage;
 
-        float knockbackStrength = knockback.magnitude + scaling * damage;
+        float knockbackStrength = knockback.magnitude + (2 * (scaling * damage));
         Vector3 knockbackVelocity = knockback.normalized * knockbackStrength;
 
-        fsm.SetState(new HitState());
+        fsm.SetState(new HitState(knockbackVelocity));
 
-        physics.AddForce(knockbackVelocity, ForceMode.VelocityChange);
+        //physics.AddForce(knockbackVelocity, ForceMode.VelocityChange);
 
         if (healthSlider != null)
             healthSlider.fillAmount = damage / totalHealth;
