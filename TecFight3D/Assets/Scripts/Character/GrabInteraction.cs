@@ -103,7 +103,7 @@ public class GrabInteraction : MonoBehaviour
 
         // Transition the fighters.
         grabber.SetState(new IdleState());
-        victim.SetState(new HitState());
+        //victim.SetState(new HitState());
 
         // Apply throw knockback after entering HitState.
         victimPhysics.AddForce(knockback, ForceMode.VelocityChange);

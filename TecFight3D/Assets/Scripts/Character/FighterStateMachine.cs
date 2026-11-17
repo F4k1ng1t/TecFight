@@ -80,6 +80,7 @@ public class FighterStateMachine : MonoBehaviour
 
         currentState = newState;
         currentState.Enter(this);
+        Debug.Log(currentState.ToString());
     }
 
     public void SetStateAttack(AttackObject attack)
@@ -102,6 +103,11 @@ public class FighterStateMachine : MonoBehaviour
 
     public void SetDirection(float newDirection)
     {
+        if (newDirection == 0)
+        {
+            Debug.LogError("Error, cannot set direction to 0");
+            return;
+        }
         direction = newDirection > 0 ? 1 : -1;
         animator.SetVisualDirection(direction);
     }

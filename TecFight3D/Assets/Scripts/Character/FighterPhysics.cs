@@ -122,6 +122,7 @@ public class FighterPhysics : MonoBehaviour
 
     public void SetVelocity(Vector3 velocity)
     {
+        ClearVelocity();
         Velocity = new Vector3(velocity.x, velocity.y, 0f);
     }
 
