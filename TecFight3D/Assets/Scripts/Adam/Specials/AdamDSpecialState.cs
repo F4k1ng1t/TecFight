@@ -6,7 +6,6 @@ public class AdamDSpecialState : IFighterState
     private const float chargePerFrame = 0.3f;
 
     private FighterStateMachine fsm;
-    private bool jumpCancelEnabled;
     private int walkHeld;
     private KnockbackHandler knockbackHandler;
     private AdamSpecialMeter specialMeter;
@@ -18,12 +17,10 @@ public class AdamDSpecialState : IFighterState
         knockbackHandler = fsm.gameObject.GetComponent<KnockbackHandler>();
         specialMeter = fsm.gameObject.GetComponent<AdamSpecialMeter>();
         fsm.animator.PlayAnimation("DSpecial_Enter");
-        EnableJumpCancel();
     }
 
     public void Exit()
     {
-        DisableJumpCancel();
     }
 
     public void Update()
@@ -86,19 +83,5 @@ public class AdamDSpecialState : IFighterState
     {
         knockbackHandler.TakeDamage(damagePerFrame);
         specialMeter.AddCharge(chargePerFrame);
-    }
-
-    public void ApplyRecoil()
-    {
-    }
-
-    public void EnableJumpCancel()
-    {
-        jumpCancelEnabled = true;
-    }
-
-    public void DisableJumpCancel()
-    {
-        jumpCancelEnabled = false;
     }
 }

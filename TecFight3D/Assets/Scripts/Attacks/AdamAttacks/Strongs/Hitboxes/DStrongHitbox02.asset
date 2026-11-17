@@ -18,6 +18,9 @@ MonoBehaviour:
   radius: 0.5
   height: 0
   sendAngle: 280
-  knockback: 0.1
-  damage: 1
+  knockback: 5
+  damage: 6
   priority: 0
+  scaling: 0.7
+  grab: 0
+  AttackSound: {fileID: 0}

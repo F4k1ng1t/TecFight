@@ -7,7 +7,7 @@ public class AdamNSpecialState : IFighterState
     {
         fsm = f;
         fsm.animator.PlayAnimation("NSpecial");
-        DisableJumpCancel();
+        EnableJumpCancel();
     }
 
     public void Exit()
@@ -17,13 +17,20 @@ public class AdamNSpecialState : IFighterState
 
     public void Update()
     {
-
         if (jumpCancelEnabled && fsm.fip.JumpPressed())
         {
-            fsm.SetState(new JumpState());
-            return;
+            if (fsm.ecb.IsGrounded)
+            {
+                fsm.SetState(new JumpState());
+                return;
+            }
+            else if (!fsm.ecb.IsGrounded && fsm.currentDJC > 0)
+            {
+                fsm.SetState(new DoubleJumpState());
+                return;
+            }
         }
-
+        
         if (fsm.animator.IsPlaying())
             return;
 

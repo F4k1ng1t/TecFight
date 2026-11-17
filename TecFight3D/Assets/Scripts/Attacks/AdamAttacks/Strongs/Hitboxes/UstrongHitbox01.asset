@@ -12,14 +12,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 29906dafacc307740aaa848e212fa889, type: 3}
   m_Name: UstrongHitbox01
   m_EditorClassIdentifier: 
-  bindingIndex: 0
+  bindingIndex: 1
   offset: {x: 0, y: 0, z: 0}
   activeFrames: 1
   radius: 1
   height: 0
   sendAngle: 0
-  knockback: 0.1
-  damage: 3
+  knockback: 8
+  damage: 9
   priority: 0
-  scaling: 0
+  scaling: 0.3
+  grab: 0
   AttackSound: {fileID: 8300000, guid: e54a7b7a1d676dd4cba690946c0f81ae, type: 3}

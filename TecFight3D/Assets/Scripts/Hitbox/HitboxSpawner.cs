@@ -9,6 +9,9 @@ public class HitboxSpawner : MonoBehaviour
     private FighterStateMachine fsm;
     private bool drawGizmo = false;
     private Hitbox activeHitbox;
+    private float attachmentDamageScaling = 1;
+    private float attachmentSizeScaling = 1;
+    private AttackType attachmentAffectsMove = AttackType.special;
 
     private void Start()
     {
@@ -41,6 +44,16 @@ public class HitboxSpawner : MonoBehaviour
         //Debug.Log("Checkpoint 1");
         float startTime = Time.time;
         activeHitbox = hitbox;
+
+        float radiusScaler = 1;
+        float damageScaler = 1;
+
+        if(hitbox.attackType == attachmentAffectsMove)
+        {
+            radiusScaler = attachmentSizeScaling;
+            damageScaler = attachmentDamageScaling;
+        }
+
         while(hitbox.activeFrames/60f > Time.time - startTime)
         {
             drawGizmo = true;
@@ -48,7 +61,7 @@ public class HitboxSpawner : MonoBehaviour
             Collider[] hitHurtboxes = Physics.OverlapCapsule(
                 parentBones[hitbox.bindingIndex].position + (Vector3.up * hitbox.offset.y) + (Vector3.right * hitbox.offset.x * fsm.direction * -1),
                 parentBones[hitbox.bindingIndex].position + (Vector3.up * hitbox.offset.y) + (Vector3.right * hitbox.offset.x * fsm.direction * -1) + parentBones[activeHitbox.bindingIndex].rotation * Vector3.up * activeHitbox.height, 
-                hitbox.radius, 
+                hitbox.radius * radiusScaler, 
                 targetLayer, 
                 QueryTriggerInteraction.Collide);
             
@@ -75,10 +88,10 @@ public class HitboxSpawner : MonoBehaviour
                     {
                         enemy.GetComponent<KnockbackHandler>().OnHit(
                             new Vector3(
-                                hitbox.knockback * Mathf.Sin(Mathf.Deg2Rad * hitbox.sendAngle) * fsm.direction,
-                                hitbox.knockback * Mathf.Cos(Mathf.Deg2Rad * hitbox.sendAngle)
+                                hitbox.knockback * Mathf.Sin(Mathf.Deg2Rad * hitbox.sendAngle) * fsm.direction * damageScaler,
+                                hitbox.knockback * Mathf.Cos(Mathf.Deg2Rad * hitbox.sendAngle) * damageScaler
                             ),
-                            hitbox.damage,
+                            hitbox.damage * damageScaler,
                             startTime,
                             hitbox.scaling
                         );
@@ -102,5 +115,12 @@ public class HitboxSpawner : MonoBehaviour
         Gizmos.DrawLine(point1 - (rotation * Vector3.right), point2 - (rotation * Vector3.right));
         Gizmos.DrawLine(point1 + (rotation * Vector3.up), point2 + (rotation * Vector3.up));
         Gizmos.DrawLine(point1 - (rotation * Vector3.up), point2 - (rotation * Vector3.up));
+    }
+
+    public void SetAttachment(AttackType AffectedType, float damageScaling, float hitboxScaling)
+    {
+        attachmentAffectsMove = AffectedType;
+        attachmentDamageScaling = damageScaling;
+        attachmentSizeScaling = hitboxScaling;
     }
 }
