@@ -8,12 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FlatCrane_Beams
-    second: {fileID: 2100000, guid: 7d171f46535dee0428d933bbe973632a, type: 2}
+    second: {fileID: 2100000, guid: b9b27b47480c56f45930e55b59c2f8b7, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: FlatCrane_Edge
-    second: {fileID: 2100000, guid: 3bc90c817dbebb54a8fdc16d60a191ac, type: 2}
+    second: {fileID: 2100000, guid: b9b27b47480c56f45930e55b59c2f8b7, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0

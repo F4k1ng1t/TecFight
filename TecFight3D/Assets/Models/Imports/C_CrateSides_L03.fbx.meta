@@ -8,17 +8,17 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: CS_LargeBack
-    second: {fileID: 2100000, guid: eca449050bad9fc43aefe8d2a2801722, type: 2}
+    second: {fileID: 2100000, guid: 6f69f5328f8b79e45b1c5052a774e9ed, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: CS_LargeBrace
-    second: {fileID: 2100000, guid: db0bd5d88c3c2b24aad974edcd1bf89c, type: 2}
+    second: {fileID: 2100000, guid: 9b89b6bb192074b45bfe1c1378a9dc5d, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: CS_LargeBraceParallel
-    second: {fileID: 2100000, guid: f1f4893d66811dd438c353d2a8e0668d, type: 2}
+    second: {fileID: 2100000, guid: 9b89b6bb192074b45bfe1c1378a9dc5d, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -103,7 +103,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 1
+    globalScale: 100
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

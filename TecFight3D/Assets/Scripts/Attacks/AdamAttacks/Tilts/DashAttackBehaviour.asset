@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6ea4363f067f5fe4e891432c916ad7c5, type: 3}
   m_Name: DashAttackBehaviour
   m_EditorClassIdentifier: 
-  dashSpeed: 15
+  dashSpeed: 1
   dashDuration: 0.2

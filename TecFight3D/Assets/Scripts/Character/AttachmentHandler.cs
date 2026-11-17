@@ -8,5 +8,6 @@ public class AttachmentHandler : MonoBehaviour
     public void SetAttachment(int attachmentIndex)
     {
         GameObject a = Instantiate(attachments[attachmentIndex], attachPoint);
+        gameObject.GetComponent<ICharacterSpecialManager>().SetAttachmentEffects(attachmentIndex);
     }
 }

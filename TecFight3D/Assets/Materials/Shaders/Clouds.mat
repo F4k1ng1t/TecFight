@@ -40,14 +40,14 @@ Material:
     m_Floats:
     - _Base_Scale: 0.002
     - _Base_Speed: 30
-    - _Base_Strength: 20.18
-    - _Curvature_Radius: 250
+    - _Base_Strength: 1
+    - _Curvature_Radius: 204.2
     - _Emission_Strength: 2
     - _Fade_Depth: 50
     - _Fresnel_Opacity: -0.14
     - _Fresnel_Power: 20
     - _Gradient_Scale: 0.01
-    - _Noise_Height: 70
+    - _Noise_Height: 5
     - _Noise_Power: 1.5
     - _Noise_Scale: 0.01
     - _Noise_Speed: 30

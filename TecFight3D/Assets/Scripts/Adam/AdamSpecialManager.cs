@@ -50,11 +50,31 @@ public class AdamSpecialManager : MonoBehaviour, ICharacterSpecialManager
             return new AdamNSpecialState();
         }
         //this aint right but you know
-        return new AirState();
+        return fsm.ecb.IsGrounded ? new IdleState() : new AirState();
     }
 
     public void ConnectUI(Image characterUIElement)
     {
         meter.ConnectUI(characterUIElement);
+    }
+
+    public void SetAttachmentEffects(int attachment)
+    {
+        switch (attachment) 
+        {
+            case 0://focus module - more damage, smaller hitboxes
+                gameObject.GetComponentInChildren<HitboxSpawner>().SetAttachment(AttackType.special, 1.3f, 0.8f);
+                break;
+            case 1://cooling module - faster charge, less damage
+                gameObject.GetComponentInChildren<HitboxSpawner>().SetAttachment(AttackType.special, 0.8f, 1.0f);
+                meter.SetChargeMultiplier(1.2f);
+                break;
+            case 2://breach module - stronger strongs, no charge
+                gameObject.GetComponentInChildren<HitboxSpawner>().SetAttachment(AttackType.strong, 1.2f, 1.1f);
+                meter.SetChargeMultiplier(0);
+                break;
+            default: //no attachment
+                break;
+        }
     }
 }

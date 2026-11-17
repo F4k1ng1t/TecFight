@@ -5,4 +5,5 @@ public interface ICharacterSpecialManager
 {
     public IFighterState GetSpecial();
     public void ConnectUI(Image characterUIElement);
+    public void SetAttachmentEffects(int attachment);
 }

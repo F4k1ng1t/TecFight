@@ -8,22 +8,22 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: PP_Band
-    second: {fileID: 2100000, guid: 2ca838ef65c495f439ff9c99ba208750, type: 2}
+    second: {fileID: 2100000, guid: fceee1da2fc96094f856410451f5bc42, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: PP_Holder
-    second: {fileID: 2100000, guid: cffbbd5c528873e479f9e71765578e4b, type: 2}
+    second: {fileID: 2100000, guid: 6f69f5328f8b79e45b1c5052a774e9ed, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: PP_Plank
-    second: {fileID: 2100000, guid: 41c7fd2d6d32cab4c90461b2e758f189, type: 2}
+    second: {fileID: 2100000, guid: 347a8ba01efb95a4b9909d94a30fbf57, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: PP_Spacer
-    second: {fileID: 2100000, guid: a4ce4f76e3269154b9dc2ca8d9f73a0b, type: 2}
+    second: {fileID: 2100000, guid: 5c87cda56e94f984db6756ccdb318cc2, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
@@ -108,7 +108,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
-    globalScale: 0.79999995
+    globalScale: 80
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

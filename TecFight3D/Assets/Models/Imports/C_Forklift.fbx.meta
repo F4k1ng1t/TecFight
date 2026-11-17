@@ -8,52 +8,52 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: F_Axle
-    second: {fileID: 2100000, guid: dcc268226962383439162ca8d47920a0, type: 2}
+    second: {fileID: 2100000, guid: 5311d294f883c8a499993b8eb5a746d6, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: F_AxleDrive
-    second: {fileID: 2100000, guid: c51e67882f9582f4f8bd652ef0d314d1, type: 2}
+    second: {fileID: 2100000, guid: e35f5fca85a62b34f9d5de7cc7b2ed59, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: F_Backload
-    second: {fileID: 2100000, guid: db5597d462c7efd42949d44ebadb0d10, type: 2}
+    second: {fileID: 2100000, guid: e859d5f62e9eb86498407e06400a696a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: F_Body
-    second: {fileID: 2100000, guid: 2c4ac512ca304f84ab7506a6e0f4d0fb, type: 2}
+    second: {fileID: 2100000, guid: e35f5fca85a62b34f9d5de7cc7b2ed59, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: F_Forks
-    second: {fileID: 2100000, guid: 8d4dc7fba8a1efa4e8c2010e55278fb9, type: 2}
+    second: {fileID: 2100000, guid: e859d5f62e9eb86498407e06400a696a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: F_Mast
-    second: {fileID: 2100000, guid: b3727bb055ae55e43838ca3bde010171, type: 2}
+    second: {fileID: 2100000, guid: e859d5f62e9eb86498407e06400a696a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: F_OverheadGuard
-    second: {fileID: 2100000, guid: 04f902c799b87684b96b1c9d983cd77e, type: 2}
+    second: {fileID: 2100000, guid: e859d5f62e9eb86498407e06400a696a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: F_Pole
-    second: {fileID: 2100000, guid: 9bc7ef664d2b1f8448767a7ec93f84b5, type: 2}
+    second: {fileID: 2100000, guid: e859d5f62e9eb86498407e06400a696a, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: F_Tire
-    second: {fileID: 2100000, guid: 7bbff33a62c4e434a904e273e8b09198, type: 2}
+    second: {fileID: 2100000, guid: fceee1da2fc96094f856410451f5bc42, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: F_Wheel
-    second: {fileID: 2100000, guid: 2d18d128dd42ad84e9b5d6ab237f460d, type: 2}
+    second: {fileID: 2100000, guid: 5d5c1cb1c4eeff748865ce02b94e7f8e, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
