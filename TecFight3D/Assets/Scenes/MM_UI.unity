@@ -14452,7 +14452,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7533581302634415752, guid: f89adfc5907491e42a7a967cd0d82bb6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: CA_UI
+      value: CA_UI_Test
       objectReference: {fileID: 0}
     - target: {fileID: 7533581302634415752, guid: f89adfc5907491e42a7a967cd0d82bb6, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName

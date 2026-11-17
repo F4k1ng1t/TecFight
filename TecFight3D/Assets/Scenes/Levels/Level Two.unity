@@ -4108,7 +4108,7 @@ Transform:
   m_GameObject: {fileID: 1080289828}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 4.86, z: 0}
+  m_LocalPosition: {x: 0, y: 4.959, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -4938,7 +4938,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   respawnPoint: {fileID: 1080289829}
-  stage: {fileID: 11400000, guid: ea7a025e28312e6489265a7a0cc7eea8, type: 2}
+  stage: {fileID: 11400000, guid: aa79ef6faa6f67040bb7188bc0b90546, type: 2}
 --- !u!114 &1329242435
 MonoBehaviour:
   m_ObjectHideFlags: 0
