@@ -57,15 +57,15 @@ public class AdamDSpecialState : IFighterState
             //Debug.Log("helo");
             fsm.SetState(new JumpState());
         }
-        if (fsm.input.Attack)
+        if (fsm.fip.AttackPressed())
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
         }
-        if (fsm.input.Strong)
+        if (fsm.fip.StrongPressed())
         {
             fsm.SetStateAttack(fsm.getAttack.GetStrong());
         }
-        if (fsm.input.Special)
+        if (fsm.fip.SpecialPressed())
         {
             fsm.SetState(fsm.specialManager.GetSpecial());
         }

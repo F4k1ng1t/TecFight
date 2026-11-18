@@ -56,19 +56,19 @@ public class RunState : IFighterState
             idleFrames = 0;
         }
 
-        if (fsm.input.Special)
+        if (fsm.fip.SpecialPressed())
         {
             fsm.SetState(fsm.specialManager.GetSpecial());
             return;
         }
 
-        if (fsm.input.Strong)
+        if (fsm.fip.StrongPressed())
         {
             fsm.SetStateAttack(fsm.getAttack.GetStrong());
             return;
         }
 
-        if (fsm.input.Attack)
+        if (fsm.fip.AttackPressed())
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
             return;

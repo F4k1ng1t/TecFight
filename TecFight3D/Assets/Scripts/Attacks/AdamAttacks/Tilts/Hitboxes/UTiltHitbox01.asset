@@ -24,3 +24,4 @@ MonoBehaviour:
   scaling: 0.25
   grab: 0
   AttackSound: {fileID: 8300000, guid: b8466de5c23690f4aa41bd16780eb501, type: 3}
+  attackType: 0

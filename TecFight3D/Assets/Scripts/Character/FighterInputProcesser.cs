@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 public class FighterInputProcesser : MonoBehaviour
@@ -9,6 +8,9 @@ public class FighterInputProcesser : MonoBehaviour
     private FighterPhysics physics;
 
     private bool prevJumpInput;
+    private bool prevAttackInput;
+    private bool prevStrongInput;
+    private bool prevSpecialInput;
 
     private void Awake()
     {
@@ -35,6 +37,21 @@ public class FighterInputProcesser : MonoBehaviour
     public bool JumpPressed()
     {
         return !prevJumpInput && fi.IsHoldingJump;
+    }
+
+    public bool AttackPressed()
+    {
+        return !prevAttackInput && fi.Attack;
+    }
+
+    public bool StrongPressed()
+    {
+        return !prevStrongInput && fi.Strong;
+    }
+
+    public bool SpecialPressed()
+    {
+        return !prevSpecialInput && fi.Special;
     }
 
     public bool Idle()
@@ -73,5 +90,8 @@ public class FighterInputProcesser : MonoBehaviour
     private void FixedUpdate()
     {
         prevJumpInput = fi.IsHoldingJump;
+        prevAttackInput = fi.Attack;
+        prevStrongInput = fi.Strong;
+        prevSpecialInput = fi.Special;
     }
 }

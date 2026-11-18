@@ -12,6 +12,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9522d6c840d0d264699e6578b6d71951, type: 3}
   m_Name: Factory
   m_EditorClassIdentifier: 
-  TopBlastZone: 16
-  BottomBlastZone: 0.5
-  SideBlastZone: 12
+  TopBlastZone: 20
+  BottomBlastZone: 0
+  SideBlastZone: 20
