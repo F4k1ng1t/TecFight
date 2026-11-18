@@ -17,6 +17,8 @@ public class AirdodgeState : IFighterState
     private bool dodging;
     private bool originalGravityActive;
 
+    public bool AllowGroundedTransitions => false;
+
     public void Enter(FighterStateMachine f)
     {
         fsm = f;

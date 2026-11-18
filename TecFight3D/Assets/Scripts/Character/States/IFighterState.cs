@@ -3,6 +3,7 @@ using UnityEngine;
 
 public interface IFighterState
 {
+    bool AllowGroundedTransitions => true;
     void Enter(FighterStateMachine f)
     {
         Enter(f, null);

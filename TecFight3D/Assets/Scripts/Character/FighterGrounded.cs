@@ -1,4 +1,3 @@
-
 using UnityEngine;
 
 [RequireComponent(typeof(FighterECB))]
@@ -35,6 +34,12 @@ public class FighterGrounded : MonoBehaviour
     {
         wasGrounded = isGrounded;
         isGrounded = ecb.IsGrounded;
+
+        // Do not interrupt states that manage their own transitions.
+        if (!fsm.currentState.AllowGroundedTransitions)
+        {
+            return;
+        }
 
         if (!isGrounded && wasGrounded)
         {
