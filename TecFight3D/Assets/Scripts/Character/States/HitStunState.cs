@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class HitState : IFighterState
+public class HitStunState : IFighterState
 {
     FighterStateMachine fsm;
     Vector3 kb;
@@ -8,7 +8,7 @@ public class HitState : IFighterState
     int hitstunFrames = 0;
 
     public bool AllowGroundedTransitions => false;
-    public HitState(Vector3 kbv)
+    public HitStunState(Vector3 kbv)
     {
         kb = kbv;
     }
@@ -24,7 +24,7 @@ public class HitState : IFighterState
         {
             kb.Set(kb.x, Mathf.CeilToInt(-kb.y / 2), 0f);
         }
-        hitstunLength = 3 * (int)(kb.magnitude);
+        hitstunLength = 2 * (int)(kb.magnitude);
         hitstunLength = hitstunLength < 10 ? 10 : hitstunLength;
         
         fsm.physics.ClearVelocity();
@@ -60,7 +60,7 @@ public class HitState : IFighterState
             }
             else if (kb.y < 0 && hitstunFrames <= hitstunLength / 2)
             {
-                fsm.SetState(new HitState(new Vector3(kb.x, -kb.y / 2, 0f)));
+                fsm.SetState(new HitStunState(new Vector3(kb.x, -kb.y / 2, 0f)));
                 return;
             }
         }
