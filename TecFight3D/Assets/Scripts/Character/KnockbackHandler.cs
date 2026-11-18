@@ -53,7 +53,7 @@ public class KnockbackHandler : MonoBehaviour
         float knockbackStrength = knockback.magnitude + (2 * (scaling * damage));
         Vector3 knockbackVelocity = knockback.normalized * knockbackStrength;
 
-        fsm.SetState(new HitState(knockbackVelocity));
+        fsm.SetState(new HitStunState(knockbackVelocity));
 
         //physics.AddForce(knockbackVelocity, ForceMode.VelocityChange);
 
