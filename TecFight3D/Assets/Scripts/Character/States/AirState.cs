@@ -29,7 +29,7 @@ public class AirState : IFighterState
             return;
         }
 
-        if (fi.Attack)
+        if (fsm.fip.AttackPressed())
         {
             AttackObject attack = fsm.getAttack.GetAttack();
 
@@ -39,7 +39,7 @@ public class AirState : IFighterState
             return;
         }
 
-        if (fi.Special)
+        if (fsm.fip.SpecialPressed())
         {
             fsm.SetState(fsm.specialManager.GetSpecial());
             return;

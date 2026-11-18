@@ -14,6 +14,7 @@ public class GameManager : MonoBehaviour
     [SerializeField] GameObject CharacterPrefab;
     [SerializeField] BlastZoneBehavior blastZones;
     [SerializeField] AudioClip deathSound;
+    [SerializeField] FighterCameraTargetGroup cameraTargetGroup;
     private AudioSource audioSource;
     Transform[] Players;
     int[] perPlayerLives;
@@ -76,6 +77,7 @@ public class GameManager : MonoBehaviour
             audioSource = GetComponent<AudioSource>();
         }
         blastZones.SetPlayers(Players);
+        cameraTargetGroup.SetPlayers(Players);
     }
 
     public void TakeLife(int playerIndex)

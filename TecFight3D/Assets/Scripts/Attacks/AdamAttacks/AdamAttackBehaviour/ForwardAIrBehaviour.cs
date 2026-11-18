@@ -23,7 +23,7 @@ public class ForwardAirBehaviour : AttackBehaviour
         recoiling = true;
 
         savedHorizontalVelocity = fsm.physics.Velocity.x;
-        fsm.physics.SetHorizontalVelocity(-fsm.direction * recoilSpeed);
+        fsm.physics.AddForce(new Vector3(-fsm.direction * recoilSpeed, 0f, 0f), ForceMode.VelocityChange);
     }
 
     public override void OnAttackFixedUpdate(FighterStateMachine fsm, AttackObject attack)
@@ -31,7 +31,7 @@ public class ForwardAirBehaviour : AttackBehaviour
         if (!recoiling)
             return;
 
-        fsm.physics.SetHorizontalVelocity(-fsm.direction * recoilSpeed);
+        fsm.physics.AddForce(new Vector3(-fsm.direction * recoilSpeed, 0f, 0f), ForceMode.Acceleration);
 
         recoilTimer -= Time.fixedDeltaTime;
 

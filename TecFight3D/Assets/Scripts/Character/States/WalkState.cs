@@ -36,13 +36,13 @@ public class WalkState : IFighterState
             return;
         }
 
-        if (fi.Attack)
+        if (fsm.fip.AttackPressed())
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
             return;
         }
 
-        if (fi.Strong)
+        if (fsm.fip.StrongPressed())
         {
             fsm.SetStateAttack(fsm.getAttack.GetStrong());
             return;
@@ -54,7 +54,7 @@ public class WalkState : IFighterState
             return;
         }
 
-        if (fi.Special)
+        if (fsm.fip.SpecialPressed())
         {
             fsm.SetState(fsm.specialManager.GetSpecial());
             return;

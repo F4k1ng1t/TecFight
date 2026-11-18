@@ -46,10 +46,18 @@ public class InitialDashState : IFighterState
             }
         }
 
-        if (fsm.input.Attack)
+        if (fsm.fip.AttackPressed())
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
             return;
+        }
+        if (fsm.fip.StrongPressed())
+        {
+            fsm.SetStateAttack(fsm.getAttack.GetStrong());
+        }
+        if (fsm.fip.SpecialPressed())
+        {
+            fsm.SetState(fsm.specialManager.GetSpecial());
         }
 
         if (fsm.input.Shield)

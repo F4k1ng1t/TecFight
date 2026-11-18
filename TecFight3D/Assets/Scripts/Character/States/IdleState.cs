@@ -56,15 +56,15 @@ public class IdleState : IFighterState
             //Debug.Log("helo");
             fsm.SetState(new JumpState());
         }
-        if (fi.Attack)
+        if (fip.AttackPressed())
         {
             fsm.SetStateAttack(fsm.getAttack.GetAttack());
         }
-        if (fi.Strong)
+        if (fip.StrongPressed())
         {
             fsm.SetStateAttack(fsm.getAttack.GetStrong());
         }
-        if(fi.Special)
+        if(fip.SpecialPressed())
         {
             Debug.Log(fsm.specialManager);
             fsm.SetState(fsm.specialManager.GetSpecial());

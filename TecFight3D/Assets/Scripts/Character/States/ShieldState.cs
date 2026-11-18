@@ -64,7 +64,7 @@ public class ShieldState : IFighterState
         {
             fsm.SetState(new JumpState());
         }
-        if (fi.Attack)
+        if (fsm.fip.AttackPressed())
         {
             fsm.SetStateAttack(fsm.getAttack.GetGrab());
             return;
