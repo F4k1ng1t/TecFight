@@ -11,6 +11,7 @@ public class FighterInputProcesser : MonoBehaviour
     private bool prevAttackInput;
     private bool prevStrongInput;
     private bool prevSpecialInput;
+    private bool prevGrabInput;
 
     private void Awake()
     {
@@ -53,6 +54,10 @@ public class FighterInputProcesser : MonoBehaviour
     {
         return !prevSpecialInput && fi.Special;
     }
+    public bool GrabPressed()
+    {
+        return !prevGrabInput && fi.Grab;
+    }
 
     public bool Idle()
     {
@@ -93,5 +98,6 @@ public class FighterInputProcesser : MonoBehaviour
         prevAttackInput = fi.Attack;
         prevStrongInput = fi.Strong;
         prevSpecialInput = fi.Special;
+        prevGrabInput = fi.Grab;
     }
 }

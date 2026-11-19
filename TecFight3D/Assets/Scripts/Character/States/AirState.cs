@@ -20,8 +20,6 @@ public class AirState : IFighterState
 
     public void Update()
     {
-        if (fsm == null || fi == null || fip == null)
-            return;
 
         if (fip.JumpPressed() && fsm.currentDJC > 0)
         {

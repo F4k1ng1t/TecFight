@@ -24,15 +24,7 @@ public class IdleState : IFighterState
     }
     public void Update()
     {
-        if (Mathf.Abs(fi.MoveInput.x) > 0.01f)
-        {
-            //Debug.Log($"{walkHeld * Time.deltaTime} {walkTimeThreshold * Time.deltaTime}");
-            walkHeld++;
-        }
-        else
-        {
-            walkHeld = 0;
-        }
+        walkHeld = fsm.Walk(walkHeld);
         if (fi.Flick)
         {
             float flickX = fi.FlickDirection.x;
@@ -44,39 +36,10 @@ public class IdleState : IFighterState
 
                 return;
             }
-        }
-        if (fip.Walk() && walkHeld >= 10)
-        {
-            fsm.SetDirection(fi.MoveInput.x);
-            fsm.SetState(new WalkState());
-            return;
-        }
-        if (fip.IsHoldingJump())
-        {
-            //Debug.Log("helo");
-            fsm.SetState(new JumpState());
-        }
-        if (fip.AttackPressed())
-        {
-            fsm.SetStateAttack(fsm.getAttack.GetAttack());
-        }
-        if (fip.StrongPressed())
-        {
-            fsm.SetStateAttack(fsm.getAttack.GetStrong());
-        }
-        if(fip.SpecialPressed())
-        {
-            Debug.Log(fsm.specialManager);
-            fsm.SetState(fsm.specialManager.GetSpecial());
-        }
-        if (fi.Shield)
-        {
-            fsm.SetState(new ShieldState());
-        }
-        if (fi.Grab)
-        {
-            fsm.SetStateAttack(fsm.getAttack.GetGrab());
-        }
+        }       
+        fsm.GroundedActionable();
+        
+        
     }
     public void FixedUpdate()
     {

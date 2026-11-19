@@ -62,6 +62,7 @@ public class FighterStateMachine : MonoBehaviour
     private void Update()
     {
         currentState?.Update();
+        
     }
 
     private void FixedUpdate()
@@ -147,5 +148,57 @@ public class FighterStateMachine : MonoBehaviour
         {
             physics.SetVerticalVelocity(-charObj.fastfallSpeed);
         }
+    }
+    public int Walk(int walkHeld)
+    {
+        if (Mathf.Abs(input.MoveInput.x) > 0.05f)
+        {
+            walkHeld++;
+        }
+        else
+        {
+            walkHeld = 0;
+        }
+        if (fip.Walk() && walkHeld >= 10)
+        {
+            walkHeld = 0;
+            SetDirection(input.MoveInput.x);
+            SetState(new WalkState());
+        }
+        return walkHeld;
+    }
+    public void Jump()
+    {
+        if (fip.IsHoldingJump())
+        {
+            //Debug.Log("helo");
+            SetState(new JumpState());
+        }
+    }
+
+    public void GroundedActionable()
+    {
+        if (fip.AttackPressed())
+        {
+            SetStateAttack(getAttack.GetAttack());
+        }
+        if (fip.StrongPressed())
+        {
+            SetStateAttack(getAttack.GetStrong());
+        }
+        if (fip.SpecialPressed())
+        {
+            Debug.Log(specialManager);
+            SetState(specialManager.GetSpecial());
+        }
+        if (fip.GrabPressed())
+        {
+            SetStateAttack(getAttack.GetGrab());
+        }
+        if (input.Shield)
+        {
+            SetState(new ShieldState());
+        }
+        Jump();
     }
 }

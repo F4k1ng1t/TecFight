@@ -18,7 +18,7 @@ public class GetAttackObject : MonoBehaviour
     public AttackObject GetAttack()
     {
 
-        if (f.currentState is IdleState || f.currentState is WalkState)
+        if (f.currentState is IdleState || f.currentState is WalkState || f.currentState is WavelandState)
         {
             if (Mathf.Abs(f.input.MoveInput.x) > 0.5f)
             {

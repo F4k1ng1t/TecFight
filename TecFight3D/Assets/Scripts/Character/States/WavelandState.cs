@@ -10,7 +10,8 @@ public class WavelandState : IFighterState
     public void Enter(FighterStateMachine f)
     {
         fsm = f;
-
+        fsm.currentDJC = fsm.charObj.doubleJumpCount;
+        fsm.hasAirdodge = true;
         fsm.animator?.PlayAnimation("DodgeLand");
     }
 
@@ -26,12 +27,14 @@ public class WavelandState : IFighterState
         if (WavelandFrames >= WAVELAND_LENGTH)
         {
             fsm.SetState(new IdleState());
+            return;
         }
         if (!fsm.ecb.IsGrounded)
         {
             fsm.SetState(new AirState());
+            return;
         }
-
+        fsm.GroundedActionable();
     }
 
     public void Exit()
