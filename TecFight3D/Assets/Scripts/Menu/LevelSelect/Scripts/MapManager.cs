@@ -24,8 +24,6 @@ public class MapManager : MonoBehaviour
 
     void Start()
     {
-        if (previewImageDisplay != null) previewImageDisplay.gameObject.SetActive(false);
-        if (previewImageDisplayBackground != null) previewImageDisplayBackground.gameObject.SetActive(false);
         if (playButton != null) playButton.interactable = false;
     }
 
