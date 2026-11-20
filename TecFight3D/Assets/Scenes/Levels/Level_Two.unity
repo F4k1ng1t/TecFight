@@ -6357,6 +6357,8 @@ MonoBehaviour:
   blastZones: {fileID: 1329242434}
   deathSound: {fileID: 8300000, guid: 1032174a888dff44e86016c2fa7c9992, type: 3}
   cameraTargetGroup: {fileID: 788498240}
+  pallet_1: {fileID: 2100000, guid: 748208c2073d61b47af1823cfb9fe457, type: 2}
+  pallet_2: {fileID: 2100000, guid: 5be5fab57247c484786249808bd6edf9, type: 2}
 --- !u!114 &1329242436
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -15,6 +15,9 @@ public class GameManager : MonoBehaviour
     [SerializeField] BlastZoneBehavior blastZones;
     [SerializeField] AudioClip deathSound;
     [SerializeField] FighterCameraTargetGroup cameraTargetGroup;
+
+    [SerializeField] Material pallet_1;
+    [SerializeField] Material pallet_2;
     private AudioSource audioSource;
     Transform[] Players;
     int[] perPlayerLives;
@@ -44,6 +47,10 @@ public class GameManager : MonoBehaviour
         temp.GetComponent<KnockbackHandler>().SetHealthBar(tempUI.GetComponent<CharacterUIData>().HealthBar);
         temp.GetComponent<ICharacterSpecialManager>().ConnectUI(tempUI.GetComponent<CharacterUIData>().CharacterSpecificUI);
         temp.GetComponent<AttachmentHandler>().SetAttachment(AttachmentTransfer.p1Attachment);
+        foreach(SkinnedMeshRenderer renderer in temp.GetComponentsInChildren<SkinnedMeshRenderer>())
+        {
+            renderer.material = pallet_1;
+        }
         Players[0] = temp.transform;
         for (int i = 0; i < lives; i++)
         {
